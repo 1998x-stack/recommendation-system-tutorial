@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_4.5.1_深度学习网络中的Embedding层</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.5.1 深度学习网络中的Embedding层</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_4.5.1 深度学习网络中的Embedding层</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
 Content: 00_4.5.1 深度学习网络中的Embedding层
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.5.1 深度学习网络中的Embedding层</h3>
 <h4>背景与概述</h4>
 <p>在深度学习推荐系统中，Embedding层是一个关键组件，其主要作用是将高维稀疏特征向量转换为低维稠密特征向量。这种转换对于提高模型的训练效率和推荐效果至关重要。Embedding层的核心思想是利用矩阵乘法将one-hot编码的高维输入映射到一个低维的连续空间，从而减少计算复杂度和内存消耗   。</p>
@@ -32,10 +37,9 @@ Content: 00_4.5.1 深度学习网络中的Embedding层
 <li><strong>输入</strong>：高维稀疏向量（例如one-hot编码向量）。</li>
 <li><strong>输出</strong>：低维稠密向量（Embedding向量）。</li>
 </ol>
-<p>Embedding层的本质是一个权重矩阵，其大小为$ m \times n ，其中 m 是输入向量的维度， n $是输出向量的维度。对于每个输入向量，Embedding层通过矩阵乘法将其映射到一个低维空间。这个过程可以表示为：</p>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext><mi mathvariant="normal">E</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mtext><mo>=</mo><mtext><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">-</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">t</mi></mtext><mo>×</mo><mi>W</mi></mrow><annotation encoding="application/x-tex">\text{Embedding} = \text{one-hot} \times W 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="base displaystyle textstyle uncramped"><span class="text mord displaystyle textstyle uncramped"><span class="mord mathrm">E</span><span class="mord mathrm">m</span><span class="mord mathrm">b</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span><span class="mord mathrm">d</span><span class="mord mathrm">i</span><span class="mord mathrm">n</span><span class="mord mathrm" style="margin-right:0.01389em;">g</span></span><span class="mrel">=</span><span class="text mord displaystyle textstyle uncramped"><span class="mord mathrm">o</span><span class="mord mathrm">n</span><span class="mord mathrm">e</span><span class="mord mathrm">-</span><span class="mord mathrm">h</span><span class="mord mathrm">o</span><span class="mord mathrm">t</span></span><span class="mbin">×</span><span class="mord mathit" style="margin-right:0.13889em;">W</span></span></span></span></span></p>
-<p>其中，$ W $是Embedding层的权重矩阵。</p>
+<p>Embedding层的本质是一个权重矩阵，其大小为$ m \times n $，其中$ m $是输入向量的维度，$ n $是输出向量的维度。对于每个输入向量，Embedding层通过矩阵乘法将其映射到一个低维空间。这个过程可以表示为：
+$$ \text{Embedding} = \text{one-hot} \times W $$
+其中，$ W $是Embedding层的权重矩阵。</p>
 <h5>深度学习模型中的应用</h5>
 <p>在推荐系统的深度学习模型中，Embedding层的应用非常广泛。以下是几个典型的应用场景：</p>
 <ol>
@@ -51,21 +55,16 @@ Content: 00_4.5.1 深度学习网络中的Embedding层
 <h3>结论</h3>
 <p>Embedding层在深度学习推荐系统中起着至关重要的作用。通过将高维稀疏特征向量转换为低维稠密特征向量，Embedding层不仅提高了模型的训练效率，还增强了模型的表达能力。在实际应用中，通过预训练和优化Embedding层的结构，可以进一步提升推荐系统的性能和效果。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_4.5.1 深度学习网络中的Embedding层
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
+Content: 00_4.5.1 深度学习网络中的Embedding层
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_7.5.5_Interleaving方法的优点与缺点</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.5.5 Interleaving方法的优点与缺点</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_7.5.5 Interleaving方法的优点与缺点</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+<pre><code>Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
 Content: 04_7.5.5 Interleaving方法的优点与缺点
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.5.5 Interleaving方法的优点与缺点</h3>
 <h4>概述</h4>
 <p>Interleaving方法是一种快速线上评估推荐系统的方法，通过将多个推荐算法的结果交叉排列展示给用户，实时收集用户反馈，评估不同算法的效果。虽然这种方法在推荐系统评估中具有许多优点，但也存在一些缺点。理解Interleaving方法的优点与缺点，有助于在实际应用中选择最适合的评估方法，提高推荐系统的优化效率。</p>
@@ -214,21 +219,16 @@ Content: 04_7.5.5 Interleaving方法的优点与缺点
 </tbody>
 </table>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_7.5.5 Interleaving方法的优点与缺点
+
+"""
+Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+Content: 04_7.5.5 Interleaving方法的优点与缺点
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

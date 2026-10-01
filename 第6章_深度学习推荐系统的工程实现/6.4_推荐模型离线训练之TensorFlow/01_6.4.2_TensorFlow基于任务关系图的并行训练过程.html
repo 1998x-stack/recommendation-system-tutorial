@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_6.4.2_TensorFlow基于任务关系图的并行训练过程</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.4.2 TensorFlow基于任务关系图的并行训练过程</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_6.4.2 TensorFlow基于任务关系图的并行训练过程</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
 Content: 01_6.4.2 TensorFlow基于任务关系图的并行训练过程
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.4.2 TensorFlow基于任务关系图的并行训练过程</h3>
 <h4>任务关系图概述</h4>
 <p>任务关系图（Task Dependency Graph）是TensorFlow中用于表示计算任务及其依赖关系的有向无环图（DAG）。在并行训练过程中，TensorFlow利用任务关系图来优化计算任务的执行顺序，实现高效的并行计算。</p>
@@ -93,21 +98,16 @@ Content: 01_6.4.2 TensorFlow基于任务关系图的并行训练过程
 <h3>总结</h3>
 <p>TensorFlow基于任务关系图的并行训练过程，通过任务分解与调度、数据并行与模型并行、梯度聚合与异步更新等多种策略，实现了高效的分布式训练。通过不断优化并行计算和通信机制，TensorFlow在大规模深度学习模型的训练中展现了强大的性能和灵活性。在未来，随着计算资源和算法的不断发展，TensorFlow将继续在深度学习领域发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_6.4.2 TensorFlow基于任务关系图的并行训练过程
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
+Content: 01_6.4.2 TensorFlow基于任务关系图的并行训练过程
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

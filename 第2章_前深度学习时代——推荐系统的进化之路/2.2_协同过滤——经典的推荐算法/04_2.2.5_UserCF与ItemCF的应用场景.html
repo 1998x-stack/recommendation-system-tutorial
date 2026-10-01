@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_2.2.5_UserCF与ItemCF的应用场景</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.2.5 UserCF与ItemCF的应用场景</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_2.2.5 UserCF与ItemCF的应用场景</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
 Content: 04_2.2.5 UserCF与ItemCF的应用场景
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>2.2.5 UserCF与ItemCF的应用场景</h3>
 <h4>1. 概述</h4>
 <p>UserCF（基于用户的协同过滤）和ItemCF（基于物品的协同过滤）是两种经典的协同过滤推荐算法。尽管它们在技术实现上有所不同，但在具体应用场景上也存在显著差异。UserCF通过分析用户之间的相似度来进行推荐，而ItemCF则通过计算物品之间的相似度进行推荐。以下将详细分析这两种方法的应用场景及其优缺点。</p>
@@ -230,21 +235,16 @@ Content: 04_2.2.5 UserCF与ItemCF的应用场景
 <li><strong>推荐更新频率</strong>：低，推荐列表更新频率较低。</li>
 </ol>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_2.2.5 UserCF与ItemCF的应用场景
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+Content: 04_2.2.5 UserCF与ItemCF的应用场景
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

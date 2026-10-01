@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_4.2.4_Word2vec对Embedding技术的奠基性意义</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.2.4 Word2vec对Embedding技术的奠基性意义</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_4.2.4 Word2vec对Embedding技术的奠基性意义</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
 Content: 03_4.2.4 Word2vec对Embedding技术的奠基性意义
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.2.4 Word2vec对Embedding技术的奠基性意义</h3>
 <h4>一、背景和发展历程</h4>
 <p>Word2vec是由Google于2013年正式提出的一种生成词向量的方法，但其概念并非完全原创，可以追溯到2003年甚至更早。然而，正是Google的应用使得这一技术在业界迅速推广开来，成为Embedding研究的热点话题。Word2vec的成功应用对深度学习时代Embedding方向的研究具有奠基性的意义  。</p>
@@ -97,21 +102,16 @@ Content: 03_4.2.4 Word2vec对Embedding技术的奠基性意义
 <h3>总结</h3>
 <p>Word2vec作为一种经典的Embedding方法，对深度学习时代Embedding技术的发展具有奠基性意义。它不仅提供了生成高质量词向量的方法，还通过负采样和层级Softmax等技术大大提高了模型的训练效率。掌握Word2vec的每一个细节，对于理解和应用Embedding技术至关重要。通过将这一技术应用于自然语言处理、推荐系统、图像处理和社交网络分析等领域，Word2vec为Embedding技术的广泛应用和进一步发展奠定了基础    。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_4.2.4 Word2vec对Embedding技术的奠基性意义
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
+Content: 03_4.2.4 Word2vec对Embedding技术的奠基性意义
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

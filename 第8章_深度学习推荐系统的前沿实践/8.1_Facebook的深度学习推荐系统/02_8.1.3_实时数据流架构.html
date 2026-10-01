@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_8.1.3_实时数据流架构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.3 实时数据流架构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_8.1.3 实时数据流架构</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 02_8.1.3 实时数据流架构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.3 实时数据流架构</h3>
 <h4>背景与概述</h4>
 <p>Facebook作为全球最大的社交媒体平台，其推荐系统需要处理海量的数据，并且要求实时性高，以便能够快速响应用户行为并提供个性化的推荐服务。为了实现这一目标，Facebook构建了一个高效的实时数据流架构，称为“Online Data Joiner”，用来整合来自不同数据流的数据，形成用于模型训练的样本，并与点击数据整合形成完整的有标签样本。</p>
@@ -66,21 +71,16 @@ Content: 02_8.1.3 实时数据流架构
 <h4>结论</h4>
 <p>Facebook的实时数据流架构通过高效整合不同数据流，形成训练样本，并实现模型的准实时训练和更新，显著提高了推荐系统的性能和效果。这一架构在广告推荐、新闻推荐等多个应用场景中表现出色，为其他平台提供了宝贵的经验和参考。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_8.1.3 实时数据流架构
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 02_8.1.3 实时数据流架构
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

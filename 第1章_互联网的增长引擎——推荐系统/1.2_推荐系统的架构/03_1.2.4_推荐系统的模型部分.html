@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_1.2.4_推荐系统的模型部分</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.2.4 推荐系统的模型部分</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_1.2.4 推荐系统的模型部分</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
+<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
 Content: 03_1.2.4 推荐系统的模型部分
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>03_1.2.4 推荐系统的模型部分：极致详细分析</h3>
 <h4>一、推荐系统的模型部分概述</h4>
 <p>推荐系统的模型部分是推荐系统的核心，负责根据用户的行为数据、物品属性数据和场景信息生成个性化的推荐结果。模型部分通常包括召回层、排序层和补充策略与算法层，每一层都在推荐系统中发挥着重要作用。</p>
@@ -142,21 +147,16 @@ Content: 03_1.2.4 推荐系统的模型部分
 <h3>结论</h3>
 <p>推荐系统的模型部分是推荐系统的核心，负责生成高效、精准的推荐结果。通过召回层、排序层和补充策略与算法层的协同工作，推荐系统能够为用户提供个性化的推荐服务，提升用户体验和平台收益。未来，推荐系统将在数据融合、模型优化和智能化方面不断发展，带来更多创新和应用价值。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_1.2.4 推荐系统的模型部分
+
+"""
+Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
+Content: 03_1.2.4 推荐系统的模型部分
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

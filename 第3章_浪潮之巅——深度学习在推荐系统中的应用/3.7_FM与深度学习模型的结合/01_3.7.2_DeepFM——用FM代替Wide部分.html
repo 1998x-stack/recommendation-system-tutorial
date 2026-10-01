@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_3.7.2_DeepFM——用FM代替Wide部分</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.7.2 DeepFM——用FM代替Wide部分</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_3.7.2 DeepFM——用FM代替Wide部分</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
 Content: 01_3.7.2 DeepFM——用FM代替Wide部分
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>3.7.2 DeepFM——用FM代替Wide部分</h3>
 <h4>1. 背景和动机</h4>
 <p>在推荐系统中，Wide&amp;Deep模型通过结合浅层的线性模型（Wide部分）和深层的非线性模型（Deep部分），在特征组合和泛化能力之间取得了平衡。然而，Wide部分虽然能够有效地处理大规模的稀疏特征，但其缺乏自动特征组合的能力，这在一定程度上限制了模型的表达能力。为了解决这个问题，DeepFM模型应运而生。DeepFM模型将因子分解机（FM）与深度神经网络结合，通过用FM替代Wide部分，增强了特征交互能力。</p>
@@ -41,21 +46,99 @@ Content: 01_3.7.2 DeepFM——用FM代替Wide部分
 <h4>7. 总结</h4>
 <p>DeepFM模型通过将FM模型与深度神经网络结合，解决了Wide&amp;Deep模型在特征组合上的不足。其创新点在于用FM替代Wide部分，增强了特征交互能力，同时通过共享Embedding层和联合训练，提高了模型的训练效率和泛化能力。在推荐系统中，DeepFM模型提供了一种有效的解决方案，在特征表示和特征交互上展现了强大的性能优势。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_3.7.2 DeepFM——用FM代替Wide部分
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
+Content: 01_3.7.2 DeepFM——用FM代替Wide部分
+"""
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+
+class FM(nn.Module):
+    def __init__(self, num_features, k):
+        super(FM, self).__init__()
+        self.num_features = num_features
+        self.k = k
+        self.linear = nn.Linear(num_features, 1)
+        self.v = nn.Parameter(torch.randn(num_features, k))
+
+    def forward(self, x):
+        linear_part = self.linear(x)
+        interactions_part_1 = torch.pow(torch.matmul(x, self.v), 2)
+        interactions_part_2 = torch.matmul(torch.pow(x, 2), torch.pow(self.v, 2))
+        interactions_part = 0.5 * torch.sum(interactions_part_1 - interactions_part_2, dim=1, keepdim=True)
+        output = linear_part + interactions_part
+        return output
+
+class DeepFM(nn.Module):
+    def __init__(self, num_features, k, hidden_dims):
+        super(DeepFM, self).__init__()
+        self.num_features = num_features
+        self.k = k
+
+        # FM部分
+        self.fm_linear = nn.Linear(num_features, 1)
+        self.fm_v = nn.Parameter(torch.randn(num_features, k))
+
+        # DNN部分
+        self.embeddings = nn.Embedding(num_features, k)
+        self.dnn_input_dim = num_features * k
+        layers = []
+        input_dim = self.dnn_input_dim
+        for hidden_dim in hidden_dims:
+            layers.append(nn.Linear(input_dim, hidden_dim))
+            layers.append(nn.ReLU())
+            input_dim = hidden_dim
+        layers.append(nn.Linear(input_dim, 1))
+        self.dnn = nn.Sequential(*layers)
+
+    def forward(self, x):
+        # FM部分
+        fm_linear_part = self.fm_linear(x)
+        fm_interactions_part_1 = torch.pow(torch.matmul(x, self.fm_v), 2)
+        fm_interactions_part_2 = torch.matmul(torch.pow(x, 2), torch.pow(self.fm_v, 2))
+        fm_interactions_part = 0.5 * torch.sum(fm_interactions_part_1 - fm_interactions_part_2, dim=1, keepdim=True)
+        fm_output = fm_linear_part + fm_interactions_part
+
+        # DNN部分
+        x_embed = self.embeddings(x.long()).view(-1, self.dnn_input_dim)
+        dnn_output = self.dnn(x_embed)
+
+        # 输出
+        output = fm_output + dnn_output
+        return output
+
+# 数据准备
+num_features = 100000
+k = 32
+hidden_dims = [64, 32]
+batch_size = 64
+num_epochs = 10
+
+# 生成示例数据
+X = torch.randint(0, num_features, (batch_size, num_features)).float()
+y = torch.randn(batch_size, 1)
+
+# 初始化模型
+model = DeepFM(num_features, k, hidden_dims)
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+criterion = nn.MSELoss()
+
+# 训练模型
+for epoch in range(num_epochs):
+    model.train()
+    optimizer.zero_grad()
+    outputs = model(X)
+    loss = criterion(outputs, y)
+    loss.backward()
+    optimizer.step()
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_6.1.4_Kappa架构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.1.4 Kappa架构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_6.1.4 Kappa架构</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.1 推荐系统的数据流
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.1 推荐系统的数据流
 Content: 03_6.1.4 Kappa架构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.1.4 Kappa架构</h3>
 <h4>背景</h4>
 <p>Kappa架构是由Jay Kreps提出的一种简化的流处理架构，旨在解决Lambda架构的复杂性问题。Kappa架构通过仅使用流处理来实现数据的实时处理和分析，消除了批处理层，简化了数据处理流程，降低了系统复杂性。</p>
@@ -210,21 +215,16 @@ Content: 03_6.1.4 Kappa架构
 <h4>结论</h4>
 <p>Kappa架构和Lambda架构各有优缺点，适用于不同的应用场景。Kappa架构通过统一的流处理框架简化了系统架构，提高了实时性和数据一致性，适用于需要高实时性和一致性的应用。Lambda架构通过分层处理数据，兼顾历史数据和实时数据的处理，适用于需要处理大规模历史数据和实时数据的应用。在实际应用中，可以根据具体需求选择合适的架构。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_6.1.4 Kappa架构
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.1 推荐系统的数据流
+Content: 03_6.1.4 Kappa架构
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

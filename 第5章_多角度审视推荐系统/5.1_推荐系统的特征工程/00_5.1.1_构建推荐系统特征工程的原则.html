@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_5.1.1_构建推荐系统特征工程的原则</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>5.1.1 构建推荐系统特征工程的原则</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_5.1.1 构建推荐系统特征工程的原则</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第5章 多角度审视推荐系统/5.1 推荐系统的特征工程
+<pre><code>Lecture: 第5章 多角度审视推荐系统/5.1 推荐系统的特征工程
 Content: 00_5.1.1 构建推荐系统特征工程的原则
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>5.1.1 构建推荐系统特征工程的原则</h3>
 <p>在推荐系统中，特征工程是至关重要的一环。它直接影响到模型的效果和系统的性能。特征工程的核心是将原始数据转化为机器学习模型能够理解和处理的特征，同时尽量保留原始数据中的有用信息，去除冗余和噪声。以下是对构建推荐系统特征工程原则的详细分析。</p>
 <h4>一、信息保留原则</h4>
@@ -140,21 +145,16 @@ Content: 00_5.1.1 构建推荐系统特征工程的原则
 <h4>总结</h4>
 <p>特征工程是推荐系统的核心环节，通过遵循信息保留和去冗余的原则，合理抽取和处理特征，结合业务理解，可以显著提升推荐系统的效果。特征工程需要不断迭代优化，以适应业务需求的变化和技术的发展，确保推荐系统能够持续提供高质量的推荐服务。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_5.1.1 构建推荐系统特征工程的原则
+
+"""
+Lecture: 第5章 多角度审视推荐系统/5.1 推荐系统的特征工程
+Content: 00_5.1.1 构建推荐系统特征工程的原则
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_8.2.2_基于短期兴趣的房源Embedding方法</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.2.2 基于短期兴趣的房源Embedding方法</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_8.2.2 基于短期兴趣的房源Embedding方法</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
 Content: 01_8.2.2 基于短期兴趣的房源Embedding方法
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.2.2 基于短期兴趣的房源Embedding方法</h3>
 <h4>1. 引言</h4>
 <p>Airbnb的推荐系统通过对用户的短期兴趣进行建模，利用会话内的点击数据生成房源的Embedding。这种方法能够捕捉用户在一次搜索过程中的即时需求，从而在会话内提供更加精准的推荐  。</p>
@@ -47,21 +52,16 @@ Content: 01_8.2.2 基于短期兴趣的房源Embedding方法
 <p>Airbnb基于短期兴趣的房源Embedding方法，通过会话内点击数据的定义、Word2vec模型的应用、预订信息的引入以及冷启动问题的解决，构建了一个高效的实时推荐系统。这个系统不仅能够提高推荐的精准度，还能增强用户的个性化体验，为其他推荐系统的开发提供了宝贵的经验和参考  。</p>
 <hr>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_8.2.2 基于短期兴趣的房源Embedding方法
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
+Content: 01_8.2.2 基于短期兴趣的房源Embedding方法
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_7.2.2_ROC曲线</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.2.2 ROC曲线</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_7.2.2 ROC曲线</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
+<pre><code>Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
 Content: 01_7.2.2 ROC曲线
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.2.2 ROC曲线</h3>
 <h4>概述</h4>
 <p>ROC曲线，即受试者工作特征曲线（Receiver Operating Characteristic Curve），是评估二分类模型性能的重要工具。ROC曲线展示了在不同阈值下，分类模型的真阳性率（TPR）和假阳性率（FPR）之间的变化关系。通过分析ROC曲线，可以全面了解模型在不同条件下的表现，从而优化分类算法。</p>
@@ -24,8 +29,10 @@ Content: 01_7.2.2 ROC曲线
 <p><strong>真阳性率（True Positive Rate, TPR）</strong>：</p>
 <ul>
 <li><strong>定义</strong>：真阳性率是指实际为正类的样本中，被正确分类为正类的比例。</li>
-<li><strong>计算公式</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>P</mi><mi>R</mi><mo>=</mo><mfrac><mrow><mi>T</mi><mi>P</mi></mrow><mrow><mi>T</mi><mi>P</mi><mo>+</mo><mi>F</mi><mi>N</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">TPR = \frac{TP}{TP + FN}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.36033em;"></span><span class="strut bottom" style="height:2.1296600000000003em;vertical-align:-0.7693300000000001em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mrel">=</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="mord mathit" style="margin-right:0.13889em;">P</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
+<li><strong>计算公式</strong>：
+$$
+TPR = \frac{TP}{TP + FN}
+$$
 其中，TP为真正例数，FN为假负例数。</li>
 <li><strong>作用</strong>：反映模型对正类样本的识别能力。</li>
 </ul>
@@ -34,8 +41,10 @@ Content: 01_7.2.2 ROC曲线
 <p><strong>假阳性率（False Positive Rate, FPR）</strong>：</p>
 <ul>
 <li><strong>定义</strong>：假阳性率是指实际为负类的样本中，被错误分类为正类的比例。</li>
-<li><strong>计算公式</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mi>P</mi><mi>R</mi><mo>=</mo><mfrac><mrow><mi>F</mi><mi>P</mi></mrow><mrow><mi>F</mi><mi>P</mi><mo>+</mo><mi>T</mi><mi>N</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">FPR = \frac{FP}{FP + TN}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.36033em;"></span><span class="strut bottom" style="height:2.1296600000000003em;vertical-align:-0.7693300000000001em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mrel">=</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mord mathit" style="margin-right:0.13889em;">P</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
+<li><strong>计算公式</strong>：
+$$
+FPR = \frac{FP}{FP + TN}
+$$
 其中，FP为假正例数，TN为真负例数。</li>
 <li><strong>作用</strong>：反映模型对负类样本的误识别情况。</li>
 </ul>
@@ -237,21 +246,110 @@ Content: 01_7.2.2 ROC曲线
 <li><strong>P-R曲线</strong>：P-R曲线在该项目或方面的特性和表现。</li>
 </ul>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_7.2.2 ROC曲线
+
+"""
+Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
+Content: 01_7.2.2 ROC曲线
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+from typing import List, Tuple
+
+
+class ROCCurve:
+    """
+    ROC曲线类
+    
+    该类用于计算和绘制受试者工作特征曲线（ROC曲线）。
+    """
+
+    def __init__(self, y_true: List[int], y_scores: List[float]) -> None:
+        """
+        初始化ROCCurve类
+        
+        Args:
+            y_true (List[int]): 实际标签列表
+            y_scores (List[float]): 预测得分列表
+        """
+        self.y_true = np.array(y_true)
+        self.y_scores = np.array(y_scores)
+        self.roc_points = self._calculate_roc_points()
+
+    def _calculate_roc_points(self) -> List[Tuple[float, float]]:
+        """
+        计算不同阈值下的真阳性率和假阳性率
+        
+        Returns:
+            List[Tuple[float, float]]: 真阳性率和假阳性率的列表
+        """
+        thresholds = np.sort(self.y_scores)[::-1]
+        roc_points = []
+
+        for threshold in thresholds:
+            y_pred = self.y_scores >= threshold
+            tp = np.sum((self.y_true == 1) & (y_pred == 1))
+            fp = np.sum((self.y_true == 0) & (y_pred == 1))
+            fn = np.sum((self.y_true == 1) & (y_pred == 0))
+            tn = np.sum((self.y_true == 0) & (y_pred == 0))
+
+            tpr = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+            fpr = fp / (fp + tn) if (fp + tn) > 0 else 0.0
+
+            roc_points.append((fpr, tpr))
+
+        return roc_points
+
+    def plot_roc_curve(self) -> None:
+        """
+        绘制ROC曲线
+        
+        """
+        fprs, tprs = zip(*self.roc_points)
+        
+        plt.figure(figsize=(8, 6))
+        plt.plot(fprs, tprs, marker='.')
+        plt.xlabel('假阳性率 (False Positive Rate)', fontproperties=my_font)
+        plt.ylabel('真阳性率 (True Positive Rate)', fontproperties=my_font)
+        plt.title('ROC曲线', fontproperties=my_font)
+        plt.plot([0, 1], [0, 1], 'k--')  # 添加对角线
+        plt.grid(True)
+        plt.show()
+
+    def calculate_auc(self) -> float:
+        """
+        计算ROC曲线下的面积（AUC）
+        
+        Returns:
+            float: AUC值
+        """
+        fprs, tprs = zip(*self.roc_points)
+        return np.trapz(tprs, fprs)
+
+
+# 示例使用
+if __name__ == "__main__":
+    # 实际标签
+    y_true = [0, 1, 1, 0, 1, 0, 0, 1, 1, 0]
+
+    # 预测得分
+    y_scores = [0.1, 0.4, 0.35, 0.8, 0.45, 0.2, 0.5, 0.9, 0.7, 0.3]
+
+    # 创建ROCCurve实例
+    roc_curve = ROCCurve(y_true, y_scores)
+
+    # 打印计算的真阳性率和假阳性率
+    print("真阳性率和假阳性率: ", roc_curve.roc_points)
+
+    # 绘制ROC曲线
+    roc_curve.plot_roc_curve()
+
+    # 计算并打印AUC值
+    auc_value = roc_curve.calculate_auc()
+    print(f"ROC曲线下的面积 (AUC): {auc_value:.4f}")</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

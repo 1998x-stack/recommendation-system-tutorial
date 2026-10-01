@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_5.2.2_多路召回策略</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>5.2.2 多路召回策略</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_5.2.2 多路召回策略</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+<pre><code>Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
 Content: 01_5.2.2 多路召回策略
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>5.2.2 多路召回策略</h3>
 <p>在推荐系统中，多路召回策略是一种非常实用的工程方法，旨在平衡计算速度和召回率，通过多种简单策略的组合，从不同角度快速筛选出候选集。以下是对多路召回策略的详细分析。</p>
 <h4>一、多路召回策略的定义</h4>
@@ -115,21 +120,16 @@ Content: 01_5.2.2 多路召回策略
 <h4>总结</h4>
 <p>多路召回策略在推荐系统中发挥着重要作用，通过多种简单策略的组合，能够在保证计算效率的前提下提高召回率，为排序层提供高质量的候选集。未来，随着技术的发展，多路召回策略将更加智能化和自动化，不断提升推荐系统的整体性能。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_5.2.2 多路召回策略
+
+"""
+Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+Content: 01_5.2.2 多路召回策略
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

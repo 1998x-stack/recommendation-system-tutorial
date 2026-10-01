@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_4.2.1_什么是Word2vec</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.2.1 什么是Word2vec</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_4.2.1 什么是Word2vec</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
 Content: 00_4.2.1 什么是Word2vec
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.2.1 什么是Word2vec</h3>
 <h4>一、基本概念和背景</h4>
 <p>Word2vec是由Google于2013年提出的用于生成词向量的模型。它的核心思想是将词语映射到一个低维稠密向量空间，使得语义相近的词在向量空间中距离较近，而语义不相关的词距离较远。Word2vec模型的提出标志着自然语言处理（NLP）领域的一个重要里程碑，并为后续的Embedding技术奠定了基础。</p>
@@ -56,7 +61,7 @@ Content: 00_4.2.1 什么是Word2vec
 <p><strong>计算条件概率</strong>：</p>
 <ul>
 <li>使用softmax函数计算条件概率。</li>
-<li>条件概率公式为：![](https://latex.codecogs.com/png.latex?p(w_O|w_I)=\frac{exp(v_{w_O}^T\cdot v_{w_I})}{\sum_{w=1}^{W}exp(v_w^T\cdot v_{w_I})})，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mrow><msub><mi>w</mi><mi>O</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">v_{w_O}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.68556em;vertical-align:-0.255em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="vlist"><span style="top:0.15000000000000002em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.07142857142857144em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mrow><msub><mi>w</mi><mi>I</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">v_{w_I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.68556em;vertical-align:-0.255em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="vlist"><span style="top:0.15000000000000002em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.07142857142857144em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>分别为输出词和输入词的向量表示。</li>
+<li>条件概率公式为：![](https://latex.codecogs.com/png.latex?p(w_O|w_I)=\frac{exp(v_{w_O}^T\cdot v_{w_I})}{\sum_{w=1}^{W}exp(v_w^T\cdot v_{w_I})})，其中$v_{w_O}$和$v_{w_I}$分别为输出词和输入词的向量表示。</li>
 </ul>
 </li>
 </ol>
@@ -67,7 +72,7 @@ Content: 00_4.2.1 什么是Word2vec
 <ul>
 <li>目的是简化softmax计算的复杂度。</li>
 <li>通过只计算采样出的负样本的预测误差，减少计算量。</li>
-<li>优化目标公式为：![](https://latex.codecogs.com/png.latex?L=\log{\sigma(v_{w_O}^T\cdot h)}+\sum_{i=1}^{k}E_{w_i\sim P_n(w)}[\log{\sigma(-v_{w_i}^T\cdot h)}])，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi></mrow><annotation encoding="application/x-tex">h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">h</span></span></span></span>为隐层向量，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mrow><msub><mi>w</mi><mi>O</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">v_{w_O}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.68556em;vertical-align:-0.255em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="vlist"><span style="top:0.15000000000000002em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.07142857142857144em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>为输出词向量，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">w_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>为负样本。</li>
+<li>优化目标公式为：![](https://latex.codecogs.com/png.latex?L=\log{\sigma(v_{w_O}^T\cdot h)}+\sum_{i=1}^{k}E_{w_i\sim P_n(w)}[\log{\sigma(-v_{w_i}^T\cdot h)}])，其中$h$为隐层向量，$v_{w_O}$为输出词向量，$w_i$为负样本。</li>
 </ul>
 </li>
 <li>
@@ -124,21 +129,16 @@ Content: 00_4.2.1 什么是Word2vec
 <h3>总结</h3>
 <p>Word2vec作为经典的Embedding方法，通过将高维稀疏的文本数据转换为低维稠密的向量，使得计算机能够更高效地处理和理解文本。其模型结构、训练方法和优化目标对后续的Embedding研究具有重要的启发意义。掌握Word2vec的每一个细节，对于理解和应用Embedding技术至关重要。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_4.2.1 什么是Word2vec
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.2 Word2vec——经典的Embedding方法
+Content: 00_4.2.1 什么是Word2vec
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

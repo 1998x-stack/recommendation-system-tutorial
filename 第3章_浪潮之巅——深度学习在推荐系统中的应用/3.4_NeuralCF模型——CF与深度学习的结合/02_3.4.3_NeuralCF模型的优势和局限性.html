@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_3.4.3_NeuralCF模型的优势和局限性</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.4.3 NeuralCF模型的优势和局限性</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_3.4.3 NeuralCF模型的优势和局限性</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.4 NeuralCF模型——CF与深度学习的结合
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.4 NeuralCF模型——CF与深度学习的结合
 Content: 02_3.4.3 NeuralCF模型的优势和局限性
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>NeuralCF模型的优势和局限性</h3>
 <h4>一、引言</h4>
 <p>Neural Collaborative Filtering（NeuralCF）模型是新加坡国立大学的研究人员提出的，通过结合协同过滤和深度学习技术，显著提升了推荐系统的性能。以下将详细分析NeuralCF模型的优势和局限性。</p>
@@ -74,21 +79,16 @@ Content: 02_3.4.3 NeuralCF模型的优势和局限性
 <h4>四、总结</h4>
 <p>NeuralCF模型通过结合协同过滤和深度学习的优势，实现了用户和物品向量的深度交叉组合，显著提升了推荐系统的性能。其灵活的模型架构和强大的表达能力，使其在各种推荐任务中表现出色。然而，模型的复杂度和依赖协同过滤思想也带来了一定的局限性，需要在实际应用中综合考虑其优缺点进行权衡。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_3.4.3 NeuralCF模型的优势和局限性
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.4 NeuralCF模型——CF与深度学习的结合
+Content: 02_3.4.3 NeuralCF模型的优势和局限性
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

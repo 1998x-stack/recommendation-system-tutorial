@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_7.4.2_A_B测试的“分桶”原则</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.4.2 A B测试的“分桶”原则</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_7.4.2 A/B测试的“分桶”原则</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.4 A/B测试与线上评估指标
+<pre><code>Lecture: 第7章 推荐系统的评估/7.4 A/B测试与线上评估指标
 Content: 01_7.4.2 A/B测试的“分桶”原则
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.4.2 A/B测试的“分桶”原则</h3>
 <h4>概述</h4>
 <p>A/B测试的“分桶”原则是指在进行A/B测试时，将用户随机分配到不同的实验组（桶）中，以确保实验结果的公平性和有效性。合理的分桶策略可以消除实验中的偏差，提高实验结果的可信度。</p>
@@ -238,21 +243,16 @@ Content: 01_7.4.2 A/B测试的“分桶”原则
 </tbody>
 </table>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_7.4.2 A/B测试的“分桶”原则
+
+"""
+Lecture: 第7章 推荐系统的评估/7.4 A/B测试与线上评估指标
+Content: 01_7.4.2 A/B测试的“分桶”原则
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

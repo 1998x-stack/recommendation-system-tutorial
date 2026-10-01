@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_6.3.1_Parameter_Server的分布式训练原理</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.3.1 Parameter Server的分布式训练原理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_6.3.1 Parameter Server的分布式训练原理</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
 Content: 00_6.3.1 Parameter Server的分布式训练原理
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.3.1 Parameter Server的分布式训练原理</h3>
 <h4>参数服务器（Parameter Server）的概念</h4>
 <p>参数服务器（Parameter Server）是一种用于大规模分布式机器学习的架构，旨在高效管理和更新模型参数。它将模型参数存储在多个服务器节点上，通过分布式计算加速模型训练。</p>
@@ -75,8 +80,10 @@ Content: 00_6.3.1 Parameter Server的分布式训练原理
 <p><strong>梯度推送（Push）操作</strong>：</p>
 <ul>
 <li>工作节点计算出梯度后，将梯度发送给对应的服务器节点。</li>
-<li>服务器节点接收到梯度后，进行参数更新。参数更新公式为：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><msub><mi>w</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo>−</mo><mi>η</mi><mo>⋅</mo><mi mathvariant="normal">∇</mi><mi>F</mi><mo>(</mo><mi>w</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">w_{new} = w_{old} - \eta \cdot \nabla F(w)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.02691em;">w</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">o</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">d</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.03588em;">η</span><span class="mbin">⋅</span><span class="mord mathrm">∇</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></span></p>
+<li>服务器节点接收到梯度后，进行参数更新。参数更新公式为：
+$$
+w_{new} = w_{old} - \eta \cdot \nabla F(w)
+$$
 其中，$ w_{new} $ 是更新后的参数，$ w_{old} $ 是更新前的参数，$ \eta $ 是学习率，$ \nabla F(w) $ 是梯度。</li>
 </ul>
 </li>
@@ -116,21 +123,16 @@ Content: 00_6.3.1 Parameter Server的分布式训练原理
 <h3>结论</h3>
 <p>参数服务器通过分布式存储和并行计算，实现了大规模机器学习模型的高效训练。其同步和异步更新机制、一致性哈希策略、动态负载均衡等技术，为现代深度学习框架提供了强大的支持。通过不断优化和改进，Parameter Server将继续在分布式训练领域发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_6.3.1 Parameter Server的分布式训练原理
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+Content: 00_6.3.1 Parameter Server的分布式训练原理
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

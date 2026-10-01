@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_6.5.3_预训练Embedding+轻量级线上模型</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.5.3 预训练Embedding+轻量级线上模型</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_6.5.3 预训练Embedding+轻量级线上模型</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
 Content: 02_6.5.3 预训练Embedding+轻量级线上模型
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.5.3 预训练Embedding+轻量级线上模型</h3>
 <h4>概述</h4>
 <p>预训练Embedding和轻量级线上模型是深度学习推荐系统中常用的策略，用于提升模型的性能和在线服务的效率。预训练Embedding通过提前训练得到高质量的向量表示，轻量级线上模型则通过简化模型结构和优化计算过程，实现快速响应和高效推荐。</p>
@@ -91,21 +96,16 @@ Content: 02_6.5.3 预训练Embedding+轻量级线上模型
 <h3>总结</h3>
 <p>预训练Embedding和轻量级线上模型是提升深度学习推荐系统性能的重要策略。通过预训练Embedding，提前计算和存储高质量的向量表示，可以显著减少在线计算的开销。而轻量级线上模型通过简化模型结构和优化计算过程，实现快速响应和高效推荐。结合这两种策略，可以在保证推荐质量的同时，提高系统的响应速度和处理能力。在未来，随着数据规模和计算资源的不断增长，预训练Embedding和轻量级线上模型将继续在推荐系统中发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_6.5.3 预训练Embedding+轻量级线上模型
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+Content: 02_6.5.3 预训练Embedding+轻量级线上模型
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>06_4.7_总结——深度学习推荐系统的核心操作</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.7 总结——深度学习推荐系统的核心操作</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>06_4.7 总结——深度学习推荐系统的核心操作</h1>
-<p>&quot;&quot;&quot;
-Lecture: /第4章 Embedding技术在推荐系统中的应用
+<pre><code>Lecture: /第4章 Embedding技术在推荐系统中的应用
 Content: 06_4.7 总结——深度学习推荐系统的核心操作
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.7 总结——深度学习推荐系统的核心操作</h3>
 <h4>背景与概述</h4>
 <p>在推荐系统中，Embedding技术是深度学习的核心技术之一，广泛应用于特征表示和相似性搜索。通过将高维稀疏特征向量转换为低维稠密特征向量，Embedding技术极大地提高了推荐系统的效率和准确性。本章总结了深度学习推荐系统的核心操作，包括Embedding技术的应用、局部敏感哈希（LSH）技术的引入等。</p>
@@ -66,21 +71,16 @@ Content: 06_4.7 总结——深度学习推荐系统的核心操作
 <h4>结论</h4>
 <p>Embedding技术在推荐系统中的应用极大地提升了特征表示和相似性搜索的效率和准确性。通过引入LSH技术和多桶策略，进一步提高了推荐系统的实时性和搜索性能。未来，随着深度学习技术的不断发展，推荐系统将在更多场景中发挥重要作用，带来更好的用户体验和商业价值。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 06_4.7 总结——深度学习推荐系统的核心操作
+
+"""
+Lecture: /第4章 Embedding技术在推荐系统中的应用
+Content: 06_4.7 总结——深度学习推荐系统的核心操作
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

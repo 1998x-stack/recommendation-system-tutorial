@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_7.3.1_模型评估的逻辑闭环</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.3.1 模型评估的逻辑闭环</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_7.3.1 模型评估的逻辑闭环</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.3 更接近线上环境的离线评估方法——Replay
+<pre><code>Lecture: 第7章 推荐系统的评估/7.3 更接近线上环境的离线评估方法——Replay
 Content: 00_7.3.1 模型评估的逻辑闭环
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.3.1 模型评估的逻辑闭环</h3>
 <h4>概述</h4>
 <p>模型评估的逻辑闭环是推荐系统评估过程中确保评估结果准确性和有效性的关键步骤。通过构建完整的评估闭环，可以使得离线评估结果更接近真实的线上环境，从而提高模型的实际应用效果。逻辑闭环的核心在于全面考虑评估的各个环节，确保评估的科学性和系统性。</p>
@@ -240,21 +245,16 @@ Content: 00_7.3.1 模型评估的逻辑闭环
 </tbody>
 </table>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_7.3.1 模型评估的逻辑闭环
+
+"""
+Lecture: 第7章 推荐系统的评估/7.3 更接近线上环境的离线评估方法——Replay
+Content: 00_7.3.1 模型评估的逻辑闭环
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>05_8.1.6_Facebook的深度学习模型DLRM</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.6 Facebook的深度学习模型DLRM</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>05_8.1.6 Facebook的深度学习模型DLRM</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 05_8.1.6 Facebook的深度学习模型DLRM
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.6 Facebook的深度学习模型DLRM</h3>
 <h4>背景与概述</h4>
 <p>2019年，Facebook公布了其最新的深度学习推荐模型DLRM（Deep Learning Recommender Model）。相较于之前的GBDT+LR组合模型，DLRM是一次彻底的应用深度学习模型的尝试。DLRM模型旨在通过深度学习的方式，更好地捕捉用户行为和广告特征之间的复杂关系，提高推荐系统的点击率预估精度。</p>
@@ -118,21 +123,16 @@ Content: 05_8.1.6 Facebook的深度学习模型DLRM
 <h4>结论</h4>
 <p>Facebook的DLRM模型通过深度学习技术的应用，在推荐系统的点击率预估中取得了显著成效。通过特征工程、Embedding层、特征交互层和目标拟合层的有机结合，DLRM实现了对用户行为和广告特征的深度学习，为推荐系统提供了强有力的技术支持。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 05_8.1.6 Facebook的深度学习模型DLRM
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 05_8.1.6 Facebook的深度学习模型DLRM
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

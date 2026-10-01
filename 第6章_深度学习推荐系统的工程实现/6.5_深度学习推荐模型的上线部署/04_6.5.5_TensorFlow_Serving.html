@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_6.5.5_TensorFlow_Serving</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.5.5 TensorFlow Serving</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_6.5.5 TensorFlow Serving</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
 Content: 04_6.5.5 TensorFlow Serving
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.5.5 TensorFlow Serving</h3>
 <h4>TensorFlow Serving概述</h4>
 <p>TensorFlow Serving是一个灵活的、高性能的开源库，专门用于生产环境中的机器学习模型部署和推理。它支持同时部署多个版本的模型，具有良好的扩展性和高效的请求处理能力，能够满足在线预测的需求。</p>
@@ -144,21 +149,16 @@ Content: 04_6.5.5 TensorFlow Serving
 <h3>总结</h3>
 <p>TensorFlow Serving作为一个高性能的模型服务框架，通过模型管理、版本控制、请求处理等核心组件，实现了深度学习模型的高效部署和在线服务。其灵活的配置和优化策略，能够满足不同应用场景的需求，提高系统的响应速度和服务质量。在未来，随着深度学习技术的不断发展，TensorFlow Serving将继续在模型部署和服务中发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_6.5.5 TensorFlow Serving
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+Content: 04_6.5.5 TensorFlow Serving
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

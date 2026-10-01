@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_1.3_本书的整体结构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.3 本书的整体结构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_1.3 本书的整体结构</h1>
-<p>&quot;&quot;&quot;
-Lecture: /第1章 互联网的增长引擎——推荐系统
+<pre><code>Lecture: /第1章 互联网的增长引擎——推荐系统
 Content: 02_1.3 本书的整体结构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>本书的整体结构详细表格</h3>
 <table>
 <thead>
@@ -226,21 +231,16 @@ Content: 02_1.3 本书的整体结构
 </tbody>
 </table>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_1.3 本书的整体结构
+
+"""
+Lecture: /第1章 互联网的增长引擎——推荐系统
+Content: 02_1.3 本书的整体结构
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

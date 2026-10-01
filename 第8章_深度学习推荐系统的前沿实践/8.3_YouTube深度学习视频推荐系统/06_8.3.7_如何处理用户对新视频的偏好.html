@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>06_8.3.7_如何处理用户对新视频的偏好</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.3.7 如何处理用户对新视频的偏好</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>06_8.3.7 如何处理用户对新视频的偏好</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
 Content: 06_8.3.7 如何处理用户对新视频的偏好
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.3.7 如何处理用户对新视频的偏好</h3>
 <h4>引言</h4>
 <p>在UGC平台上，用户对新内容的偏好非常明显。对绝大多数内容来说，刚上线时会迎来流量高峰，随后快速衰减，然后趋于平稳。YouTube的内容也不例外，因此，如何处理用户对新视频的偏好，直接影响了推荐系统的预测准确率。</p>
@@ -42,21 +47,16 @@ Content: 06_8.3.7 如何处理用户对新视频的偏好
 <h4>总结</h4>
 <p>通过引入Example Age特征，YouTube推荐系统有效地处理了用户对新视频的偏好，提高了预测的准确性。这个特征通过与其他特征的交叉，保存了时间变化的权重，使得最终的预测结果能够反映用户对新内容的兴趣变化。通过这种方式，YouTube不仅提高了推荐系统的性能，也为其他视频推荐系统的开发提供了宝贵的经验和参考。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 06_8.3.7 如何处理用户对新视频的偏好
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
+Content: 06_8.3.7 如何处理用户对新视频的偏好
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

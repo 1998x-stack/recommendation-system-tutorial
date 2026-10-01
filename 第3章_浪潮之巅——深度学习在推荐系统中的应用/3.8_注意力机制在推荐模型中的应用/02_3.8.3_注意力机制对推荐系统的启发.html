@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_3.8.3_注意力机制对推荐系统的启发</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.8.3 注意力机制对推荐系统的启发</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_3.8.3 注意力机制对推荐系统的启发</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
 Content: 02_3.8.3 注意力机制对推荐系统的启发
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>3.8.3 注意力机制对推荐系统的启发</h3>
 <h4>1. 背景和动机</h4>
 <p>注意力机制（Attention Mechanism）最早在自然语言处理领域取得了巨大的成功，并逐渐被应用到语音识别和计算机视觉等领域。其核心思想是模仿人类选择性注意的习惯，对不同特征分配不同的权重，从而突出重要特征，忽略次要特征。这一机制为推荐系统带来了新的启发，使其能够更好地捕捉用户的兴趣和偏好。</p>
@@ -63,21 +68,16 @@ Content: 02_3.8.3 注意力机制对推荐系统的启发
 <h4>6. 总结</h4>
 <p>注意力机制为推荐系统的优化带来了新的思路，通过对不同特征分配不同的权重，使得模型能够更加准确地捕捉用户的兴趣和偏好。AFM和DIN模型的成功应用，证明了注意力机制在推荐系统中的巨大潜力和广泛应用前景。未来，随着对注意力机制研究的深入，推荐系统的性能有望进一步提升，为用户提供更加精准和个性化的推荐服务。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_3.8.3 注意力机制对推荐系统的启发
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
+Content: 02_3.8.3 注意力机制对推荐系统的启发
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

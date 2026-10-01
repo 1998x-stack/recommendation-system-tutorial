@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_5.2.1_召回层和排序层的功能特点</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>5.2.1 召回层和排序层的功能特点</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_5.2.1 召回层和排序层的功能特点</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+<pre><code>Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
 Content: 00_5.2.1 召回层和排序层的功能特点
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>5.2.1 召回层和排序层的功能特点</h3>
 <p>在推荐系统中，召回层和排序层是两个关键的组成部分。它们各自承担不同的任务，共同构成了完整的推荐过程。以下是对召回层和排序层的详细分析。</p>
 <h4>一、召回层的功能特点</h4>
@@ -100,21 +105,16 @@ Content: 00_5.2.1 召回层和排序层的功能特点
 <h4>总结</h4>
 <p>召回层和排序层是推荐系统中的两个关键组成部分，各自承担不同的任务，协同工作以实现最佳的推荐效果。召回层负责从海量候选集中快速筛选出潜在的感兴趣物品，排序层则对这些候选物品进行精细排序，最终选择出最符合用户需求的推荐结果。通过合理的设计和优化，可以在计算效率和推荐效果之间找到最佳平衡点，提升推荐系统的整体性能。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_5.2.1 召回层和排序层的功能特点
+
+"""
+Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+Content: 00_5.2.1 召回层和排序层的功能特点
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

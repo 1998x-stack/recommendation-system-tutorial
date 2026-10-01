@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_3.7.4_基于FM的深度学习模型的优点和局限性</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.7.4 基于FM的深度学习模型的优点和局限性</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_3.7.4 基于FM的深度学习模型的优点和局限性</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
 Content: 03_3.7.4 基于FM的深度学习模型的优点和局限性
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>3.7.4 基于FM的深度学习模型的优点和局限性</h3>
 <h4>1. 背景和动机</h4>
 <p>在推荐系统中，Factorization Machines（FM）模型因其在处理稀疏数据和捕捉特征交互方面的优势，得到了广泛应用。然而，随着深度学习技术的发展，传统的FM模型逐渐被与神经网络结合的模型所取代。这些结合模型利用深度学习的强大表达能力，进一步提升了FM模型的性能。然而，任何模型都有其优点和局限性，理解这些优点和局限性对于模型的选择和优化至关重要。</p>
@@ -185,21 +190,16 @@ Content: 03_3.7.4 基于FM的深度学习模型的优点和局限性
 <h3>总结</h3>
 <p>基于FM的深度学习模型通过结合FM的特征交互能力和神经网络的强大表达能力，克服了传统FM模型的局限性。然而，这些模型也存在计算复杂度高、过拟合风险和解释性较差等问题。在实际应用中，需要根据具体场景和数据特点，选择合适的模型并进行优化，以充分发挥其优势。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_3.7.4 基于FM的深度学习模型的优点和局限性
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.7 FM与深度学习模型的结合
+Content: 03_3.7.4 基于FM的深度学习模型的优点和局限性
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

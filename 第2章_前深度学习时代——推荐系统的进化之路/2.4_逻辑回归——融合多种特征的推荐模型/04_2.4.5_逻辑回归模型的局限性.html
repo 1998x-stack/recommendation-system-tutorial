@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_2.4.5_逻辑回归模型的局限性</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.4.5 逻辑回归模型的局限性</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_2.4.5 逻辑回归模型的局限性</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.4 逻辑回归——融合多种特征的推荐模型
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.4 逻辑回归——融合多种特征的推荐模型
 Content: 04_2.4.5 逻辑回归模型的局限性
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>逻辑回归模型的优势和局限性详细对比表</h3>
 <table>
 <thead>
@@ -131,21 +136,16 @@ Content: 04_2.4.5 逻辑回归模型的局限性
 <h3>结论</h3>
 <p>逻辑回归模型具有简单易懂、计算效率高、特征融合能力强和良好的可解释性等优势，适用于多种推荐系统场景。然而，其线性模型的表达能力有限、特征工程依赖性强、对数据分布的假设严格，以及在处理大规模数据时效率较低，这些局限性在实际应用中需要注意。通过结合非线性模型、优化特征工程、改进模型训练和增强模型鲁棒性，可以在一定程度上克服这些局限性，提升推荐系统的性能。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_2.4.5 逻辑回归模型的局限性
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.4 逻辑回归——融合多种特征的推荐模型
+Content: 04_2.4.5 逻辑回归模型的局限性
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

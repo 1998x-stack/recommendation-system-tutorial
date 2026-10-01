@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_3.3.1_Deep_Crossing模型的应用场景</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.3.1 Deep Crossing模型的应用场景</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_3.3.1 Deep Crossing模型的应用场景</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.3 Deep Crossing模型——经典的深度学习架构
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.3 Deep Crossing模型——经典的深度学习架构
 Content: 00_3.3.1 Deep Crossing模型的应用场景
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>Deep Crossing模型的应用场景</h3>
 <h4>一、引言</h4>
 <p>Deep Crossing模型是由微软在2016年提出的一种经典深度学习架构，主要用于推荐系统中的广告点击率预估任务。其创新点在于通过多层神经网络和特征工程的结合，解决了传统推荐系统在特征交叉和稀疏数据处理方面的挑战。</p>
@@ -69,7 +74,7 @@ Content: 00_3.3.1 Deep Crossing模型的应用场景
 <p><strong>1.2 实现方法：</strong></p>
 <ul>
 <li><strong>类别型特征编码：</strong> 将类别型特征通过one-hot编码或multi-hot编码转换为稀疏向量。例如，某一类别型特征有1000个不同的值，one-hot编码后形成一个1000维的向量，其中只有一个元素为1，其他元素为0。</li>
-<li><strong>Embedding矩阵：</strong> 使用一个可训练的Embedding矩阵将稀疏向量转换为低维稠密向量。假设输入的one-hot向量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="bold">x</mi></mrow></mrow><annotation encoding="application/x-tex">\mathbf{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.44444em;"></span><span class="strut bottom" style="height:0.44444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathbf">x</span></span></span></span></span>，Embedding矩阵为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="bold">E</mi></mrow></mrow><annotation encoding="application/x-tex">\mathbf{E}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68611em;"></span><span class="strut bottom" style="height:0.68611em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathbf">E</span></span></span></span></span>，则Embedding向量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="bold">E</mi></mrow><mo>⋅</mo><mrow><mi mathvariant="bold">x</mi></mrow></mrow><annotation encoding="application/x-tex">\mathbf{E} \cdot \mathbf{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68611em;"></span><span class="strut bottom" style="height:0.68611em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathbf">E</span></span><span class="mbin">⋅</span><span class="mord textstyle uncramped"><span class="mord mathbf">x</span></span></span></span></span>。</li>
+<li><strong>Embedding矩阵：</strong> 使用一个可训练的Embedding矩阵将稀疏向量转换为低维稠密向量。假设输入的one-hot向量为$\mathbf{x}$，Embedding矩阵为$\mathbf{E}$，则Embedding向量为$\mathbf{E} \cdot \mathbf{x}$。</li>
 <li><strong>参数更新：</strong> 在模型训练过程中，Embedding矩阵的参数通过反向传播算法进行更新，以学习到更好的特征表示。</li>
 </ul>
 <p><strong>1.3 优点：</strong></p>
@@ -84,7 +89,7 @@ Content: 00_3.3.1 Deep Crossing模型的应用场景
 </ul>
 <p><strong>2.2 实现方法：</strong></p>
 <ul>
-<li><strong>特征拼接：</strong> 对于每一个输入样本，将其对应的多个Embedding向量和数值型特征向量进行拼接。例如，对于一个样本的输入特征，包括3个Embedding向量和5个数值型特征，则拼接后的特征向量维度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><msub><mi>d</mi><mn>1</mn></msub><mo>+</mo><msub><mi>d</mi><mn>2</mn></msub><mo>+</mo><msub><mi>d</mi><mn>3</mn></msub><mo>+</mo><mn>5</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(d_1 + d_2 + d_3 + 5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord"><span class="mord mathit">d</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">1</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">d</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">2</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">d</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">3</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord mathrm">5</span><span class="mclose">)</span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">d_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">d</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>为第i个Embedding向量的维度。</li>
+<li><strong>特征拼接：</strong> 对于每一个输入样本，将其对应的多个Embedding向量和数值型特征向量进行拼接。例如，对于一个样本的输入特征，包括3个Embedding向量和5个数值型特征，则拼接后的特征向量维度为$(d_1 + d_2 + d_3 + 5)$，其中$d_i$为第i个Embedding向量的维度。</li>
 <li><strong>输入新特征向量：</strong> 将拼接后的新特征向量作为神经网络的输入，进行后续的深度学习处理。</li>
 </ul>
 <p><strong>2.3 优点：</strong></p>
@@ -103,7 +108,7 @@ Content: 00_3.3.1 Deep Crossing模型的应用场景
 <ul>
 <li><strong>残差结构：</strong> Residual Units层采用残差结构，通过增加跳跃连接（skip connection），使得输入能够直接通过输出，解决了深层神经网络训练中梯度消失的问题。</li>
 <li><strong>多层堆叠：</strong> 通过堆叠多个Residual Units层，模型能够逐层学习到更高阶、更复杂的特征交互关系。每一层的输出表示为：$$ \mathbf{y}_l = \mathbf{x}_l + \mathcal{F}(\mathbf{x}_l, \mathbf{W}_l) $$
-其中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mrow><mi mathvariant="bold">x</mi></mrow><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x}_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.44444em;"></span><span class="strut bottom" style="height:0.59444em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class=""><span class="mord textstyle uncramped"><span class="mord mathbf">x</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>是第l层的输入，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="script">F</mi></mrow><mo>(</mo><msub><mrow><mi mathvariant="bold">x</mi></mrow><mi>l</mi></msub><mo separator="true">,</mo><msub><mrow><mi mathvariant="bold">W</mi></mrow><mi>l</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">\mathcal{F}(\mathbf{x}_l, \mathbf{W}_l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.09931em;">F</span></span><span class="mopen">(</span><span class=""><span class="mord textstyle uncramped"><span class="mord mathbf">x</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class=""><span class="mord textstyle uncramped"><span class="mord mathbf" style="margin-right:0.01597em;">W</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span>是通过非线性变换后的特征表示。</li>
+其中，$\mathbf{x}_l$是第l层的输入，$\mathcal{F}(\mathbf{x}_l, \mathbf{W}_l)$是通过非线性变换后的特征表示。</li>
 </ul>
 <p><strong>1.3 优点：</strong></p>
 <ul>
@@ -169,21 +174,182 @@ Content: 00_3.3.1 Deep Crossing模型的应用场景
 </ol>
 <p>通过这些技术手段，Deep Crossing模型在推荐系统中展现出强大的性能和广泛的应用前景。其在广告点击率预估中的成功应用，为推荐系统的发展提供了重要的技术支撑和实践经验。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_3.3.1 Deep Crossing模型的应用场景
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.3 Deep Crossing模型——经典的深度学习架构
+Content: 00_3.3.1 Deep Crossing模型的应用场景
+"""
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, Dataset
+import numpy as np
+import pandas as pd
+from typing import Tuple
+
+class CustomDataset(Dataset):
+    """自定义数据集类，用于加载特征和标签。
+    
+    Args:
+        features (np.ndarray): 特征矩阵。
+        labels (np.ndarray): 标签向量。
+    """
+    
+    def __init__(self, features: np.ndarray, labels: np.ndarray):
+        self.features = torch.FloatTensor(features)
+        self.labels = torch.FloatTensor(labels)
+    
+    def __len__(self) -> int:
+        return len(self.features)
+    
+    def __getitem__(self, idx: int) -> Tuple[torch.FloatTensor, torch.FloatTensor]:
+        return self.features[idx], self.labels[idx]
+
+class EmbeddingLayer(nn.Module):
+    """Embedding层，用于将稀疏类别型特征转换为稠密向量。
+    
+    Args:
+        num_embeddings (int): 类别数量。
+        embedding_dim (int): Embedding向量维度。
+    """
+    
+    def __init__(self, num_embeddings: int, embedding_dim: int):
+        super(EmbeddingLayer, self).__init__()
+        self.embedding = nn.Embedding(num_embeddings, embedding_dim)
+    
+    def forward(self, x: torch.LongTensor) -> torch.FloatTensor:
+        return self.embedding(x)
+
+class ResidualUnit(nn.Module):
+    """残差单元，用于特征自动交叉组合。
+    
+    Args:
+        input_dim (int): 输入特征维度。
+    """
+    
+    def __init__(self, input_dim: int):
+        super(ResidualUnit, self).__init__()
+        self.fc1 = nn.Linear(input_dim, input_dim)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(input_dim, input_dim)
+    
+    def forward(self, x: torch.FloatTensor) -> torch.FloatTensor:
+        residual = x
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        return self.relu(out + residual)
+
+class DeepCrossing(nn.Module):
+    """Deep Crossing模型定义。
+    
+    Args:
+        input_dim (int): 输入特征维度。
+        embedding_dims (List[int]): 各类别型特征的Embedding向量维度。
+        num_residual_units (int): 残差单元的数量。
+    """
+    
+    def __init__(self, input_dim: int, embedding_dims: list, num_residual_units: int):
+        super(DeepCrossing, self).__init__()
+        self.embedding_layers = nn.ModuleList([EmbeddingLayer(num_emb, emb_dim) for num_emb, emb_dim in embedding_dims])
+        self.input_dim = input_dim + sum([emb_dim for _, emb_dim in embedding_dims])
+        self.residual_units = nn.Sequential(*[ResidualUnit(self.input_dim) for _ in range(num_residual_units)])
+        self.output_layer = nn.Linear(self.input_dim, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x_categorical: torch.LongTensor, x_numerical: torch.FloatTensor) -> torch.FloatTensor:
+        embeddings = [emb(x_categorical[:, i]) for i, emb in enumerate(self.embedding_layers)]
+        embeddings = torch.cat(embeddings, dim=1)
+        x = torch.cat([embeddings, x_numerical], dim=1)
+        x = self.residual_units(x)
+        x = self.output_layer(x)
+        return self.sigmoid(x)
+
+def train_model(model: nn.Module, dataloader: DataLoader, criterion: nn.BCELoss, optimizer: optim.Adam, epochs: int) -> None:
+    """训练Deep Crossing模型。
+    
+    Args:
+        model (nn.Module): Deep Crossing模型。
+        dataloader (DataLoader): 训练数据的DataLoader。
+        criterion (nn.BCELoss): 损失函数。
+        optimizer (optim.Adam): 优化器。
+        epochs (int): 训练轮数。
+    """
+    for epoch in range(epochs):
+        model.train()
+        epoch_loss = 0
+        for x_numerical, labels in dataloader:
+            optimizer.zero_grad()
+            outputs = model(x_categorical, x_numerical)
+            loss = criterion(outputs, labels.unsqueeze(1))
+            loss.backward()
+            optimizer.step()
+            epoch_loss += loss.item()
+        print(f'Epoch {epoch + 1}/{epochs}, Loss: {epoch_loss / len(dataloader):.4f}')
+
+def evaluate_model(model: nn.Module, dataloader: DataLoader, criterion: nn.BCELoss) -> None:
+    """评估Deep Crossing模型。
+    
+    Args:
+        model (nn.Module): Deep Crossing模型。
+        dataloader (DataLoader): 验证数据的DataLoader。
+        criterion (nn.BCELoss): 损失函数。
+    """
+    model.eval()
+    eval_loss = 0
+    with torch.no_grad():
+        for x_numerical, labels in dataloader:
+            outputs = model(x_categorical, x_numerical)
+            loss = criterion(outputs, labels.unsqueeze(1))
+            eval_loss += loss.item()
+    print(f'Evaluation Loss: {eval_loss / len(dataloader):.4f}')
+
+def load_data(file_path: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """加载和预处理数据。
+    
+    Args:
+        file_path (str): 数据文件路径。
+
+    Returns:
+        Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: 特征和标签的训练集和验证集。
+    """
+    data = pd.read_csv(file_path)
+    # 假设数据集已经进行了一些预处理，包含类别型特征和数值型特征的编码
+    x_categorical = data[['query', 'keyword', 'title', 'landing_page', 'match_type']].values
+    x_numerical = data[['click_rate', 'predicted_click_rate', 'budget', 'impression', 'click']].values
+    y = data['label'].values
+    split_idx = int(len(data) * 0.8)
+    return x_categorical[:split_idx], x_numerical[:split_idx], y[:split_idx], x_categorical[split_idx:], x_numerical[split_idx:], y[split_idx:]
+
+def main() -> None:
+    """主函数，执行Deep Crossing模型的训练和评估。"""
+    # 加载数据
+    x_categorical_train, x_numerical_train, y_train, x_categorical_val, x_numerical_val, y_val = load_data('data.csv')
+    
+    # 创建Dataset和DataLoader
+    train_dataset = CustomDataset(x_categorical_train, x_numerical_train, y_train)
+    val_dataset = CustomDataset(x_categorical_val, x_numerical_val, y_val)
+    train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+    val_dataloader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+
+    # 模型初始化
+    embedding_dims = [(10000, 32), (10000, 32), (10000, 32), (10000, 32), (10, 5)]  # 类别型特征的Embedding维度
+    model = DeepCrossing(input_dim=5, embedding_dims=embedding_dims, num_residual_units=5)
+    criterion = nn.BCELoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+    # 训练模型
+    train_model(model, train_dataloader, criterion, optimizer, epochs=20)
+
+    # 评估模型
+    evaluate_model(model, val_dataloader, criterion)
+
+if __name__ == '__main__':
+    main()</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

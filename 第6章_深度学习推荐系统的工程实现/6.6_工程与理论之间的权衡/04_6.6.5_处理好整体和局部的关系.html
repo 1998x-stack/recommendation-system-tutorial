@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_6.6.5_处理好整体和局部的关系</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.6.5 处理好整体和局部的关系</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_6.6.5 处理好整体和局部的关系</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.6 工程与理论之间的权衡
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.6 工程与理论之间的权衡
 Content: 04_6.6.5 处理好整体和局部的关系
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.6.5 处理好整体和局部的关系</h3>
 <h4>概述</h4>
 <p>在深度学习推荐系统的工程实现中，处理好整体和局部的关系是确保系统高效运行和可维护性的关键。整体与局部的关系体现在系统设计、模型开发、数据处理等多个方面。工程师需要综合考虑全局优化和局部优化的平衡，确保系统的整体性能和各个模块的独立性。</p>
@@ -97,21 +102,16 @@ Content: 04_6.6.5 处理好整体和局部的关系
 <h3>总结</h3>
 <p>在深度学习推荐系统的工程实现中，处理好整体和局部的关系是确保系统高效运行和可维护性的关键。通过模块化设计、接口标准化、全局优化与局部优化相结合以及CI/CD方法，工程师可以在系统设计、模型开发和数据处理等方面，综合考虑整体和局部的需求，确保系统的整体性能和各个模块的独立性。在未来，随着技术的发展，处理好整体和局部关系的策略将进一步推动深度学习推荐系统的广泛应用和优化。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_6.6.5 处理好整体和局部的关系
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.6 工程与理论之间的权衡
+Content: 04_6.6.5 处理好整体和局部的关系
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

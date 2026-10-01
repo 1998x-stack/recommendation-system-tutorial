@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_8.3.2_YouTube推荐系统架构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.3.2 YouTube推荐系统架构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_8.3.2 YouTube推荐系统架构</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
 Content: 01_8.3.2 YouTube推荐系统架构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.3.2 YouTube推荐系统架构</h3>
 <h4>引言</h4>
 <p>YouTube的视频基数巨大，用户每天上传和观看的视频数量庞大。为了在如此庞大的数据规模下实现个性化推荐，YouTube设计了两级深度学习模型架构，以解决在线系统的延迟问题，并提升推荐效果。</p>
@@ -137,21 +142,16 @@ Content: 01_8.3.2 YouTube推荐系统架构
 <p>YouTube推荐系统通过两级深度学习模型架构和Embedding技术，实现了高效、精准的个性化推荐。其候选集生成模型和排序模型相辅相成，共同提升了推荐效果和用户体验。通过这种方式，YouTube不仅提高了推荐系统的性能，也为其他视频推荐系统的开发提供了宝贵的经验和参考。</p>
 <hr>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_8.3.2 YouTube推荐系统架构
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.3 YouTube深度学习视频推荐系统
+Content: 01_8.3.2 YouTube推荐系统架构
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

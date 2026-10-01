@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_6.5.1_预存推荐结果或Embedding结果</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.5.1 预存推荐结果或Embedding结果</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_6.5.1 预存推荐结果或Embedding结果</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
 Content: 00_6.5.1 预存推荐结果或Embedding结果
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.5.1 预存推荐结果或Embedding结果</h3>
 <h4>概述</h4>
 <p>在深度学习推荐系统的工程实现中，预存推荐结果或Embedding结果是一种常用的优化策略。其核心思想是在上线部署时，提前计算和存储推荐结果或用户和物品的Embedding向量，从而减少实时计算的负担，提高推荐系统的响应速度和效率。</p>
@@ -93,21 +98,16 @@ Content: 00_6.5.1 预存推荐结果或Embedding结果
 <h3>总结</h3>
 <p>预存推荐结果或Embedding结果是一种有效的优化策略，通过离线计算和存储，减少实时计算的负担，提高推荐系统的响应速度和效率。然而，这种方法也存在存储开销大和实时性不足的缺点，需要结合具体应用场景，合理设计和实现。在未来，随着存储技术和计算能力的不断发展，预存推荐结果或Embedding结果将继续在推荐系统中发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_6.5.1 预存推荐结果或Embedding结果
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.5 深度学习推荐模型的上线部署
+Content: 00_6.5.1 预存推荐结果或Embedding结果
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

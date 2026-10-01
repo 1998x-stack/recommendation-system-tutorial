@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_6.4.1_TensorFlow的基本原理</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.4.1 TensorFlow的基本原理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_6.4.1 TensorFlow的基本原理</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
 Content: 00_6.4.1 TensorFlow的基本原理
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.4.1 TensorFlow的基本原理</h3>
 <h4>TensorFlow概述</h4>
 <p>TensorFlow是由Google Brain团队开发的开源深度学习框架。它提供了一种灵活高效的方式来构建和训练各种深度学习模型。TensorFlow的核心思想是通过计算图（Computation Graph）来表示计算任务，并通过自动微分（Automatic Differentiation）来计算梯度，优化模型参数。</p>
@@ -116,21 +121,16 @@ Content: 00_6.4.1 TensorFlow的基本原理
 <h3>结论</h3>
 <p>TensorFlow作为一个灵活高效的深度学习框架，通过计算图、自动微分等核心技术，为构建和训练各种深度学习模型提供了强大的支持。其高效的计算图优化、灵活的模型构建和强大的社区支持，使其成为现代深度学习领域的重要工具。在未来，随着技术的不断发展，TensorFlow将继续在深度学习研究和应用中发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_6.4.1 TensorFlow的基本原理
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.4 推荐模型离线训练之TensorFlow
+Content: 00_6.4.1 TensorFlow的基本原理
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

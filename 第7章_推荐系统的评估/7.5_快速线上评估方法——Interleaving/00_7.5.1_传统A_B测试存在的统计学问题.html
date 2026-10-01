@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_7.5.1_传统A_B测试存在的统计学问题</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.5.1 传统A B测试存在的统计学问题</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_7.5.1 传统A/B测试存在的统计学问题</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+<pre><code>Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
 Content: 00_7.5.1 传统A/B测试存在的统计学问题
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.5.1 传统A/B测试存在的统计学问题</h3>
 <h4>概述</h4>
 <p>传统A/B测试是评估推荐系统效果的常用方法，但在实际应用中存在一些统计学问题。这些问题可能导致实验结果不准确，影响推荐系统的优化效果。了解和解决这些统计学问题，对于提高A/B测试的科学性和有效性至关重要。</p>
@@ -227,21 +232,16 @@ Content: 00_7.5.1 传统A/B测试存在的统计学问题
 </tbody>
 </table>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_7.5.1 传统A/B测试存在的统计学问题
+
+"""
+Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+Content: 00_7.5.1 传统A/B测试存在的统计学问题
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

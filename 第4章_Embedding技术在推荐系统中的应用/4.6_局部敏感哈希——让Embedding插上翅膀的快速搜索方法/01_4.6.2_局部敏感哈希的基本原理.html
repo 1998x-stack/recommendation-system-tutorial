@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_4.6.2_局部敏感哈希的基本原理</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.6.2 局部敏感哈希的基本原理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_4.6.2 局部敏感哈希的基本原理</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
 Content: 01_4.6.2 局部敏感哈希的基本原理
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.6.2 局部敏感哈希的基本原理</h3>
 <h4>背景与概述</h4>
 <p>局部敏感哈希（Locality Sensitive Hashing，LSH）是一种高效的最近邻搜索算法，旨在解决高维空间中数据点的相似性搜索问题。传统的最近邻搜索算法，如暴力搜索和kd树，在高维空间中表现不佳，计算复杂度高，无法满足实际应用需求。LSH通过将高维空间中的点映射到低维空间，并利用哈希函数将相邻的点放入同一个桶中，从而加快搜索速度。</p>
@@ -32,8 +37,8 @@ Content: 01_4.6.2 局部敏感哈希的基本原理
 <p><strong>构建哈希函数</strong>：</p>
 <ul>
 <li>使用随机生成的向量来构建哈希函数，将高维向量映射到低维空间。</li>
-<li>公式如下：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mo>(</mo><mi>v</mi><mo>)</mo><mo>=</mo><mrow><mo fence="true">⌊</mo><mfrac><mrow><mi>a</mi><mo>⋅</mo><mi>v</mi><mo>+</mo><mi>b</mi></mrow><mrow><mi>w</mi></mrow></mfrac><mo fence="true">⌋</mo></mrow></mrow><annotation encoding="application/x-tex">h(v) = \left\lfloor \frac{a \cdot v + b}{w} \right\rfloor 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.45em;"></span><span class="strut bottom" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mrel">=</span><span class="minner displaystyle textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">⌊</span></span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.02691em;">w</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathit">a</span><span class="mbin">⋅</span><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="mbin">+</span><span class="mord mathit">b</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">⌋</span></span></span></span></span></span></span></p>
+<li>公式如下：
+$$ h(v) = \left\lfloor \frac{a \cdot v + b}{w} \right\rfloor $$
 其中，$ a $ 为从标准正态分布中采样的随机向量，$ b $ 为从 [0, w) 区间内均匀分布的随机数，$ w $ 为窗口大小。</li>
 </ul>
 </li>
@@ -78,21 +83,16 @@ Content: 01_4.6.2 局部敏感哈希的基本原理
 <h4>结论</h4>
 <p>LSH通过低维映射和分桶技术，有效解决了推荐系统中相似Embedding向量的快速搜索问题。相比于传统的相似度计算方法，LSH不仅提高了搜索效率，还具有较高的灵活性和扩展性。在实际应用中，通过优化哈希函数和分桶策略，可以进一步提高LSH的搜索精度和性能，是推荐系统中重要的技术手段   。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_4.6.2 局部敏感哈希的基本原理
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
+Content: 01_4.6.2 局部敏感哈希的基本原理
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

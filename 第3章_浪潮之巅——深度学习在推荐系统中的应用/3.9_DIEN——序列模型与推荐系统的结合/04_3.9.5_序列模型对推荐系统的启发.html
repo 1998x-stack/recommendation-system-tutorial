@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_3.9.5_序列模型对推荐系统的启发</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.9.5 序列模型对推荐系统的启发</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_3.9.5 序列模型对推荐系统的启发</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.9 DIEN——序列模型与推荐系统的结合
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.9 DIEN——序列模型与推荐系统的结合
 Content: 04_3.9.5 序列模型对推荐系统的启发
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>04_3.9.5 序列模型对推荐系统的启发</h3>
 <h4>1. 背景与动机</h4>
 <p>序列模型在推荐系统中的应用越来越广泛，尤其是在捕捉用户兴趣的动态变化方面。阿里巴巴提出的DIEN（Deep Interest Evolution Network）模型就是其中的一个典型例子，通过序列模型和注意力机制的结合，DIEN能够更好地模拟和预测用户的行为 。</p>
@@ -85,21 +90,16 @@ Netflix通过序列模型分析用户的观影历史，推荐用户可能感兴�
 <h3>总结</h3>
 <p>序列模型在推荐系统中的应用，极大地提高了推荐的精准度和用户满意度。通过捕捉用户的动态兴趣变化，序列模型能够提供更加个性化和及时的推荐服务。然而，序列模型在实际应用中也面临计算复杂度高、数据稀疏性和工程实现难度大的挑战。未来，随着计算能力和算法的不断进步，序列模型在推荐系统中的应用将会更加广泛和深入 。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_3.9.5 序列模型对推荐系统的启发
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.9 DIEN——序列模型与推荐系统的结合
+Content: 04_3.9.5 序列模型对推荐系统的启发
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

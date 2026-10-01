@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_6.3.4_Parameter_Server技术要点总结</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.3.4 Parameter Server技术要点总结</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_6.3.4 Parameter Server技术要点总结</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
 Content: 03_6.3.4 Parameter Server技术要点总结
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.3.4 Parameter Server技术要点总结</h3>
 <h4>Parameter Server的核心概念</h4>
 <p>Parameter Server（参数服务器）是一种用于大规模分布式机器学习的架构。其核心思想是将模型参数分布存储在多个服务器节点上，通过并行计算提高训练效率。Parameter Server的架构通常包括Server节点、Worker节点和Scheduler节点。Server节点负责存储和更新模型参数，Worker节点负责计算梯度，Scheduler节点负责调度任务和管理资源。</p>
@@ -79,21 +84,16 @@ Content: 03_6.3.4 Parameter Server技术要点总结
 <h3>结论</h3>
 <p>Parameter Server架构通过分布式存储与计算、灵活的参数更新机制和高效的通信优化，实现了大规模机器学习模型的高效训练。它在实际应用中展现了强大的性能和灵活性，是现代分布式机器学习系统的重要组成部分。通过不断优化和创新，Parameter Server将继续在大规模机器学习领域发挥重要作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_6.3.4 Parameter Server技术要点总结
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+Content: 03_6.3.4 Parameter Server技术要点总结
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

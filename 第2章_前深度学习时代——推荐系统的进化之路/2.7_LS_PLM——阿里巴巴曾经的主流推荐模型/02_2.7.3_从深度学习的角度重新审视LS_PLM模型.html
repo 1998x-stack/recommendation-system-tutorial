@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_2.7.3_从深度学习的角度重新审视LS_PLM模型</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.7.3 从深度学习的角度重新审视LS PLM模型</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_2.7.3 从深度学习的角度重新审视LS-PLM模型</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.7 LS-PLM——阿里巴巴曾经的主流推荐模型
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.7 LS-PLM——阿里巴巴曾经的主流推荐模型
 Content: 02_2.7.3 从深度学习的角度重新审视LS-PLM模型
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>从深度学习的角度重新审视LS-PLM模型</h3>
 <h4>背景介绍</h4>
 <p>LS-PLM（Large Scale Piece-wise Linear Model），即大规模分段线性模型，是阿里巴巴曾经的主流推荐模型。该模型早在2012年就已经应用于阿里巴巴的广告推荐场景，并在2017年被正式公布。LS-PLM模型在大规模稀疏数据场景下表现出色，具有显著的优势  。</p>
@@ -59,21 +64,16 @@ Content: 02_2.7.3 从深度学习的角度重新审视LS-PLM模型
 <h4>总结</h4>
 <p>从深度学习的角度重新审视LS-PLM模型，可以发现其已经具备了许多深度学习的特性，包括三层神经网络结构和注意力机制等。尽管在具体实现上与现代深度学习模型有所不同，但LS-PLM模型的设计思想和应用方式为后续深度学习模型在推荐系统中的应用奠定了基础。通过这种重新审视，可以更好地理解LS-PLM模型的优点和其在推荐系统领域的重要性  。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_2.7.3 从深度学习的角度重新审视LS-PLM模型
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.7 LS-PLM——阿里巴巴曾经的主流推荐模型
+Content: 02_2.7.3 从深度学习的角度重新审视LS-PLM模型
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

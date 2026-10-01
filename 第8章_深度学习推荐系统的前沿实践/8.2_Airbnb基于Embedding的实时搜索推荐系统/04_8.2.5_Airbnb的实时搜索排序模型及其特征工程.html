@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_8.2.5_Airbnb的实时搜索排序模型及其特征工程</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.2.5 Airbnb的实时搜索排序模型及其特征工程</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_8.2.5 Airbnb的实时搜索排序模型及其特征工程</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
 Content: 04_8.2.5 Airbnb的实时搜索排序模型及其特征工程
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.2.5 Airbnb的实时搜索排序模型及其特征工程</h3>
 <h4>引言</h4>
 <p>Airbnb的实时搜索推荐系统通过Embedding技术将用户和房源的短期和长期兴趣进行编码，再结合搜索词Embedding，实现了个性化的实时推荐。此章节深入探讨了实时搜索排序模型的构建及其特征工程  。</p>
@@ -74,21 +79,16 @@ Content: 04_8.2.5 Airbnb的实时搜索排序模型及其特征工程
 <h4>总结</h4>
 <p>Airbnb的实时搜索排序模型通过Embedding技术和特征工程的结合，实现了用户兴趣的精准捕捉和个性化推荐。模型的实时性设计和特征选择算法确保了推荐结果的实时反馈和高效预测。通过这些方法，Airbnb在推荐系统领域展现了深度学习的强大应用潜力，为其他推荐系统的开发提供了宝贵的经验和参考  。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_8.2.5 Airbnb的实时搜索排序模型及其特征工程
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.2 Airbnb基于Embedding的实时搜索推荐系统
+Content: 04_8.2.5 Airbnb的实时搜索排序模型及其特征工程
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>06_8.1.7_DLRM模型并行训练方法</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.7 DLRM模型并行训练方法</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>06_8.1.7 DLRM模型并行训练方法</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 06_8.1.7 DLRM模型并行训练方法
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.7 DLRM模型并行训练方法</h3>
 <h4>背景与概述</h4>
 <p>Facebook的DLRM（Deep Learning Recommender Model）模型在推荐系统中的应用中，通过模型并行与数据并行的结合，解决了海量数据训练中的计算瓶颈问题。DLRM模型通过Embedding层处理稀疏特征，并利用深度学习的优势，对用户行为和广告特征进行有效建模。在实际工程中，Facebook采用了高效的并行训练方法，保证了模型的实时性和效果。</p>
@@ -126,21 +131,16 @@ Content: 06_8.1.7 DLRM模型并行训练方法
 <h4>结论</h4>
 <p>Facebook的DLRM模型通过模型并行和数据并行的结合，实现了高效的并行训练方法，在广告推荐、新闻推荐等应用中表现出色。通过优化特征处理、前向传播和梯度计算等环节，DLRM模型在大规模数据训练中发挥了重要作用，为其他推荐系统的并行训练提供了宝贵的经验和参考  。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 06_8.1.7 DLRM模型并行训练方法
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 06_8.1.7 DLRM模型并行训练方法
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

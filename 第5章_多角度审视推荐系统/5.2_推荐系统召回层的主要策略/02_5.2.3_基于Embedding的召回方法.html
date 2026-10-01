@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_5.2.3_基于Embedding的召回方法</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>5.2.3 基于Embedding的召回方法</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_5.2.3 基于Embedding的召回方法</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+<pre><code>Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
 Content: 02_5.2.3 基于Embedding的召回方法
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>5.2.3 基于Embedding的召回方法</h3>
 <p>在推荐系统中，基于Embedding的召回方法是近年来逐渐流行的一种技术手段。相较于传统的基于规则或简单模型的召回方法，基于Embedding的召回方法具有更高的灵活性和更强的表达能力。以下是对基于Embedding召回方法的详细分析。</p>
 <h4>一、Embedding的基本概念</h4>
@@ -113,21 +118,16 @@ Content: 02_5.2.3 基于Embedding的召回方法
 <h4>总结</h4>
 <p>基于Embedding的召回方法在推荐系统中具有显著的优势，通过将多种信息融合在高维向量中，能够捕捉复杂的用户和物品关系，实现高效、准确的推荐。在实际应用中，通过局部敏感哈希等技术进一步优化计算效率，使其成为一种兼具效果和速度的召回策略。未来，随着深度学习和Embedding技术的不断发展，基于Embedding的召回方法将在推荐系统中发挥越来越重要的作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_5.2.3 基于Embedding的召回方法
+
+"""
+Lecture: 第5章 多角度审视推荐系统/5.2 推荐系统召回层的主要策略
+Content: 02_5.2.3 基于Embedding的召回方法
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

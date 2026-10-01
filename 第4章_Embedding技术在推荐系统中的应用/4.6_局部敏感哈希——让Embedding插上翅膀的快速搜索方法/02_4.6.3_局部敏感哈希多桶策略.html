@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_4.6.3_局部敏感哈希多桶策略</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.6.3 局部敏感哈希多桶策略</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_4.6.3 局部敏感哈希多桶策略</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
 Content: 02_4.6.3 局部敏感哈希多桶策略
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.6.3 局部敏感哈希多桶策略</h3>
 <h4>背景与概述</h4>
 <p>局部敏感哈希（Locality Sensitive Hashing, LSH）是一种高效的近邻搜索方法，通过将高维数据映射到低维空间并利用哈希函数将相近的数据点放入同一个桶中，实现快速的相似性搜索。传统的LSH方法使用单一哈希函数进行分桶，但这种方法可能会出现误判和漏检的情况。为了解决这个问题，LSH引入了多桶策略，通过多个哈希函数组合来提高搜索的准确性和效率。</p>
@@ -90,21 +95,16 @@ Content: 02_4.6.3 局部敏感哈希多桶策略
 <h4>结论</h4>
 <p>局部敏感哈希多桶策略通过构建多个哈希函数，并使用“与”或“或”操作组合哈希值，实现了高效的相似性搜索。相比于单一哈希函数，多桶策略显著提高了搜索的准确性和效率，是推荐系统中重要的技术手段。在实际应用中，通过优化哈希函数和组合策略，可以进一步提高LSH的搜索性能和效果    。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_4.6.3 局部敏感哈希多桶策略
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.6 局部敏感哈希——让Embedding插上翅膀的快速搜索方法
+Content: 02_4.6.3 局部敏感哈希多桶策略
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

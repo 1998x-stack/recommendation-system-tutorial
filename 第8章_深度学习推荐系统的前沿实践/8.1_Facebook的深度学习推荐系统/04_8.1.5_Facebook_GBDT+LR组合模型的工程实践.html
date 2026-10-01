@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>04_8.1.5_Facebook_GBDT+LR组合模型的工程实践</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.5 Facebook GBDT+LR组合模型的工程实践</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>04_8.1.5 Facebook GBDT+LR组合模型的工程实践</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 04_8.1.5 Facebook GBDT+LR组合模型的工程实践
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.5 Facebook GBDT+LR组合模型的工程实践</h3>
 <h4>背景与概述</h4>
 <p>Facebook的GBDT+LR组合模型应用于其广告推荐系统，尽管这项工作早在2014年就已开展，但其工程实践和经验仍然值得我们学习和借鉴。以下是该工程实践中的三大亮点：特征工程模型化、模型复杂性与实效性的权衡、数据验证的重要性。</p>
@@ -72,21 +77,16 @@ Content: 04_8.1.5 Facebook GBDT+LR组合模型的工程实践
 <h4>结论</h4>
 <p>Facebook的GBDT+LR组合模型通过特征工程模型化、模型复杂性与实效性的权衡以及数据验证的重要性，为广告推荐系统提供了高效的CTR预估方案。这一实践经验在广告推荐、新闻推荐等多个应用场景中表现出色，为其他平台提供了宝贵的参考和借鉴。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 04_8.1.5 Facebook GBDT+LR组合模型的工程实践
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 04_8.1.5 Facebook GBDT+LR组合模型的工程实践
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

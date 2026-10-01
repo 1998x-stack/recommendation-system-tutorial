@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_6.2.1_Spark的分布式计算原理</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.2.1 Spark的分布式计算原理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_6.2.1 Spark的分布式计算原理</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
 Content: 00_6.2.1 Spark的分布式计算原理
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.2.1 Spark的分布式计算原理</h3>
 <h4>背景</h4>
 <p>Apache Spark是一个开源的分布式计算系统，旨在以高速、易用的方式进行大规模数据处理。与传统的Hadoop MapReduce相比，Spark提供了基于内存的计算机制，大大提高了计算性能。Spark的核心是其分布式计算引擎，支持大规模的数据并行处理和实时数据流处理。</p>
@@ -112,21 +117,16 @@ Content: 00_6.2.1 Spark的分布式计算原理
 <h4>结论</h4>
 <p>Spark的分布式计算原理在大规模数据处理和分析中具有重要作用。通过RDD和DAG调度，Spark实现了高效的并行计算和容错性，显著提高了计算性能和可靠性。随着大数据技术的不断发展，Spark将在推荐系统和其他大数据应用中发挥越来越重要的作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_6.2.1 Spark的分布式计算原理
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
+Content: 00_6.2.1 Spark的分布式计算原理
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

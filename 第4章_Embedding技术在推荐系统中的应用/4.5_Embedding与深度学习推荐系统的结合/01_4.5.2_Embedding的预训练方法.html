@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_4.5.2_Embedding的预训练方法</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>4.5.2 Embedding的预训练方法</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_4.5.2 Embedding的预训练方法</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
+<pre><code>Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
 Content: 01_4.5.2 Embedding的预训练方法
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>4.5.2 Embedding的预训练方法</h3>
 <h4>背景与概述</h4>
 <p>在深度学习推荐系统中，Embedding层的训练通常需要大量的计算资源和时间。因此，Embedding的预训练方法应运而生。这种方法通过在深度学习网络训练之前独立训练Embedding层，从而加速整个网络的收敛速度，提高推荐系统的性能。Embedding的预训练不仅可以利用已有的模型和数据，还可以结合多种补充信息，增强Embedding的表达能力。</p>
@@ -53,21 +58,16 @@ Content: 01_4.5.2 Embedding的预训练方法
 <h3>结论</h3>
 <p>Embedding的预训练方法通过独立训练Embedding层，利用预训练向量初始化模型，有效加快了深度学习网络的收敛速度，减少了计算开销，并增强了Embedding的表达能力。这种方法在推荐系统中得到了广泛应用和验证，是提高推荐系统性能的有效手段。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_4.5.2 Embedding的预训练方法
+
+"""
+Lecture: 第4章 Embedding技术在推荐系统中的应用/4.5 Embedding与深度学习推荐系统的结合
+Content: 01_4.5.2 Embedding的预训练方法
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

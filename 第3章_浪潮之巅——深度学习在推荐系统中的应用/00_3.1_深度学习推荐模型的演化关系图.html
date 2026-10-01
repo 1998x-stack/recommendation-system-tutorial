@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_3.1_深度学习推荐模型的演化关系图</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.1 深度学习推荐模型的演化关系图</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_3.1 深度学习推荐模型的演化关系图</h1>
-<p>&quot;&quot;&quot;
-Lecture: /第3章 浪潮之巅——深度学习在推荐系统中的应用
+<pre><code>Lecture: /第3章 浪潮之巅——深度学习在推荐系统中的应用
 Content: 00_3.1 深度学习推荐模型的演化关系图
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>00_3.1 深度学习推荐模型的演化关系图</h3>
 <h4>1. 概述</h4>
 <p>深度学习在推荐系统中的应用经历了迅速的发展和演变。图3-1展示了主流深度学习推荐模型的演化关系。这些模型以多层感知机（MLP）为核心，通过改变神经网络的结构，构建出各具特色的深度学习推荐模型。其主要的演变方向如下：</p>
@@ -203,21 +208,16 @@ Content: 00_3.1 深度学习推荐模型的演化关系图
 <h3>总结</h3>
 <p>深度学习推荐模型通过不断演化，逐步提高了模型的表达能力和推荐效果。各类模型在处理特征交叉、捕捉用户兴趣、动态调整推荐策略等方面各有优势，推荐系统工程师需要根据具体应用场景选择最合适的模型，并通过不断的调参和优化，提升推荐系统的性能和用户满意度。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_3.1 深度学习推荐模型的演化关系图
+
+"""
+Lecture: /第3章 浪潮之巅——深度学习在推荐系统中的应用
+Content: 00_3.1 深度学习推荐模型的演化关系图
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

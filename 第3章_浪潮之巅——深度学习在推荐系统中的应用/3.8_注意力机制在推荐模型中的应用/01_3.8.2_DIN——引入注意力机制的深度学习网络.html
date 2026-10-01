@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_3.8.2_DIN——引入注意力机制的深度学习网络</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.8.2 DIN——引入注意力机制的深度学习网络</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_3.8.2 DIN——引入注意力机制的深度学习网络</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
 Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>3.8.2 DIN——引入注意力机制的深度学习网络</h3>
 <h4>1. 背景和动机</h4>
 <p>在推荐系统中，用户的行为数据是非常宝贵的资源，如何有效地利用这些数据来提升推荐效果是研究的重点。阿里巴巴提出的DIN（Deep Interest Network）模型，通过引入注意力机制，解决了用户行为数据利用不足的问题，使得推荐系统能够更精准地捕捉用户的兴趣点，从而提高推荐效果。</p>
@@ -68,17 +73,16 @@ Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
 <p><strong>计算注意力得分</strong>：</p>
 <ul>
 <li>使用一个小型神经网络（注意力激活单元），将每个历史行为的Embedding向量$$ \mathbf{e}_i $$与候选广告的Embedding向量$$ \mathbf{a} $$进行拼接，得到输入向量$$ \mathbf{h}_i = [\mathbf{e}_i; \mathbf{a}] $$。</li>
-<li>通过全连接层和激活函数（如ReLU或tanh），计算出注意力得分$$ \alpha_i $$：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>=</mo><mtext><mi mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mtext><mo>(</mo><mrow><mi mathvariant="bold">W</mi></mrow><mo>⋅</mo><msub><mrow><mi mathvariant="bold">h</mi></mrow><mi>i</mi></msub><mo>+</mo><mrow><mi mathvariant="bold">b</mi></mrow><mo>)</mo></mrow><annotation encoding="application/x-tex">\alpha_i = \text{softmax}(\mathbf{W} \cdot \mathbf{h}_i + \mathbf{b}) 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.0037em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="text mord displaystyle textstyle uncramped"><span class="mord mathrm">s</span><span class="mord mathrm">o</span><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">t</span><span class="mord mathrm">m</span><span class="mord mathrm">a</span><span class="mord mathrm">x</span></span><span class="mopen">(</span><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf" style="margin-right:0.01597em;">W</span></span><span class="mbin">⋅</span><span class=""><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">h</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">b</span></span><span class="mclose">)</span></span></span></span></span></p>
+<li>通过全连接层和激活函数（如ReLU或tanh），计算出注意力得分$$ \alpha_i $$：
+$$ \alpha_i = \text{softmax}(\mathbf{W} \cdot \mathbf{h}_i + \mathbf{b}) $$
 其中，$$ \mathbf{W} $$是权重矩阵，$$ \mathbf{b} $$是偏置向量。</li>
 </ul>
 </li>
 <li>
 <p><strong>softmax归一化</strong>：</p>
 <ul>
-<li>为了使得所有历史行为的注意力得分和为1，对每个注意力得分进行softmax归一化：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><mi>exp</mi><mo>(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>)</mo></mrow><mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi></mrow></msubsup><mi>exp</mi><mo>(</mo><msub><mi>α</mi><mi>j</mi></msub><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\alpha_i = \frac{\exp(\alpha_i)}{\sum_{j=1}^{n} \exp(\alpha_j)} 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.427em;"></span><span class="strut bottom" style="height:2.549118em;vertical-align:-1.122118em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.0037em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.6859999999999999em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mop"><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">∑</span><span class="vlist"><span style="top:0.30001em;margin-left:0em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.05724em;">j</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.364em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">n</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop">exp</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.0037em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.05724em;">j</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mop">exp</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.0037em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
-</li>
+<li>为了使得所有历史行为的注意力得分和为1，对每个注意力得分进行softmax归一化：
+$$ \alpha_i = \frac{\exp(\alpha_i)}{\sum_{j=1}^{n} \exp(\alpha_j)} $$</li>
 </ul>
 </li>
 </ol>
@@ -88,17 +92,15 @@ Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
 <li>
 <p><strong>加权处理</strong>：</p>
 <ul>
-<li>将每个历史行为的Embedding向量$$ \mathbf{e}_i $$与对应的注意力得分$$ \alpha_i $$相乘：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mrow><mi mathvariant="bold">e</mi></mrow><mi>i</mi><mrow><mi mathvariant="normal">′</mi></mrow></msubsup><mo>=</mo><msub><mi>α</mi><mi>i</mi></msub><mo>⋅</mo><msub><mrow><mi mathvariant="bold">e</mi></mrow><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{e}_i&#x27; = \alpha_i \cdot \mathbf{e}_i 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8018919999999999em;"></span><span class="strut bottom" style="height:1.048892em;vertical-align:-0.247em;"></span><span class="base displaystyle textstyle uncramped"><span class=""><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">e</span></span><span class="vlist"><span style="top:0.247em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span style="top:-0.4129999999999999em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.0037em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">⋅</span><span class=""><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">e</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
-</li>
+<li>将每个历史行为的Embedding向量$$ \mathbf{e}_i $$与对应的注意力得分$$ \alpha_i $$相乘：
+$$ \mathbf{e}_i' = \alpha_i \cdot \mathbf{e}_i $$</li>
 </ul>
 </li>
 <li>
 <p><strong>池化操作</strong>：</p>
 <ul>
-<li>将所有加权后的Embedding向量进行求和，得到加权后的用户兴趣向量$$ \mathbf{u} $$：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="bold">u</mi></mrow><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi></mrow></msubsup><msubsup><mrow><mi mathvariant="bold">e</mi></mrow><mi>i</mi><mrow><mi mathvariant="normal">′</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathbf{u} = \sum_{i=1}^{n} \mathbf{e}_i&#x27; 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.6513970000000002em;"></span><span class="strut bottom" style="height:2.929066em;vertical-align:-1.277669em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">u</span></span><span class="mrel">=</span><span class="mop op-limits"><span class="vlist"><span style="top:1.1776689999999999em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.000005000000000143778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span style="top:-1.2500050000000003em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit">n</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class=""><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">e</span></span><span class="vlist"><span style="top:0.247em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span style="top:-0.4129999999999999em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
-</li>
+<li>将所有加权后的Embedding向量进行求和，得到加权后的用户兴趣向量$$ \mathbf{u} $$：
+$$ \mathbf{u} = \sum_{i=1}^{n} \mathbf{e}_i' $$</li>
 </ul>
 </li>
 </ol>
@@ -108,9 +110,8 @@ Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
 <li>
 <p><strong>特征拼接</strong>：</p>
 <ul>
-<li>将加权后的用户兴趣向量$$ \mathbf{u} $$与候选广告特征向量$$ \mathbf{a} $$进行拼接：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="bold">v</mi></mrow><mo>=</mo><mo>[</mo><mrow><mi mathvariant="bold">u</mi></mrow><mo separator="true">;</mo><mrow><mi mathvariant="bold">a</mi></mrow><mo>]</mo></mrow><annotation encoding="application/x-tex">\mathbf{v} = [\mathbf{u}; \mathbf{a}] 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf" style="margin-right:0.01597em;">v</span></span><span class="mrel">=</span><span class="mopen">[</span><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">u</span></span><span class="mpunct">;</span><span class="mord displaystyle textstyle uncramped"><span class="mord mathbf">a</span></span><span class="mclose">]</span></span></span></span></span></p>
-</li>
+<li>将加权后的用户兴趣向量$$ \mathbf{u} $$与候选广告特征向量$$ \mathbf{a} $$进行拼接：
+$$ \mathbf{v} = [\mathbf{u}; \mathbf{a}] $$</li>
 </ul>
 </li>
 <li>
@@ -129,21 +130,89 @@ Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
 <h3>总结</h3>
 <p>通过引入注意力机制，DIN模型能够对用户的历史行为进行加权处理，从而更精准地捕捉用户对当前广告的兴趣。这一创新不仅提升了模型的表达能力和预测精度，还使得模型能够更好地适应复杂的推荐场景。在实际应用中，DIN模型展示了强大的性能优势，为推荐系统的发展提供了新的思路和方法。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_3.8.2 DIN——引入注意力机制的深度学习网络
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.8 注意力机制在推荐模型中的应用
+Content: 01_3.8.2 DIN——引入注意力机制的深度学习网络
+"""
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+
+class AttentionNet(nn.Module):
+    def __init__(self, embed_dim):
+        super(AttentionNet, self).__init__()
+        self.attention_fc = nn.Linear(embed_dim * 2, 1)
+    
+    def forward(self, user_embed, ad_embed):
+        concat = torch.cat((user_embed, ad_embed), dim=-1)
+        attention_score = self.attention_fc(concat)
+        attention_weight = F.softmax(attention_score, dim=1)
+        return attention_weight
+
+class DIN(nn.Module):
+    def __init__(self, num_features, embed_dim):
+        super(DIN, self).__init__()
+        self.num_features = num_features
+        self.embed_dim = embed_dim
+
+        # Embedding层
+        self.embeddings = nn.Embedding(num_features, embed_dim)
+
+        # 注意力网络
+        self.attention_net = AttentionNet(embed_dim)
+
+        # 输出层
+        self.output_fc = nn.Sequential(
+            nn.Linear(embed_dim * 2, 64),
+            nn.ReLU(),
+            nn.Linear(64, 32),
+            nn.ReLU(),
+            nn.Linear(32, 1)
+        )
+
+    def forward(self, user_hist, ad_feature):
+        user_embed = self.embeddings(user_hist).view(-1, user_hist.size(1), self.embed_dim)
+        ad_embed = self.embeddings(ad_feature).view(-1, self.embed_dim)
+
+        attention_weight = self.attention_net(user_embed, ad_embed)
+        weighted_user_embed = torch.sum(attention_weight * user_embed, dim=1)
+
+        concat = torch.cat((weighted_user_embed, ad_embed), dim=-1)
+        output = self.output_fc(concat)
+        return output
+
+# 数据准备
+num_features = 10000
+embed_dim = 32
+batch_size = 64
+num_epochs = 10
+seq_length = 10
+
+# 生成示例数据
+user_hist = torch.randint(0, num_features, (batch_size, seq_length))
+ad_feature = torch.randint(0, num_features, (batch_size,))
+y = torch.randn(batch_size, 1)
+
+# 初始化模型
+model = DIN(num_features, embed_dim)
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+criterion = nn.MSELoss()
+
+# 训练模型
+for epoch in range(num_epochs):
+    model.train()
+    optimizer.zero_grad()
+    outputs = model(user_hist, ad_feature)
+    loss = criterion(outputs, y)
+    loss.backward()
+    optimizer.step()
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_2.2.4_ItemCF</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.2.4 ItemCF</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_2.2.4 ItemCF</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
 Content: 03_2.2.4 ItemCF
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>2.2.4 ItemCF</h3>
 <h4>1. 概述</h4>
 <p>ItemCF（基于物品的协同过滤）是一种利用物品之间的相似度进行推荐的协同过滤算法。不同于UserCF（基于用户的协同过滤），ItemCF通过分析用户对物品的评分数据，计算物品之间的相似度，从而为用户推荐相似的物品。ItemCF被广泛应用于实际的推荐系统中，如Amazon和Netflix。</p>
@@ -30,10 +35,9 @@ Content: 03_2.2.4 ItemCF
 <p>利用物品相似度矩阵，针对目标用户历史行为中的正反馈物品，找出相似的Top k个物品，组成相似物品集合。</p>
 <h5>2.5 生成推荐列表</h5>
 <p>对相似物品集合中的物品，根据相似度分值进行排序，生成最终的推荐列表。在这一过程中，如果一个物品与多个用户行为历史中的正反馈物品相似，那么该物品最终的相似度应该是多个相似度的累加。</p>
-<p>公式如下：</p>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mtext><mi mathvariant="normal">S</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">m</mi></mtext><mrow><mtext><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi></mtext></mrow></msub><mo>(</mo><mi>p</mi><mo separator="true">,</mo><mi>q</mi><mo>)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>h</mi><mo>∈</mo><mi>H</mi></mrow></msub><msub><mi>w</mi><mrow><mi>p</mi><mo separator="true">,</mo><mi>h</mi></mrow></msub><mo>⋅</mo><msub><mi>R</mi><mrow><mi>u</mi><mo separator="true">,</mo><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\text{Sim}_{\text{item}}(p, q) = \sum_{h \in H} w_{p, h} \cdot R_{u, h} 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.050005em;"></span><span class="strut bottom" style="height:2.3794880000000003em;vertical-align:-1.329483em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="text mord displaystyle textstyle uncramped"><span class="mord mathrm">S</span><span class="mord mathrm">i</span><span class="mord mathrm">m</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm">i</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">m</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">p</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="mclose">)</span><span class="mrel">=</span><span class="mop op-limits"><span class="vlist"><span style="top:1.202113em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">h</span><span class="mrel">∈</span><span class="mord mathit" style="margin-right:0.08125em;">H</span></span></span></span><span style="top:-0.000005000000000032756em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">p</span><span class="mpunct">,</span><span class="mord mathit">h</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">⋅</span><span class="mord"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.00773em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mord mathit">h</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
-<p>其中，$ H 是目标用户的正反馈物品集合， w_{p, h} $是物品 $ p $与物品 $ h 的相似度， R_{u, h} $是用户 $ u $对物品 $ h $的已有评分  。</p>
+<p>公式如下：
+$$ \text{Sim}<em>{\text{item}}(p, q) = \sum</em>{h \in H} w_{p, h} \cdot R_{u, h} $$</p>
+<p>其中，$ H $是目标用户的正反馈物品集合，$ w_{p, h} $是物品 $ p $与物品 $ h $的相似度，$ R_{u, h} $是用户 $ u $对物品 $ h $的已有评分  。</p>
 <h4>3. ItemCF的优缺点分析</h4>
 <h5>优点</h5>
 <ol>
@@ -55,21 +59,129 @@ Content: 03_2.2.4 ItemCF
 <p>ItemCF作为一种经典的推荐算法，通过计算物品之间的相似度进行推荐，解决了UserCF在数据稀疏性和扩展性上的问题。然而，ItemCF同样面临冷启动和计算复杂度高的问题。在实际应用中，可以结合多种推荐算法，如混合推荐系统，进一步提高推荐的准确性和用户体验。</p>
 <hr>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_2.2.4 ItemCF
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+Content: 03_2.2.4 ItemCF
+"""
+
+import numpy as np
+from typing import Dict, List, Tuple
+
+class ItemCollaborativeFiltering:
+    def __init__(self, user_item_matrix: np.ndarray):
+        """
+        初始化基于物品的协同过滤类
+
+        Args:
+            user_item_matrix (np.ndarray): 用户-物品评分矩阵
+        """
+        self.user_item_matrix = user_item_matrix
+        self.item_similarity_matrix = self.compute_item_similarities()
+
+    def compute_item_similarities(self) -> np.ndarray:
+        """
+        计算所有物品之间的相似度矩阵
+
+        Returns:
+            np.ndarray: 物品相似度矩阵
+        """
+        num_items = self.user_item_matrix.shape[1]
+        item_similarity_matrix = np.zeros((num_items, num_items))
+
+        for item1 in range(num_items):
+            for item2 in range(item1 + 1, num_items):
+                similarity = self.cosine_similarity(item1, item2)
+                item_similarity_matrix[item1, item2] = similarity
+                item_similarity_matrix[item2, item1] = similarity
+
+        return item_similarity_matrix
+
+    def cosine_similarity(self, item1: int, item2: int) -> float:
+        """
+        计算两个物品之间的余弦相似度
+
+        Args:
+            item1 (int): 物品1的索引
+            item2 (int): 物品2的索引
+
+        Returns:
+            float: 余弦相似度
+        """
+        vec1 = self.user_item_matrix[:, item1]
+        vec2 = self.user_item_matrix[:, item2]
+        dot_product = np.dot(vec1, vec2)
+        norm1 = np.linalg.norm(vec1)
+        norm2 = np.linalg.norm(vec2)
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+        return dot_product / (norm1 * norm2)
+
+    def predict_rating(self, user: int, item: int, top_n: int = 10) -> float:
+        """
+        预测用户对物品的评分
+
+        Args:
+            user (int): 用户索引
+            item (int): 物品索引
+            top_n (int): 使用相似物品的数量
+
+        Returns:
+            float: 预测评分
+        """
+        similar_items = sorted([(other, self.item_similarity_matrix[item, other])
+                                for other in range(self.user_item_matrix.shape[1]) if other != item],
+                               key=lambda x: x[1], reverse=True)[:top_n]
+        numerator = sum(sim * self.user_item_matrix[user, other] for other, sim in similar_items if self.user_item_matrix[user, other] > 0)
+        denominator = sum(abs(sim) for other, sim in similar_items if self.user_item_matrix[user, other] > 0)
+        if denominator == 0:
+            return 0.0
+        return numerator / denominator
+
+    def generate_recommendations(self, user: int, top_k: int = 5) -> List[Tuple[int, float]]:
+        """
+        为用户生成推荐列表
+
+        Args:
+            user (int): 用户索引
+            top_k (int): 推荐的物品数量
+
+        Returns:
+            List[Tuple[int, float]]: 推荐的物品列表和预测评分
+        """
+        user_ratings = self.user_item_matrix[user]
+        predicted_ratings = []
+        for item in range(user_ratings.shape[0]):
+            if user_ratings[item] == 0:  # 仅对未评分的物品进行预测
+                predicted_rating = self.predict_rating(user, item)
+                predicted_ratings.append((item, predicted_rating))
+        # 对预测评分进行排序并返回Top K的物品
+        recommended_items = sorted(predicted_ratings, key=lambda x: x[1], reverse=True)[:top_k]
+        return recommended_items
+
+def main():
+    # 示例用户-物品评分矩阵
+    user_item_matrix = np.array([
+        [5, 3, 0, 1],
+        [4, 0, 0, 1],
+        [1, 1, 0, 5],
+        [1, 0, 0, 4],
+        [0, 1, 5, 4],
+    ])
+
+    # 初始化基于物品的协同过滤模型
+    item_cf = ItemCollaborativeFiltering(user_item_matrix)
+
+    # 为用户0生成推荐列表
+    recommendations = item_cf.generate_recommendations(user=0, top_k=3)
+    print(f"Recommendations for User 0: {recommendations}")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

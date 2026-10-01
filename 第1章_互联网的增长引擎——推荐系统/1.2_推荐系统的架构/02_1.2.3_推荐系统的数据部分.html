@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_1.2.3_推荐系统的数据部分</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.2.3 推荐系统的数据部分</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_1.2.3 推荐系统的数据部分</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
+<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
 Content: 02_1.2.3 推荐系统的数据部分
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>02_1.2.3 推荐系统的数据部分：极致详细分析</h3>
 <h4>一、推荐系统的数据部分概述</h4>
 <p>推荐系统的数据部分是整个系统的基础，负责收集、处理和管理用户、物品以及场景信息。这些信息为推荐模型提供了必要的输入数据，从而生成个性化的推荐结果。数据部分的核心任务是保证数据的准确性、完整性和实时性。</p>
@@ -128,21 +133,16 @@ Content: 02_1.2.3 推荐系统的数据部分
 <h3>结论</h3>
 <p>推荐系统的数据部分是整个系统的基础，涉及数据的收集、处理和输出等多个环节。通过高效的数据处理技术和架构，推荐系统能够为推荐模型提供准确、完整和实时的数据支持，从而生成高质量的推荐结果。未来，推荐系统将在数据融合、实时处理和智能分析方面不断发展，带来更多创新和应用价值。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_1.2.3 推荐系统的数据部分
+
+"""
+Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
+Content: 02_1.2.3 推荐系统的数据部分
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

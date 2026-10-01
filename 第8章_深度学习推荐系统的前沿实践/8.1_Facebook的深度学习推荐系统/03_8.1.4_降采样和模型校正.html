@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_8.1.4_降采样和模型校正</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.4 降采样和模型校正</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_8.1.4 降采样和模型校正</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 03_8.1.4 降采样和模型校正
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.4 降采样和模型校正</h3>
 <h4>背景与概述</h4>
 <p>在推荐系统的CTR（点击率）预估中，数据规模庞大且正负样本不均衡，给模型的训练和预测带来了挑战。为了控制数据规模和提高训练效率，Facebook采用了两种降采样方法：均匀采样（uniform subsampling）和负样本降采样（negative down sampling）。本文将详细探讨这两种降采样方法及其在模型校正中的应用。</p>
@@ -51,9 +56,11 @@ Content: 03_8.1.4 降采样和模型校正
 <p><strong>问题与校正</strong>：</p>
 <ul>
 <li>负采样带来的问题是CTR预估值的漂移。例如，假设真实CTR是0.1%，进行0.01的负采样后，CTR将攀升到10%左右。</li>
-<li>为了进行准确的竞价及ROI预估，CTR预估模型需要提供准确的、有物理意义的CTR值。因此在进行负采样后需要进行CTR的校正，使CTR模型的预估值的期望回到0.1%。校正的公式如下：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>q</mi><mo>=</mo><mfrac><mrow><mi>p</mi></mrow><mrow><mi>w</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">q = \frac{p}{w}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.10756em;"></span><span class="strut bottom" style="height:1.7935600000000003em;vertical-align:-0.686em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="mrel">=</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.02691em;">w</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathit">p</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
-其中，$ q 是校正后的CTR， p 是模型的预估CTR， w $是负采样频率。</li>
+<li>为了进行准确的竞价及ROI预估，CTR预估模型需要提供准确的、有物理意义的CTR值。因此在进行负采样后需要进行CTR的校正，使CTR模型的预估值的期望回到0.1%。校正的公式如下：
+$$
+q = \frac{p}{w}
+$$
+其中，$ q $是校正后的CTR，$ p $是模型的预估CTR，$ w $是负采样频率。</li>
 </ul>
 </li>
 </ol>
@@ -81,21 +88,16 @@ Content: 03_8.1.4 降采样和模型校正
 <h4>结论</h4>
 <p>通过均匀采样和负样本降采样方法，Facebook在推荐系统中有效控制了数据规模，提高了模型的训练效率和预测准确性。这两种方法在广告推荐、新闻推荐等应用场景中表现出色，为其他推荐系统提供了宝贵的经验和参考。在未来的研究和应用中，可以进一步优化采样策略和模型校正方法，提升推荐系统的整体性能和效果。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_8.1.4 降采样和模型校正
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 03_8.1.4 降采样和模型校正
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

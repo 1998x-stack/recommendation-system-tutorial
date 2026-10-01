@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_3.6.1_模型的记忆能力与泛化能力</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.6.1 模型的记忆能力与泛化能力</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_3.6.1 模型的记忆能力与泛化能力</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.6 Wide&amp;Deep 模型——记忆能力和泛化能力的综合
+<pre><code>Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.6 Wide&amp;Deep 模型——记忆能力和泛化能力的综合
 Content: 00_3.6.1 模型的记忆能力与泛化能力
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>模型的记忆能力与泛化能力</h3>
 <h4>一、引言</h4>
 <p>Wide &amp; Deep 模型是 Google 于 2016 年提出的一种混合模型，旨在结合记忆能力和泛化能力，从而提升推荐系统的性能。以下将详细解释模型的记忆能力与泛化能力。</p>
@@ -51,21 +56,16 @@ Content: 00_3.6.1 模型的记忆能力与泛化能力
 <h4>五、总结</h4>
 <p>Wide &amp; Deep 模型通过结合 Wide 部分的记忆能力和 Deep 部分的泛化能力，形成了一个强大的混合模型。这种设计使模型能够快速处理并记忆大量历史行为特征，同时具有强大的表达能力，能够深度发掘数据中的潜在模式。因此，Wide &amp; Deep 模型在各种推荐系统中表现出色，成为业界主流模型之一 。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_3.6.1 模型的记忆能力与泛化能力
+
+"""
+Lecture: 第3章 浪潮之巅——深度学习在推荐系统中的应用/3.6 Wide&Deep 模型——记忆能力和泛化能力的综合
+Content: 00_3.6.1 模型的记忆能力与泛化能力
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

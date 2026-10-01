@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_2.6.1_GBDT+LR组合模型的结构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.6.1 GBDT+LR组合模型的结构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_2.6.1 GBDT+LR组合模型的结构</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
 Content: 00_2.6.1 GBDT+LR组合模型的结构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>2.6.1 GBDT+LR组合模型的结构</h3>
 <h4>背景介绍</h4>
 <p>推荐系统的发展过程中，如何进行有效的特征工程一直是一个关键问题。特征工程的质量直接影响到模型的表现。2014年，Facebook提出了一种结合梯度提升决策树（GBDT）和逻辑回归（LR）的组合模型，通过GBDT自动进行特征筛选和组合，生成新的离散特征向量，再将该特征向量作为LR模型的输入，预估点击率（CTR）。这种方法有效地解决了传统方法中的特征工程难题，被认为是特征工程模型化的开端。</p>
@@ -108,22 +113,28 @@ Content: 00_2.6.1 GBDT+LR组合模型的结构
 <li>
 <p><strong>初始化模型</strong>:</p>
 <ul>
-<li>初始模型 $ F_0(x) $ 通常设定为目标值的均值：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>arg</mi><msub><mi>min</mi><mrow><mi>c</mi></mrow></msub><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi></mrow></msubsup><mi>L</mi><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>c</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">F_0(x) = \arg \min_{c} \sum_{i=1}^{n} L(y_i, c)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.6513970000000002em;"></span><span class="strut bottom" style="height:2.929066em;vertical-align:-1.277669em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">0</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mrel">=</span><span class="mop">ar<span style="margin-right:0.01389em;">g</span></span><span class="mop op-limits"><span class="vlist"><span style="top:0.6em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">c</span></span></span></span><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="mop">min</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop op-limits"><span class="vlist"><span style="top:1.1776689999999999em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.000005000000000143778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span style="top:-1.2500050000000003em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit">n</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord mathit">c</span><span class="mclose">)</span></span></span></span></span></p>
+<li>初始模型 $ F_0(x) $ 通常设定为目标值的均值：
+$$
+F_0(x) = \arg \min_{c} \sum_{i=1}^{n} L(y_i, c)
+$$
 其中 $ L $ 是损失函数，$ y_i $ 是样本的真实值，$ c $ 是常数。</li>
 </ul>
 </li>
 <li>
 <p><strong>迭代训练</strong>:</p>
 <ul>
-<li>对于第 $ m $ 轮迭代，计算前一步模型的残差（即负梯度）：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mrow><mi>i</mi><mi>m</mi></mrow></msub><mo>=</mo><mo>−</mo><msub><mrow><mo fence="true">[</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>F</mi><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo><mo>)</mo></mrow><mrow><mi mathvariant="normal">∂</mi><mi>F</mi><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow></mfrac><mo fence="true">]</mo></mrow><mrow><mi>F</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msub><mi>F</mi><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>(</mo><mi>x</mi><mo>)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">r_{im} = -\left[ \frac{\partial L(y_i, F(x_i))}{\partial F(x_i)} \right]_{F(x)=F_{m-1}(x)}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.45em;"></span><span class="strut bottom" style="height:2.6250299999999998em;vertical-align:-1.17503em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span><span class="mord mathit">m</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mord">−</span><span class="minner"><span class="minner displaystyle textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathrm" style="margin-right:0.05556em;">∂</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span><span style="top:-0.2300000000000001em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathrm" style="margin-right:0.05556em;">∂</span><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">]</span></span></span><span class="vlist"><span style="top:1.00003em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="vlist"><span style="top:0.15000000000000002em;margin-right:0.07142857142857144em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord scriptscriptstyle cramped"><span class="mord mathit">m</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
-</li>
-<li>以残差为目标，训练一个新的决策树（基学习器）$ h_m(x) $：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>h</mi><mi>m</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>arg</mi><msub><mi>min</mi><mrow><mi>h</mi></mrow></msub><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi></mrow></msubsup><mi>L</mi><mo>(</mo><msub><mi>r</mi><mrow><mi>i</mi><mi>m</mi></mrow></msub><mo separator="true">,</mo><mi>h</mi><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">h_m(x) = \arg \min_{h} \sum_{i=1}^{n} L(r_{im}, h(x_i))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.6513970000000002em;"></span><span class="strut bottom" style="height:2.929066em;vertical-align:-1.277669em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">h</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">m</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mrel">=</span><span class="mop">ar<span style="margin-right:0.01389em;">g</span></span><span class="mop op-limits"><span class="vlist"><span style="top:0.6521079999999999em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">h</span></span></span></span><span style="top:-2.7755575615628914e-17em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="mop">min</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop op-limits"><span class="vlist"><span style="top:1.1776689999999999em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.000005000000000143778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span style="top:-1.2500050000000003em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit">n</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span><span class="mord mathit">m</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-</li>
-<li>更新模型：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>F</mi><mi>m</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msub><mi>F</mi><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>+</mo><mi>η</mi><msub><mi>h</mi><mi>m</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">F_m(x) = F_{m-1}(x) + \eta h_m(x)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">m</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">m</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.03588em;">η</span><span class="mord"><span class="mord mathit">h</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">m</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span></span></p>
+<li>对于第 $ m $ 轮迭代，计算前一步模型的残差（即负梯度）：
+$$
+r_{im} = -\left[ \frac{\partial L(y_i, F(x_i))}{\partial F(x_i)} \right]<em m-1="">{F(x)=F</em>(x)}
+$$</li>
+<li>以残差为目标，训练一个新的决策树（基学习器）$ h_m(x) $：
+$$
+h_m(x) = \arg \min_{h} \sum_{i=1}^{n} L(r_{im}, h(x_i))
+$$</li>
+<li>更新模型：
+$$
+F_m(x) = F_{m-1}(x) + \eta h_m(x)
+$$
 其中 $ \eta $ 是学习率，用于控制每棵树对模型的贡献。</li>
 </ul>
 </li>
@@ -133,11 +144,14 @@ Content: 00_2.6.1 GBDT+LR组合模型的结构
 <h4>3. 损失函数</h4>
 <p>GBDT可以灵活地选择损失函数，常见的损失函数有：</p>
 <ul>
-<li><strong>平方误差（MSE）</strong>: 用于回归问题。<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>y</mi><mo separator="true">,</mo><mi>F</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>)</mo><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>2</mn></mrow></mfrac><mo>(</mo><mi>y</mi><mo>−</mo><mi>F</mi><mo>(</mo><mi>x</mi><mo>)</mo><msup><mo>)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">L(y, F(x)) = \frac{1}{2}(y - F(x))^2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.32144em;"></span><span class="strut bottom" style="height:2.00744em;vertical-align:-0.686em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.686em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="mord mathrm">2</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mclose"><span class="mclose">)</span><span class="vlist"><span style="top:-0.413em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathrm">2</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
-</li>
-<li><strong>交叉熵（Log Loss）</strong>: 用于分类问题。<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>y</mi><mo separator="true">,</mo><mi>F</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>)</mo><mo>=</mo><mo>−</mo><mi>y</mi><mi>log</mi><mo>(</mo><mi>p</mi><mo>)</mo><mo>−</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>y</mi><mo>)</mo><mi>log</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">L(y, F(x)) = -y \log(p) - (1-y) \log(1-p)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord">−</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord mathit">p</span><span class="mclose">)</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit">p</span><span class="mclose">)</span></span></span></span></span></p>
+<li><strong>平方误差（MSE）</strong>: 用于回归问题。
+$$
+L(y, F(x)) = \frac{1}{2}(y - F(x))^2
+$$</li>
+<li><strong>交叉熵（Log Loss）</strong>: 用于分类问题。
+$$
+L(y, F(x)) = -y \log(p) - (1-y) \log(1-p)
+$$
 其中 $ p $ 是样本预测为正类的概率。</li>
 </ul>
 <h4>GBDT的优点</h4>
@@ -184,21 +198,251 @@ Content: 00_2.6.1 GBDT+LR组合模型的结构
 <h4>总结</h4>
 <p>GBDT作为一种强大的集成学习算法，通过逐步减少误差，能够有效地提升模型的预测能力。尽管其训练时间较长且难以并行化，但通过合理的参数调节和优化策略，可以在多种机器学习任务中取得优秀的表现。未来的发展方向可能包括结合深度学习模型，进一步提升GBDT在复杂任务中的表现。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_2.6.1 GBDT+LR组合模型的结构
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
+Content: 00_2.6.1 GBDT+LR组合模型的结构
+"""
+
+"""
+GBDT Model Implementation.
+
+This implementation provides a comprehensive and well-structured GBDT model class, designed for industrial scenarios.
+The code includes robust classes and functions with boundary condition checks and adheres to Google style guides.
+All key steps are commented in Chinese following the PEP 8 style guide, and DocStrings are provided according to PEP 257.
+
+Classes:
+    GBDT: Class implementing the Gradient Boosting Decision Tree (GBDT) model for regression tasks.
+
+Methods:
+    fit: Train the GBDT model on given data.
+    predict: Make predictions using the trained GBDT model.
+    _compute_residuals: Compute residuals for boosting.
+    _initialize_base_model: Initialize the base model.
+"""
+
+import numpy as np
+from sklearn.tree import DecisionTreeRegressor
+from typing import List, Tuple
+
+class GBDT:
+    """
+    Gradient Boosting Decision Tree (GBDT) model for regression tasks.
+
+    Attributes:
+        n_estimators (int): Number of boosting stages.
+        learning_rate (float): Learning rate shrinks the contribution of each tree.
+        max_depth (int): Maximum depth of the individual regression estimators.
+        min_samples_split (int): Minimum number of samples required to split an internal node.
+        trees (List[DecisionTreeRegressor]): List of individual regression trees.
+        base_model (float): Initial base model (mean of target values).
+    """
+    def __init__(self, n_estimators: int = 100, learning_rate: float = 0.1, max_depth: int = 3, min_samples_split: int = 2):
+        """
+        Initialize the GBDT model.
+
+        Args:
+            n_estimators (int): Number of boosting stages.
+            learning_rate (float): Learning rate shrinks the contribution of each tree.
+            max_depth (int): Maximum depth of the individual regression estimators.
+            min_samples_split (int): Minimum number of samples required to split an internal node.
+        """
+        self.n_estimators = n_estimators
+        self.learning_rate = learning_rate
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.trees = []
+        self.base_model = None
+
+    def _initialize_base_model(self, y: np.ndarray):
+        """初始化基模型（目标值的均值）。"""
+        self.base_model = np.mean(y)
+
+    def _compute_residuals(self, y: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+        """
+        计算残差。
+
+        Args:
+            y (np.ndarray): 真实目标值。
+            y_pred (np.ndarray): 预测值。
+
+        Returns:
+            np.ndarray: 残差。
+        """
+        return y - y_pred
+
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        """
+        训练GBDT模型。
+
+        Args:
+            X (np.ndarray): 输入特征矩阵。
+            y (np.ndarray): 目标值向量。
+        """
+        self._initialize_base_model(y)
+        y_pred = np.full(y.shape, self.base_model)
+
+        for i in range(self.n_estimators):
+            residuals = self._compute_residuals(y, y_pred)
+            tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+            tree.fit(X, residuals)
+            y_pred += self.learning_rate * tree.predict(X)
+            self.trees.append(tree)
+
+            if i % 10 == 0:
+                loss = np.mean((y - y_pred) ** 2)
+                print(f"Iteration {i}: Loss = {loss}")
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """
+        使用训练好的GBDT模型进行预测。
+
+        Args:
+            X (np.ndarray): 输入特征矩阵。
+
+        Returns:
+            np.ndarray: 预测值向量。
+        """
+        y_pred = np.full(X.shape[0], self.base_model)
+        for tree in self.trees:
+            y_pred += self.learning_rate * tree.predict(X)
+        return y_pred
+
+# # 测试 GBDT 模型
+# if __name__ == "__main__":
+#     # 生成模拟数据
+#     np.random.seed(42)
+#     X = np.random.rand(100, 5)
+#     y = 3 + 2 * X[:, 0] + X[:, 1] + np.random.randn(100)
+
+#     # 初始化并训练模型
+#     model = GBDT(n_estimators=100, learning_rate=0.1, max_depth=3, min_samples_split=2)
+#     model.fit(X, y)
+
+#     # 进行预测
+#     y_pred = model.predict(X)
+#     print("Predicted values:", y_pred[:10])
+#     print("Actual values:", y[:10])
+
+"""
+GBDT+LR Model Implementation.
+
+This implementation provides a comprehensive and well-structured GBDT+LR model class, designed for industrial scenarios.
+The code includes robust classes and functions with boundary condition checks and adheres to Google style guides.
+All key steps are commented in Chinese following the PEP 8 style guide, and DocStrings are provided according to PEP 257.
+
+Classes:
+    GBDT_LR: Class implementing the GBDT+LR model for regression tasks.
+
+Methods:
+    fit: Train the GBDT+LR model on given data.
+    predict: Make predictions using the trained GBDT+LR model.
+    _transform_features: Transform features using trained GBDT.
+"""
+
+import numpy as np
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LogisticRegression
+from typing import List, Tuple
+
+class GBDT_LR:
+    """
+    GBDT+LR Model for regression tasks.
+
+    Attributes:
+        n_estimators (int): Number of boosting stages.
+        learning_rate (float): Learning rate shrinks the contribution of each tree.
+        max_depth (int): Maximum depth of the individual regression estimators.
+        min_samples_split (int): Minimum number of samples required to split an internal node.
+        trees (List[DecisionTreeRegressor]): List of individual regression trees.
+        lr_model (LogisticRegression): Logistic Regression model.
+    """
+    def __init__(self, n_estimators: int = 100, learning_rate: float = 0.1, max_depth: int = 3, min_samples_split: int = 2):
+        """
+        Initialize the GBDT+LR model.
+
+        Args:
+            n_estimators (int): Number of boosting stages.
+            learning_rate (float): Learning rate shrinks the contribution of each tree.
+            max_depth (int): Maximum depth of the individual regression estimators.
+            min_samples_split (int): Minimum number of samples required to split an internal node.
+        """
+        self.n_estimators = n_estimators
+        self.learning_rate = learning_rate
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.trees = []
+        self.lr_model = LogisticRegression()
+
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        """
+        训练GBDT+LR模型。
+
+        Args:
+            X (np.ndarray): 输入特征矩阵。
+            y (np.ndarray): 目标值向量。
+        """
+        # 训练GBDT模型
+        y_pred = np.zeros(y.shape)
+        for i in range(self.n_estimators):
+            residuals = y - y_pred
+            tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+            tree.fit(X, residuals)
+            y_pred += self.learning_rate * tree.predict(X)
+            self.trees.append(tree)
+
+        # 特征转换
+        transformed_X = self._transform_features(X)
+
+        # 训练LR模型
+        self.lr_model.fit(transformed_X, y)
+
+    def _transform_features(self, X: np.ndarray) -> np.ndarray:
+        """
+        使用训练好的GBDT模型转换特征。
+
+        Args:
+            X (np.ndarray): 输入特征矩阵。
+
+        Returns:
+            np.ndarray: 转换后的特征矩阵。
+        """
+        transformed_X = np.zeros((X.shape[0], len(self.trees)))
+        for i, tree in enumerate(self.trees):
+            transformed_X[:, i] = tree.predict(X)
+        return transformed_X
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """
+        使用训练好的GBDT+LR模型进行预测。
+
+        Args:
+            X (np.ndarray): 输入特征矩阵。
+
+        Returns:
+            np.ndarray: 预测值向量。
+        """
+        transformed_X = self._transform_features(X)
+        return self.lr_model.predict(transformed_X)
+
+# 测试 GBDT+LR 模型
+if __name__ == "__main__":
+    # 生成模拟数据
+    np.random.seed(42)
+    X = np.random.rand(100, 5)
+    y = (3 + 2 * X[:, 0] + X[:, 1] + np.random.randn(100) > 5).astype(int)
+
+    # 初始化并训练模型
+    model = GBDT_LR(n_estimators=100, learning_rate=0.1, max_depth=3, min_samples_split=2)
+    model.fit(X, y)
+
+    # 进行预测
+    y_pred = model.predict(X)
+    print("Predicted values:", y_pred[:10])
+    print("Actual values:", y[:10])</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

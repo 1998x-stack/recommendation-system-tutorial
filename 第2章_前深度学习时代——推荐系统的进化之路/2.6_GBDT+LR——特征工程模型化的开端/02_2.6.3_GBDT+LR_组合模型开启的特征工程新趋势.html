@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_2.6.3_GBDT+LR_组合模型开启的特征工程新趋势</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.6.3 GBDT+LR 组合模型开启的特征工程新趋势</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_2.6.3 GBDT+LR 组合模型开启的特征工程新趋势</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
 Content: 02_2.6.3 GBDT+LR 组合模型开启的特征工程新趋势
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>2.6.3 GBDT+LR 组合模型开启的特征工程新趋势</h3>
 <h4>背景介绍</h4>
 <p>在推荐系统的发展过程中，特征工程一直是影响模型性能的关键因素。传统的特征工程方法主要依赖于人工或半人工的特征组合和筛选，或者通过改造目标函数和模型结构来增强特征交叉能力。然而，这些方法都有各自的局限性和挑战。</p>
@@ -77,21 +82,16 @@ Content: 02_2.6.3 GBDT+LR 组合模型开启的特征工程新趋势
 <h4>总结</h4>
 <p>GBDT+LR组合模型的提出，开启了特征工程模型化的新趋势，通过自动化特征选择和组合，实现了端到端的模型训练。这种方法不仅提高了模型的性能，还简化了特征工程的流程。尽管存在一定的计算复杂度和过拟合风险，但通过合理的超参数调节和优化策略，可以在实际应用中获得显著的效果。未来，随着计算资源的提升和模型优化技术的进步，GBDT+LR组合模型有望在更多的推荐系统中得到广泛应用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_2.6.3 GBDT+LR 组合模型开启的特征工程新趋势
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.6 GBDT+LR——特征工程模型化的开端
+Content: 02_2.6.3 GBDT+LR 组合模型开启的特征工程新趋势
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

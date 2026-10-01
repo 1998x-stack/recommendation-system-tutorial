@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_7.2.4_合理选择评估指标</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.2.4 合理选择评估指标</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_7.2.4 合理选择评估指标</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
+<pre><code>Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
 Content: 03_7.2.4 合理选择评估指标
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.2.4 合理选择评估指标</h3>
 <h4>概述</h4>
 <p>在推荐系统的评估过程中，选择合适的评估指标至关重要。不同的评估指标反映了推荐系统不同方面的性能，合理选择评估指标可以帮助我们全面了解推荐系统的优缺点，并进行有效的优化。</p>
@@ -169,9 +174,9 @@ Content: 03_7.2.4 合理选择评估指标
 <td><strong>覆盖率（Coverage）</strong></td>
 <td>推荐系统能够推荐的项目占所有项目的比例。</td>
 <td>$$Coverage = \frac{</td>
-<td>\text{推荐的项目}</td>
+<td 推荐的项目="">\text</td>
 <td>}{</td>
-<td>\text{所有项目}</td>
+<td 所有项目="">\text</td>
 </tr>
 <tr>
 <td><strong>多样性（Diversity）</strong></td>
@@ -277,21 +282,16 @@ Content: 03_7.2.4 合理选择评估指标
 <li><strong>应用示例</strong>：该原则在实际应用中的示例。</li>
 </ul>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_7.2.4 合理选择评估指标
+
+"""
+Lecture: 第7章 推荐系统的评估/7.2 直接评估推荐序列的离线指标
+Content: 03_7.2.4 合理选择评估指标
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

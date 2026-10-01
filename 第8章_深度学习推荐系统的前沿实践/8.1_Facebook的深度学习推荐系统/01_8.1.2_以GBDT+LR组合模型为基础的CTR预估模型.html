@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_8.1.2_以GBDT+LR组合模型为基础的CTR预估模型</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.1.2 以GBDT+LR组合模型为基础的CTR预估模型</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_8.1.2 以GBDT+LR组合模型为基础的CTR预估模型</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
 Content: 01_8.1.2 以GBDT+LR组合模型为基础的CTR预估模型
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.1.2 以GBDT+LR组合模型为基础的CTR预估模型</h3>
 <h4>背景与概述</h4>
 <p>CTR（Click-Through Rate）预估是广告推荐系统中的核心任务，旨在预测用户点击广告的概率。为了提高CTR预估的准确性，Facebook提出了GBDT（Gradient Boosting Decision Trees）与LR（Logistic Regression）组合的模型结构。该模型通过GBDT进行特征筛选和组合，然后将生成的离散特征向量输入到LR模型中，进行CTR的预测。本文将对这一模型进行详细的分析和探讨。</p>
@@ -119,21 +124,16 @@ Content: 01_8.1.2 以GBDT+LR组合模型为基础的CTR预估模型
 <h4>结论</h4>
 <p>GBDT+LR组合模型通过将GBDT的特征工程能力与LR的预测能力结合，实现了高效的CTR预估。该模型在Facebook广告推荐系统中的成功应用，证明了其在处理大规模数据和复杂特征组合方面的优势。未来，通过进一步优化和扩展，GBDT+LR组合模型将继续在推荐系统和其他机器学习应用中发挥重要作用    。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_8.1.2 以GBDT+LR组合模型为基础的CTR预估模型
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.1 Facebook的深度学习推荐系统
+Content: 01_8.1.2 以GBDT+LR组合模型为基础的CTR预估模型
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

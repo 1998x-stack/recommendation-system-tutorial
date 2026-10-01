@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>05_2.2.6_协同过滤的下一步发展</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.2.6 协同过滤的下一步发展</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>05_2.2.6 协同过滤的下一步发展</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
 Content: 05_2.2.6 协同过滤的下一步发展
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>2.2.6 协同过滤的下一步发展</h3>
 <h4>1. 概述</h4>
 <p>协同过滤（Collaborative Filtering, CF）是一种直观且可解释性很强的推荐算法。其基本原理是通过协同用户的反馈、评价和意见来过滤海量信息，从中筛选出用户可能感兴趣的内容。然而，随着数据量和用户数量的急剧增加，传统的协同过滤方法暴露出了一些缺陷和不足，特别是在处理稀疏矩阵和扩展性方面。为了克服这些问题，协同过滤的发展方向主要集中在改进算法的泛化能力、处理稀疏性问题和结合新兴技术三个方面。</p>
@@ -275,21 +280,16 @@ Content: 05_2.2.6 协同过滤的下一步发展
 <li><strong>典型技术/方法</strong>：多模态深度学习模型、联合嵌入模型等。</li>
 </ol>
 
+    <h3>Python 文件</h3>
+    <pre><code># 05_2.2.6 协同过滤的下一步发展
+
+"""
+Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
+Content: 05_2.2.6 协同过滤的下一步发展
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

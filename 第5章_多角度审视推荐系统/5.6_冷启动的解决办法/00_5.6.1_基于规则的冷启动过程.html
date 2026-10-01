@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00_5.6.1_基于规则的冷启动过程</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>5.6.1 基于规则的冷启动过程</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>00_5.6.1 基于规则的冷启动过程</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第5章 多角度审视推荐系统/5.6 冷启动的解决办法
+<pre><code>Lecture: 第5章 多角度审视推荐系统/5.6 冷启动的解决办法
 Content: 00_5.6.1 基于规则的冷启动过程
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>5.6.1 基于规则的冷启动过程</h3>
 <p>在推荐系统的初期，数据量较少或者完全没有历史数据时，需要采用冷启动策略。冷启动策略的目标是通过有限的数据或特征信息，提供有效的推荐。以下是对基于规则的冷启动过程的详细分析。</p>
 <h4>一、冷启动问题的分类</h4>
@@ -225,21 +230,16 @@ Content: 00_5.6.1 基于规则的冷启动过程
 </ol>
 <p>通过丰富冷启动过程中可获得的用户和物品特征，结合这些基于规则的冷启动方法，可以有效解决推荐系统初期数据匮乏的问题，提供较为有效的推荐服务。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 00_5.6.1 基于规则的冷启动过程
+
+"""
+Lecture: 第5章 多角度审视推荐系统/5.6 冷启动的解决办法
+Content: 00_5.6.1 基于规则的冷启动过程
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

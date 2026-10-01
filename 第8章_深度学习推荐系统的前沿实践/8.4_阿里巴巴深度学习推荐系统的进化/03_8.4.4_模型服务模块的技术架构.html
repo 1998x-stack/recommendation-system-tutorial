@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03_8.4.4_模型服务模块的技术架构</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>8.4.4 模型服务模块的技术架构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>03_8.4.4 模型服务模块的技术架构</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第8章 深度学习推荐系统的前沿实践/8.4 阿里巴巴深度学习推荐系统的进化
+<pre><code>Lecture: 第8章 深度学习推荐系统的前沿实践/8.4 阿里巴巴深度学习推荐系统的进化
 Content: 03_8.4.4 模型服务模块的技术架构
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>8.4.4 模型服务模块的技术架构</h3>
 <h4>引言</h4>
 <p>在推荐系统中，模型服务模块的技术架构至关重要。阿里巴巴在应对复杂模型的服务上遇到了许多挑战，特别是在处理带有序列结构的模型时，如DIEN和MIMN。本文将详细分析阿里巴巴在模型服务模块中的技术架构及其解决方案  。</p>
@@ -75,21 +80,16 @@ Content: 03_8.4.4 模型服务模块的技术架构
 <h3>总结</h3>
 <p>阿里巴巴通过引入用户兴趣表达模块和用户兴趣中心，提出了有效的模型服务架构，显著降低了复杂模型的服务延迟，提升了推荐系统的性能和用户体验。这些技术架构为其他电商平台的推荐系统开发提供了宝贵的经验和参考  。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 03_8.4.4 模型服务模块的技术架构
+
+"""
+Lecture: 第8章 深度学习推荐系统的前沿实践/8.4 阿里巴巴深度学习推荐系统的进化
+Content: 03_8.4.4 模型服务模块的技术架构
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

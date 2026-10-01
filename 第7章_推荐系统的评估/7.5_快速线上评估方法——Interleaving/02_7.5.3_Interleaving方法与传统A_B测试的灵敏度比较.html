@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>02_7.5.3_Interleaving方法与传统A_B测试的灵敏度比较</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>7.5.3 Interleaving方法与传统A B测试的灵敏度比较</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>02_7.5.3 Interleaving方法与传统A/B测试的灵敏度比较</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+<pre><code>Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
 Content: 02_7.5.3 Interleaving方法与传统A/B测试的灵敏度比较
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>7.5.3 Interleaving方法与传统A/B测试的灵敏度比较</h3>
 <h4>概述</h4>
 <p>Interleaving方法和传统A/B测试是两种常见的推荐系统评估方法。虽然两者都能用于评估不同推荐算法的效果，但它们在灵敏度、评估效率和应用场景等方面存在显著差异。理解和比较这两种方法的灵敏度，有助于选择最适合具体场景的评估方法，提高推荐系统的优化效率。</p>
@@ -133,21 +138,16 @@ Content: 02_7.5.3 Interleaving方法与传统A/B测试的灵敏度比较
 <h3>总结</h3>
 <p>Interleaving方法和传统A/B测试在灵敏度、评估效率和应用场景等方面存在显著差异。Interleaving方法灵敏度高，评估效率高，适用于快速评估需要实时反馈的场景；传统A/B测试灵敏度较低，评估效率较低，适用于长期评估和需要较大样本量的场景。理解和比较这两种方法的灵敏度，有助于选择最适合具体场景的评估方法，提高推荐系统的优化效率。在实际应用中，通过选择合适的评估方法，能够更准确地评估推荐系统的效果，为优化提供科学依据，提高用户体验和业务效果。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 02_7.5.3 Interleaving方法与传统A/B测试的灵敏度比较
+
+"""
+Lecture: 第7章 推荐系统的评估/7.5 快速线上评估方法——Interleaving
+Content: 02_7.5.3 Interleaving方法与传统A/B测试的灵敏度比较
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

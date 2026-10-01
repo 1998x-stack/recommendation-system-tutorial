@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_6.3.2_一致性与并行效率之间的取舍</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.3.2 一致性与并行效率之间的取舍</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_6.3.2 一致性与并行效率之间的取舍</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
 Content: 01_6.3.2 一致性与并行效率之间的取舍
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.3.2 一致性与并行效率之间的取舍</h3>
 <h4>一致性与并行效率的背景</h4>
 <p>在大规模分布式机器学习中，如何在保证模型训练一致性的前提下，提高并行效率，是一个关键问题。一致性指的是各节点在分布式系统中看到的数据和参数状态是一致的，确保每次计算都基于最新的全局状态；而并行效率指的是系统的计算资源利用率和计算速度。</p>
@@ -99,21 +104,16 @@ Content: 01_6.3.2 一致性与并行效率之间的取舍
 <h4>总结</h4>
 <p>在分布式机器学习中，一致性和并行效率之间的权衡是一个复杂的问题。通过合理设计系统架构和更新策略，可以在保证模型训练效果的同时，提高系统的并行计算效率。这需要结合具体应用场景，选择适当的一致性级别和并行策略，以达到最佳效果。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_6.3.2 一致性与并行效率之间的取舍
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.3 推荐模型离线训练之Parameter Server
+Content: 01_6.3.2 一致性与并行效率之间的取舍
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   

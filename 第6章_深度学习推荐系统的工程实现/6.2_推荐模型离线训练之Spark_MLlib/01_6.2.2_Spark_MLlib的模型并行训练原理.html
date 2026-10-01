@@ -4,17 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>01_6.2.2_Spark_MLlib的模型并行训练原理</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>6.2.2 Spark MLlib的模型并行训练原理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>01_6.2.2 Spark MLlib的模型并行训练原理</h1>
-<p>&quot;&quot;&quot;
-Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
+<pre><code>Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
 Content: 01_6.2.2 Spark MLlib的模型并行训练原理
-&quot;&quot;&quot;</p>
+</code></pre>
 <h3>6.2.2 Spark MLlib的模型并行训练原理</h3>
 <h4>背景</h4>
 <p>Spark MLlib是Spark的机器学习库，提供了一系列高效的工具，用于处理常见的机器学习任务。为了处理大规模数据，MLlib采用了模型并行训练的原理，通过分布式计算框架来加速模型的训练过程。这种方法不仅提高了训练速度，还能处理超大规模的数据集，适用于深度学习推荐系统的离线训练。</p>
@@ -111,21 +116,16 @@ Content: 01_6.2.2 Spark MLlib的模型并行训练原理
 <h4>结论</h4>
 <p>Spark MLlib的模型并行训练原理在大规模数据处理和机器学习模型训练中具有重要作用。通过分布式计算框架和并行算法，MLlib能够高效地处理大规模数据，加速模型的训练过程，提升模型的效果。随着大数据和机器学习技术的不断发展，Spark MLlib将在推荐系统和其他大数据应用中发挥越来越重要的作用。</p>
 
+    <h3>Python 文件</h3>
+    <pre><code># 01_6.2.2 Spark MLlib的模型并行训练原理
+
+"""
+Lecture: 第6章 深度学习推荐系统的工程实现/6.2 推荐模型离线训练之Spark MLlib
+Content: 01_6.2.2 Spark MLlib的模型并行训练原理
+"""
+
+</code></pre>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\(", right: "\)", display: false},
-          {left: "\[", right: "\]", display: true}
-        ]
-      });
-    });
-  </script>
 </body>
 </html>
   
