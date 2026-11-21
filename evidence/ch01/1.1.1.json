@@ -1,0 +1,32 @@
+{
+  "article": "1.1.1 推荐系统的作用和意义",
+  "claims": [
+    {
+      "id": "C1",
+      "claim": "常见工业推荐系统可拆为候选生成、打分和重排三个阶段",
+      "kind": "architecture",
+      "source_url": "https://developers.google.com/machine-learning/recommendation/overview/types",
+      "locator": "Recommendation systems overview",
+      "status": "verified",
+      "notes": "这是常见架构抽象，不表示所有系统都必须严格分成三个独立服务。"
+    },
+    {
+      "id": "C2",
+      "claim": "推荐日志反映展示机制下的行为，不等于用户在所有备选项中的真实偏好",
+      "kind": "methodology",
+      "source_url": "https://doi.org/10.1145/3340531.3412152",
+      "locator": "Feedback loop and popularity-bias discussion",
+      "status": "verified",
+      "notes": "将曝光选择机制和反馈回路纳入解释；不把点击直接解释为满意度。"
+    },
+    {
+      "id": "C3",
+      "claim": "YouTube 2016 系统将候选生成与排序作为两个独立神经网络问题处理",
+      "kind": "architecture",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Sections 2–4",
+      "status": "verified",
+      "notes": "用于说明两阶段架构的工业实例，不代表当前 YouTube 的完整线上系统。"
+    }
+  ]
+}

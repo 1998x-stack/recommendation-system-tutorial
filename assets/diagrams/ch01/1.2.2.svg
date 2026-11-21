@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" role="img" aria-labelledby="title desc">
+<title id="title">推荐系统的数据、训练与在线服务架构</title>
+<desc id="desc">用户事件进入日志，分别经流处理和批处理进入在线和离线特征；离线样本训练模型，模型与向量索引发布到在线服务。</desc>
+<rect x="18" y="38" width="145" height="62" rx="11" fill="#e9f1f2" stroke="#7b9da0"/><text x="90" y="64" text-anchor="middle" font-size="15" fill="#203035">客户端 / 服务端</text><text x="90" y="84" text-anchor="middle" font-size="12" fill="#53676d">曝光与行为事件</text>
+<rect x="210" y="38" width="145" height="62" rx="11" fill="#f1f4f3" stroke="#9aaba8"/><text x="282" y="64" text-anchor="middle" font-size="15" fill="#203035">事件日志</text><text x="282" y="84" text-anchor="middle" font-size="12" fill="#53676d">schema / 去重</text>
+<rect x="405" y="18" width="160" height="58" rx="11" fill="#dceeed" stroke="#147f80"/><text x="485" y="43" text-anchor="middle" font-size="15" fill="#203035">流处理</text><text x="485" y="62" text-anchor="middle" font-size="12" fill="#53676d">实时聚合 / 状态</text>
+<rect x="405" y="112" width="160" height="58" rx="11" fill="#dceeed" stroke="#147f80"/><text x="485" y="137" text-anchor="middle" font-size="15" fill="#203035">批处理</text><text x="485" y="156" text-anchor="middle" font-size="12" fill="#53676d">回填 / 样本 / 统计</text>
+<rect x="620" y="18" width="150" height="58" rx="11" fill="#eeeaf8" stroke="#7461ba"/><text x="695" y="43" text-anchor="middle" font-size="15" fill="#203035">在线特征</text><text x="695" y="62" text-anchor="middle" font-size="12" fill="#53676d">低延迟读取</text>
+<rect x="620" y="112" width="150" height="58" rx="11" fill="#eeeaf8" stroke="#7461ba"/><text x="695" y="137" text-anchor="middle" font-size="15" fill="#203035">离线特征</text><text x="695" y="156" text-anchor="middle" font-size="12" fill="#53676d">point-in-time</text>
+<rect x="815" y="112" width="128" height="58" rx="11" fill="#f8e7df" stroke="#d06d4d"/><text x="879" y="137" text-anchor="middle" font-size="15" fill="#203035">训练 / 验证</text><text x="879" y="156" text-anchor="middle" font-size="12" fill="#53676d">模型版本</text>
+<g stroke="#53676d" stroke-width="2" fill="none"><path d="M163 69 H206"/><path d="M355 69 H380 V47 H401"/><path d="M355 69 H380 V141 H401"/><path d="M565 47 H616"/><path d="M565 141 H616"/><path d="M770 141 H811"/></g>
+<rect x="320" y="232" width="220" height="64" rx="11" fill="#fff1d9" stroke="#b88a36"/><text x="430" y="258" text-anchor="middle" font-size="15" fill="#203035">模型 / 向量索引发布</text><text x="430" y="280" text-anchor="middle" font-size="12" fill="#53676d">灰度、版本、回滚</text>
+<rect x="620" y="232" width="260" height="64" rx="11" fill="#dceeed" stroke="#147f80"/><text x="750" y="258" text-anchor="middle" font-size="15" fill="#203035">在线推荐服务</text><text x="750" y="280" text-anchor="middle" font-size="12" fill="#53676d">特征 → 召回 → 排序 → 重排</text>
+<path d="M879 170 V208 H430 V228" fill="none" stroke="#d06d4d" stroke-width="2"/><path d="M540 264 H616" fill="none" stroke="#147f80" stroke-width="2"/>
+<text x="480" y="215" text-anchor="middle" font-size="11" fill="#53676d">模型与特征版本</text>
+</svg>

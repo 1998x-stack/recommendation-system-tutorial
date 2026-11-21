@@ -1,0 +1,41 @@
+{
+  "article": "1.1.2 YouTube 推荐系统与观看时长",
+  "claims": [
+    {
+      "id": "Y1",
+      "claim": "2016 年 YouTube 论文将推荐系统拆为候选生成网络和排序网络",
+      "kind": "architecture",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Section 2, pp. 1–2",
+      "status": "verified",
+      "notes": "历史系统描述，不外推为当前 YouTube 架构。"
+    },
+    {
+      "id": "Y2",
+      "claim": "候选生成使用用户观看历史和上下文预测下一次观看，并将大规模分类问题用于视频检索",
+      "kind": "method",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Sections 3.1–3.2",
+      "status": "verified",
+      "notes": "包含 candidate sampling 与 serving 时的 nearest-neighbor lookup。"
+    },
+    {
+      "id": "Y3",
+      "claim": "排序模型以加权逻辑回归建模预期观看时长，点击正样本按观看时长加权",
+      "kind": "objective",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Section 4.2",
+      "status": "verified",
+      "notes": "负样本使用单位权重；论文说明其 odds 在正样本比例较低时近似预期观看时长。"
+    },
+    {
+      "id": "Y4",
+      "claim": "论文使用离线指标迭代，并以线上 A/B 测试作为最终效果判断",
+      "kind": "evaluation",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Section 2, page 2",
+      "status": "verified",
+      "notes": "论文明确指出离线与线上结果不总是相关。"
+    }
+  ]
+}

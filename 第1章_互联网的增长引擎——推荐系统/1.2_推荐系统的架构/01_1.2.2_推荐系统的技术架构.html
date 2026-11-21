@@ -1,143 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="推荐系统的技术架构：把数据、模型与在线服务连成可靠链路：从问题、机制、指标到可运行示例的独立技术讲解。"><title>推荐系统的技术架构：把数据、模型与在线服务连成可靠链路｜推荐系统教程</title>
+<style>
+:root{--paper:#fffdf9;--ink:#203035;--muted:#53676d;--accent:#147f80;--line:#d9e1de;--soft:#eef4f1;--warm:#fff1d9;--serif:Georgia,"Noto Serif SC","Songti SC",serif;--sans:system-ui,-apple-system,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.85 var(--sans)}a{color:#126f73;text-decoration-thickness:1px;text-underline-offset:3px}
+.skip-link{position:absolute;left:-9999px;top:0;background:#fff;padding:8px 12px;z-index:10}.skip-link:focus{left:12px;top:12px}
+.layout{max-width:1240px;margin:0 auto;padding:38px 28px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:52px}.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;border-right:1px solid var(--line);padding:10px 18px 18px 0;font-size:14px;line-height:1.6}.toc strong{display:block;margin-bottom:12px}.toc ul{list-style:none;padding:0;margin:0}.toc li{margin:8px 0}.toc a{color:var(--muted);text-decoration:none}
+main{min-width:0}article{max-width:850px;margin:0 auto}.article-header{padding:14px 0 28px;border-bottom:1px solid var(--line);margin-bottom:32px}.eyebrow{color:var(--accent);font-size:13px;letter-spacing:.08em;font-weight:700}
+h1{font:700 clamp(2rem,4vw,3.1rem)/1.25 var(--serif);letter-spacing:-.035em;margin:12px 0 16px}.dek{font-size:19px;color:var(--muted);line-height:1.7;margin:0}.article-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-size:14px}
+h2{font:700 1.55rem/1.4 var(--serif);margin:48px 0 16px;scroll-margin-top:24px}p{margin:0 0 17px}ul,ol{padding-left:1.5rem;margin:12px 0 22px}li{padding-left:4px;margin:6px 0}
+figure{margin:28px 0 34px;padding:18px;background:#f6f8f5;border:1px solid var(--line);border-radius:16px}figure svg{display:block;width:100%;height:auto;max-width:100%}figcaption{font-size:14px;line-height:1.65;color:var(--muted);margin-top:12px}
+.table-wrap{max-width:100%;overflow-x:auto;margin:18px 0 24px}table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.6}th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:var(--soft);font-weight:700}
+pre{max-width:100%;overflow-x:auto;background:#172a2d;color:#edf5f2;padding:18px;border-radius:12px;font:14px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.math-equation{max-width:100%;margin:18px 0 24px}.math-scroll{max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;padding:14px 10px;background:#f4f7f4;border-radius:10px}.math-scroll:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.math-scroll math[display="block"]{width:max-content;min-width:100%;font-size:1.2rem}.inline-math{font-family:var(--serif);white-space:nowrap}
+.demo{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:18px 20px;margin:34px 0;background:var(--warm);border:1px solid #ead7ac;border-radius:14px}.demo p{margin:5px 0 0;font-size:15px;line-height:1.65}
+button{flex:0 0 auto;border:0;border-radius:999px;background:#203f42;color:white;padding:10px 17px;font:600 14px var(--sans);cursor:pointer}button:hover{background:#126f73}footer{border-top:1px solid var(--line);margin-top:52px;padding:22px 0 8px;color:var(--muted);font-size:14px}
+@media(max-width:900px){.layout{display:block;padding:24px 22px}.toc{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);padding:0 0 14px;margin-bottom:28px}.toc ul{display:flex;flex-wrap:wrap;gap:4px 16px}.toc li{margin:3px 0}}
+@media(max-width:480px){body{font-size:16px}.layout{padding:16px}.dek{font-size:17px}h2{font-size:1.35rem;margin-top:38px}figure{padding:10px;margin-left:0;margin-right:0}.demo{display:block}.demo button{margin-top:12px}pre{font-size:12px;padding:14px}th,td{padding:8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}@media print{body{background:white;font-size:11pt}.layout{display:block;max-width:none;padding:0}.toc,.skip-link,.demo button{display:none}article{max-width:none}figure{break-inside:avoid}a{color:inherit;text-decoration:underline}pre{white-space:pre-wrap;overflow:visible;background:#f4f4f4;color:#111}footer{break-inside:avoid}}
+</style><link rel="icon" href="data:,">
+</head><body><a class="skip-link" href="#content">跳转至正文</a><div class="layout">
+<nav class="toc" aria-label="文章目录"><strong>本文目录</strong><ul><li><a href="#section-1">从一次用户行为开始：事件采集与数据契约</a></li><li><a href="#section-2">批处理与流处理：速度和完整性之间的分工</a></li><li><a href="#section-3">特征存储：训练时能用，服务时也必须能用</a></li><li><a href="#section-4">模型训练、发布与在线推断</a></li><li><a href="#section-5">在线请求的延迟预算与降级路径</a></li><li><a href="#section-6">架构健康度：模型质量和系统质量一起看</a></li><li><a href="#section-7">一个可运行的事件校验与去重示例</a></li><li><a href="#section-8">参考资料</a></li></ul></nav>
+<main id="content"><article><header class="article-header"><div class="eyebrow">推荐系统 · 第 1 章 · 1.2.2</div><h1>推荐系统的技术架构：把数据、模型与在线服务连成可靠链路</h1><p class="dek">逻辑框架说明系统要完成什么；技术架构说明这些工作如何在数据平台、训练环境和在线服务中可靠运行。推荐系统的难点不仅是模型精度，还包括事件是否可信、特征是否及时、训练与服务是否一致，以及请求能否在延迟预算内完成。</p><div class="article-links"><a href="../../index.html">返回课程首页</a><a href="01_1.2.2_推荐系统的技术架构.md">阅读 Markdown 版本</a></div></header>
+<p>逻辑框架说明系统要完成什么；技术架构说明这些工作如何在数据平台、训练环境和在线服务中可靠运行。推荐系统的难点不仅是模型精度，还包括事件是否可信、特征是否及时、训练与服务是否一致，以及请求能否在延迟预算内完成。</p><section id="section-1" aria-labelledby="heading-1"><h2 id="heading-1">从一次用户行为开始：事件采集与数据契约</h2><p>用户浏览、点击、加购、购买、跳过和隐藏内容时，客户端或服务端会产生事件。每条事件至少应有稳定的 <strong>event_id</strong>、<strong>user_id</strong>、<strong>item_id</strong>、<strong>event_type</strong>、事件时间和必要的请求上下文。</p><p>推荐系统尤其需要记录曝光事件：用户实际看到了哪个物品、位于哪个位置、由哪个候选源产生、使用了哪个模型和策略版本。没有曝光日志，训练数据就无法区分“用户看见但没点”和“用户从未看见”。</p><p>数据契约要明确字段类型、允许值、时区、迟到数据策略、去重键和隐私边界。事件 ID 用于幂等去重；事件时间用于还原行为发生顺序；处理时间只说明数据何时进入系统，不能代替业务发生时间。</p></section>
+<figure class="article-figure"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" role="img" aria-labelledby="title desc">
+<title id="title">推荐系统的数据、训练与在线服务架构</title>
+<desc id="desc">用户事件进入日志，分别经流处理和批处理进入在线和离线特征；离线样本训练模型，模型与向量索引发布到在线服务。</desc>
+<rect x="18" y="38" width="145" height="62" rx="11" fill="#e9f1f2" stroke="#7b9da0"/><text x="90" y="64" text-anchor="middle" font-size="15" fill="#203035">客户端 / 服务端</text><text x="90" y="84" text-anchor="middle" font-size="12" fill="#53676d">曝光与行为事件</text>
+<rect x="210" y="38" width="145" height="62" rx="11" fill="#f1f4f3" stroke="#9aaba8"/><text x="282" y="64" text-anchor="middle" font-size="15" fill="#203035">事件日志</text><text x="282" y="84" text-anchor="middle" font-size="12" fill="#53676d">schema / 去重</text>
+<rect x="405" y="18" width="160" height="58" rx="11" fill="#dceeed" stroke="#147f80"/><text x="485" y="43" text-anchor="middle" font-size="15" fill="#203035">流处理</text><text x="485" y="62" text-anchor="middle" font-size="12" fill="#53676d">实时聚合 / 状态</text>
+<rect x="405" y="112" width="160" height="58" rx="11" fill="#dceeed" stroke="#147f80"/><text x="485" y="137" text-anchor="middle" font-size="15" fill="#203035">批处理</text><text x="485" y="156" text-anchor="middle" font-size="12" fill="#53676d">回填 / 样本 / 统计</text>
+<rect x="620" y="18" width="150" height="58" rx="11" fill="#eeeaf8" stroke="#7461ba"/><text x="695" y="43" text-anchor="middle" font-size="15" fill="#203035">在线特征</text><text x="695" y="62" text-anchor="middle" font-size="12" fill="#53676d">低延迟读取</text>
+<rect x="620" y="112" width="150" height="58" rx="11" fill="#eeeaf8" stroke="#7461ba"/><text x="695" y="137" text-anchor="middle" font-size="15" fill="#203035">离线特征</text><text x="695" y="156" text-anchor="middle" font-size="12" fill="#53676d">point-in-time</text>
+<rect x="815" y="112" width="128" height="58" rx="11" fill="#f8e7df" stroke="#d06d4d"/><text x="879" y="137" text-anchor="middle" font-size="15" fill="#203035">训练 / 验证</text><text x="879" y="156" text-anchor="middle" font-size="12" fill="#53676d">模型版本</text>
+<g stroke="#53676d" stroke-width="2" fill="none"><path d="M163 69 H206"/><path d="M355 69 H380 V47 H401"/><path d="M355 69 H380 V141 H401"/><path d="M565 47 H616"/><path d="M565 141 H616"/><path d="M770 141 H811"/></g>
+<rect x="320" y="232" width="220" height="64" rx="11" fill="#fff1d9" stroke="#b88a36"/><text x="430" y="258" text-anchor="middle" font-size="15" fill="#203035">模型 / 向量索引发布</text><text x="430" y="280" text-anchor="middle" font-size="12" fill="#53676d">灰度、版本、回滚</text>
+<rect x="620" y="232" width="260" height="64" rx="11" fill="#dceeed" stroke="#147f80"/><text x="750" y="258" text-anchor="middle" font-size="15" fill="#203035">在线推荐服务</text><text x="750" y="280" text-anchor="middle" font-size="12" fill="#53676d">特征 → 召回 → 排序 → 重排</text>
+<path d="M879 170 V208 H430 V228" fill="none" stroke="#d06d4d" stroke-width="2"/><path d="M540 264 H616" fill="none" stroke="#147f80" stroke-width="2"/>
+<text x="480" y="215" text-anchor="middle" font-size="11" fill="#53676d">模型与特征版本</text>
+</svg><figcaption>图 1. 事件日志分流到实时与批处理，特征和模型版本再汇入在线推荐服务。</figcaption></figure>
+<section id="section-2" aria-labelledby="heading-2"><h2 id="heading-2">批处理与流处理：速度和完整性之间的分工</h2><p>数据进入日志系统后，通常会走两条互补路径：</p><ul><li><strong>流处理</strong>：处理新近事件，更新会话状态、实时计数和在线特征，适合需要快速反映用户最新行为的场景。</li><li><strong>批处理</strong>：处理较长时间范围的历史数据，完成去重、回填、统计聚合、训练样本生成和周期性特征计算。</li></ul><p>两条路径必须对同一特征保持一致的定义。例如“过去 7 天点击次数”需要明确按事件时间还是处理时间计算、如何处理迟到事件、是否排除重复曝光。否则离线训练看到的值与线上请求读取的值会不一致。</p><p>Lambda、Kappa 等架构名称只是组织批流处理的不同方式，不是推荐系统必须采用的固定答案。技术选型应取决于数据规模、实时性、回填能力、团队运维复杂度和一致性要求。</p></section>
+<section id="section-3" aria-labelledby="heading-3"><h2 id="heading-3">特征存储：训练时能用，服务时也必须能用</h2><p>离线特征通常用于训练和评估，在线特征用于实时推断。两者需要共享特征定义和实体键，并保证时间语义一致。</p><p>一个常见风险是<strong>未来信息泄漏</strong>：构造某个时刻的训练样本时，误用了该时刻之后才产生的统计值。正确的 point-in-time join 应只读取样本预测时刻之前可用的特征。另一个风险是<strong>训练—服务偏差</strong>：离线使用精确回填数据，线上却只能读到延迟或缺失的特征。</p><p>特征平台还要监控缺失率、分布漂移、数据新鲜度、读取延迟和线上线下偏差。特征值正确但过期，同样可能导致错误推荐。</p></section>
+<section id="section-4" aria-labelledby="heading-4"><h2 id="heading-4">模型训练、发布与在线推断</h2><p>一个可运营的模型生命周期通常包括：</p><ol><li>从事件和曝光日志构造训练样本，并按时间切分训练、验证和测试数据；</li><li>训练模型，记录代码版本、数据版本、特征 schema、超参数和随机种子；</li><li>检查离线指标、分群表现、校准、覆盖率和安全护栏；</li><li>将模型注册为不可变版本，准备回滚和灰度策略；</li><li>发布模型服务，并同步更新向量索引、规则和依赖的特征版本；</li><li>通过线上实验验证效果，持续监控服务质量和模型质量。</li></ol><p>召回模型可能需要预先计算物品向量并构建 ANN 索引；排序模型则通常在请求时对候选集合做实时推断。模型服务不能只返回分数，还要能追踪模型版本、特征版本、候选来源和请求耗时。</p></section>
+<section id="section-5" aria-labelledby="heading-5"><h2 id="heading-5">在线请求的延迟预算与降级路径</h2><p>在线链路包括特征读取、多路召回、过滤、排序、重排和结果序列化。每一段都需要预算，而不是只监控端到端平均耗时。若一个候选源超时，系统可以跳过该源、使用缓存或回退到稳定规则；若特征缺失，应有默认值和降级策略，而不是让整个请求失败。</p><p>常见的工程指标包括 P50/P95/P99 延迟、超时率、错误率、QPS、缓存命中率、候选数量、索引版本和模型加载状态。只看平均延迟会掩盖尾部请求体验。</p></section>
+<section id="section-6" aria-labelledby="heading-6"><h2 id="heading-6">架构健康度：模型质量和系统质量一起看</h2><div class="table-wrap"><table><thead><tr><th>层次</th><th>核心问题</th><th>可监控信号</th></tr></thead><tbody><tr><td>事件层</td><td>日志完整、可去重、时间可信？</td><td>丢失率、重复率、迟到率、schema 错误</td></tr><tr><td>特征层</td><td>训练与线上定义一致？</td><td>缺失率、新鲜度、分布偏移、读取延迟</td></tr><tr><td>模型层</td><td>预测目标和人群表现稳定？</td><td>AUC / NDCG、校准、分群差异、漂移</td></tr><tr><td>服务层</td><td>请求能否稳定返回？</td><td>P95/P99、超时、错误率、QPS</td></tr><tr><td>产品层</td><td>推荐是否改善真实体验？</td><td>转化、留存、负反馈、覆盖、多样性</td></tr></tbody></table></div><p>系统上线后，模型质量下降可能来自数据 schema 变化、特征过期、索引未更新、流量结构变化或服务降级，而不一定是模型参数本身的问题。排障需要沿着数据到服务的完整链路追踪。</p></section>
+<section id="section-7" aria-labelledby="heading-7"><h2 id="heading-7">一个可运行的事件校验与去重示例</h2><p>下面的代码展示事件时间校验和基于 event_id 的幂等去重。它要求时间戳包含时区，并将其规范化为 UTC；生产系统还需要处理迟到事件、撤回、隐私删除和跨服务 schema 演进。</p><pre><code class="language-python">from examples.ch01.lesson_1_2_2 import deduplicate_events
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <title>1.2.2 推荐系统的技术架构</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
-  <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
-</head>
-<body>
-  <div class="container">
-    <h1>01_1.2.2 推荐系统的技术架构</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 01_1.2.2 推荐系统的技术架构
-</code></pre>
-<h3>01_1.2.2 推荐系统的技术架构：极致详细分析</h3>
-<h4>一、推荐系统的技术架构概述</h4>
-<p>推荐系统的技术架构是将推荐系统的抽象概念和模块具体化、工程化的过程。其核心是解决数据和信息处理、推荐算法和模型训练与预测的问题。在实际应用中，推荐系统的技术架构可以分为数据流架构和模型架构两大部分，每个部分又包含若干细分模块。</p>
-<h4>二、推荐系统的数据流架构</h4>
-<p>数据流架构是推荐系统的基础，负责用户、物品和场景信息的收集、存储、处理和传输。一个成熟的推荐系统数据流架构通常包含以下三个部分：</p>
-<ol>
-<li>
-<p><strong>实时数据处理</strong>：</p>
-<ul>
-<li><strong>客户端和服务器端实时数据处理</strong>：捕捉用户的即时行为，如点击、浏览、购买等，并实时传输到服务器。</li>
-<li><strong>流处理平台</strong>：如Apache Kafka，用于准实时处理数据流，确保数据在几秒内被处理和分析。</li>
-<li><strong>大数据平台离线数据处理</strong>：如Hadoop，用于批量处理大量历史数据，支持深度分析和模型训练。</li>
-</ul>
-</li>
-<li>
-<p><strong>数据处理与存储</strong>：</p>
-<ul>
-<li><strong>数据清洗</strong>：去重、补全、标准化数据，确保数据质量。</li>
-<li><strong>特征提取</strong>：将原始数据转换为模型可用的特征，如用户的行为特征、物品的属性特征、场景特征等。</li>
-<li><strong>数据存储</strong>：将处理后的数据存储在分布式数据库中，如HBase、Cassandra，以便后续查询和使用。</li>
-</ul>
-</li>
-<li>
-<p><strong>数据输出</strong>：</p>
-<ul>
-<li><strong>样本数据生成</strong>：用于算法模型的训练和评估。</li>
-<li><strong>特征生成</strong>：用于推荐系统的线上推断。</li>
-<li><strong>统计数据生成</strong>：用于系统监控和商业智能分析。</li>
-</ul>
-</li>
-</ol>
-<h4>三、推荐系统的模型架构</h4>
-<p>模型架构是推荐系统的核心，负责推荐模型的训练、评估、部署和线上推断。模型架构通常包含以下三个主要层次：</p>
-<ol>
-<li>
-<p><strong>召回层</strong>：</p>
-<ul>
-<li><strong>功能</strong>：快速从海量候选集中过滤出可能感兴趣的物品。</li>
-<li><strong>实现</strong>：使用简单高效的召回规则、算法或模型，如基于内容的过滤、协同过滤等。</li>
-</ul>
-</li>
-<li>
-<p><strong>排序层</strong>：</p>
-<ul>
-<li><strong>功能</strong>：对召回层筛选出的候选集进行精确排序。</li>
-<li><strong>实现</strong>：利用排序模型，根据用户的兴趣偏好和行为历史，对候选物品进行打分排序。常用的排序模型包括逻辑回归、决策树、深度神经网络等。</li>
-</ul>
-</li>
-<li>
-<p><strong>补充策略与算法层</strong>：</p>
-<ul>
-<li><strong>功能</strong>：对推荐列表进行再排序，进一步优化推荐效果。</li>
-<li><strong>实现</strong>：结合多样性、新鲜度、覆盖率等策略，优化推荐结果，使其更加个性化和符合用户需求。</li>
-</ul>
-</li>
-</ol>
-<h4>四、推荐系统的工程实现</h4>
-<p>推荐系统的工程实现涉及数据流架构和模型架构的具体部署与集成，确保系统的高效、稳定运行。主要包括以下几个方面：</p>
-<ol>
-<li>
-<p><strong>数据流平台</strong>：</p>
-<ul>
-<li><strong>批处理架构</strong>：如Hadoop，用于处理大规模离线数据。</li>
-<li><strong>流计算架构</strong>：如Apache Flink、Spark Streaming，实现准实时数据处理。</li>
-<li><strong>Lambda架构</strong>：结合批处理和流处理，兼顾实时性和数据完整性。</li>
-<li><strong>Kappa架构</strong>：基于流处理实现实时数据处理和分析。</li>
-</ul>
-</li>
-<li>
-<p><strong>模型训练平台</strong>：</p>
-<ul>
-<li><strong>Spark MLlib</strong>：提供分布式机器学习库，支持大规模数据的并行处理和模型训练。</li>
-<li><strong>Parameter Server</strong>：分布式训练框架，支持大规模深度学习模型的高效训练。</li>
-<li><strong>TensorFlow</strong>：支持灵活的模型定义和训练，广泛应用于深度学习推荐模型的开发。</li>
-</ul>
-</li>
-<li>
-<p><strong>模型部署与服务</strong>：</p>
-<ul>
-<li><strong>TensorFlow Serving</strong>：高效的模型服务框架，支持模型的在线推断。</li>
-<li><strong>自研模型服务平台</strong>：定制化的模型部署与服务方案，优化性能和延迟。</li>
-<li><strong>预训练Embedding+轻量级线上模型</strong>：通过预训练Embedding和轻量级模型，实现高效的线上推荐服务。</li>
-</ul>
-</li>
-</ol>
-<h4>五、推荐系统的挑战和未来发展</h4>
-<ol>
-<li>
-<p><strong>数据处理挑战</strong>：海量数据的实时处理和特征提取是推荐系统面临的主要挑战，需要高效的数据流平台和分布式计算框架支持。</p>
-</li>
-<li>
-<p><strong>模型训练挑战</strong>：深度学习模型的训练需要大量计算资源和数据支持，如何优化训练过程、提高模型性能是关键问题。</p>
-</li>
-<li>
-<p><strong>系统集成挑战</strong>：推荐系统的工程实现需要集成多种技术和平台，确保系统的稳定性和可扩展性。</p>
-</li>
-<li>
-<p><strong>未来发展</strong>：</p>
-<ul>
-<li><strong>融合多种数据源</strong>：结合用户行为数据、社交数据、传感器数据等，提升推荐效果。</li>
-<li><strong>强化学习应用</strong>：利用强化学习优化推荐策略，提升推荐系统的智能化水平。</li>
-<li><strong>跨领域推荐</strong>：实现多领域、多平台间的推荐，提供更加全面和个性化的服务。</li>
-</ul>
-</li>
-</ol>
-<h3>结论</h3>
-<p>推荐系统的技术架构涉及数据流架构和模型架构两大部分，每个部分又包含若干细分模块。通过高效的数据处理平台和先进的模型训练与部署技术，推荐系统能够实现精准、高效的个性化推荐，为用户提供优质服务的同时，提升平台的商业价值。未来，推荐系统将在数据融合、智能化和跨领域应用方面不断发展，带来更多创新和突破。</p>
-
-    <h3>Python 文件</h3>
-    <pre><code># 01_1.2.2 推荐系统的技术架构
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 01_1.2.2 推荐系统的技术架构
-"""
-
-</code></pre>
-  </div>
-</body>
-</html>
-  
+events = [
+    {&quot;event_id&quot;: &quot;e1&quot;, &quot;user_id&quot;: &quot;u1&quot;, &quot;item_id&quot;: &quot;i1&quot;,
+     &quot;event_type&quot;: &quot;click&quot;, &quot;event_time&quot;: &quot;2026-11-20T10:00:00+08:00&quot;},
+    {&quot;event_id&quot;: &quot;e1&quot;, &quot;user_id&quot;: &quot;u1&quot;, &quot;item_id&quot;: &quot;i1&quot;,
+     &quot;event_type&quot;: &quot;click&quot;, &quot;event_time&quot;: &quot;2026-11-20T02:00:00Z&quot;},
+]
+print(len(deduplicate_events(events)))
+# 1</code></pre></section>
+<aside class="demo" aria-label="交互示例"><div><strong>查看降级路径</strong><p id="demo-output" aria-live="polite">实时特征或候选源超时，可回退缓存与稳定规则；同时记录降级状态。</p></div><button type="button" id="demo-toggle" aria-pressed="false">切换说明</button></aside>
+<section id="section-8" aria-labelledby="heading-8"><h2 id="heading-8">参考资料</h2><ul><li>Google Cloud, <a href="https://docs.cloud.google.com/architecture/implement-two-tower-retrieval-large-scale-candidate-generation" rel="noopener noreferrer">Implement two-tower retrieval for large-scale candidate generation</a>：双塔召回训练、向量化和服务架构参考。</li><li>Google for Developers, <a href="https://developers.google.com/machine-learning/recommendation/overview/types" rel="noopener noreferrer">Recommendation systems overview</a>：候选生成、打分和重排的系统分工。</li><li>Covington et al., <a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>：大规模候选检索、排序特征和在线服务约束的历史案例。</li></ul></section>
+<footer><a href="../../index.html">回到推荐系统课程首页</a> · <a href="../../README.md">查看完整课程目录</a></footer></article></main></div>
+<script>(function(){const b=document.getElementById("demo-toggle"),o=document.getElementById("demo-output");if(!b||!o)return;b.addEventListener("click",function(){const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",String(on));o.textContent=on?"在线链路必须有延迟预算、超时边界和可观测的降级策略。":"实时特征或候选源超时，可回退缓存与稳定规则；同时记录降级状态。";});})();</script>
+</body></html>

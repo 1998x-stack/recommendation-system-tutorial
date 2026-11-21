@@ -1,0 +1,32 @@
+{
+  "article": "1.2.2 推荐系统的技术架构",
+  "claims": [
+    {
+      "id": "T1",
+      "claim": "大规模推荐检索可以使用双塔模型分别编码查询与候选物品，并通过向量检索完成候选生成",
+      "kind": "architecture",
+      "source_url": "https://docs.cloud.google.com/architecture/implement-two-tower-retrieval-large-scale-candidate-generation",
+      "locator": "Architecture and retrieval workflow",
+      "status": "verified",
+      "notes": "这是参考架构，不是唯一实现方案。"
+    },
+    {
+      "id": "T2",
+      "claim": "推荐请求常见地包含候选生成、打分和重排阶段",
+      "kind": "architecture",
+      "source_url": "https://developers.google.com/machine-learning/recommendation/overview/types",
+      "locator": "Recommendation systems overview",
+      "status": "verified",
+      "notes": "工程实现可按延迟和业务约束合并或拆分阶段。"
+    },
+    {
+      "id": "T3",
+      "claim": "YouTube 2016 论文指出线上服务需要在数十毫秒级延迟约束下对大规模视频库进行近似检索",
+      "kind": "serving",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Section 3.1, serving discussion",
+      "status": "verified",
+      "notes": "这是论文中的历史系统描述，不作为现代系统的通用 SLO。"
+    }
+  ]
+}

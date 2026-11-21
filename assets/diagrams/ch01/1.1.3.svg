@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 270" role="img" aria-labelledby="title desc">
+<title id="title">电商推荐的交易漏斗</title>
+<desc id="desc">推荐曝光依次转化为点击、下单和成交额，每一阶段都有对应指标与影响因素。</desc>
+<defs><marker id="arrow-c" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#53676d" stroke-width="1.5"/></marker></defs>
+<rect x="24" y="48" width="178" height="82" rx="12" fill="#e9f1f2" stroke="#7b9da0"/><text x="113" y="80" text-anchor="middle" font-size="17" fill="#203035">推荐曝光</text><text x="113" y="105" text-anchor="middle" font-size="13" fill="#53676d">曝光量 / 覆盖率</text>
+<rect x="250" y="48" width="178" height="82" rx="12" fill="#dceeed" stroke="#147f80"/><text x="339" y="80" text-anchor="middle" font-size="17" fill="#203035">商品点击</text><text x="339" y="105" text-anchor="middle" font-size="13" fill="#53676d">CTR / 详情访问</text>
+<rect x="476" y="48" width="178" height="82" rx="12" fill="#f8e7df" stroke="#d06d4d"/><text x="565" y="80" text-anchor="middle" font-size="17" fill="#203035">支付订单</text><text x="565" y="105" text-anchor="middle" font-size="13" fill="#53676d">CVR / 取消退款</text>
+<rect x="702" y="48" width="174" height="82" rx="12" fill="#eeeaf8" stroke="#7461ba"/><text x="789" y="80" text-anchor="middle" font-size="17" fill="#203035">GMV</text><text x="789" y="105" text-anchor="middle" font-size="13" fill="#53676d">订单金额总和</text>
+<g stroke="#53676d" stroke-width="2" fill="none" marker-end="url(#arrow-c)"><path d="M202 89 H246"/><path d="M428 89 H472"/><path d="M654 89 H698"/></g>
+<rect x="105" y="180" width="690" height="52" rx="12" fill="#fff1d9" stroke="#b88a36"/><text x="450" y="202" text-anchor="middle" font-size="15" fill="#654d20">因果验证：随机对照实验 + 统一统计口径</text><text x="450" y="221" text-anchor="middle" font-size="12" fill="#654d20">同步观察毛利、退货、投诉、覆盖率与长期留存</text>
+</svg>

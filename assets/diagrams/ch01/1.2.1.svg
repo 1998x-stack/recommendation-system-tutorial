@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 330" role="img" aria-labelledby="title desc">
+<title id="title">一次推荐请求的逻辑闭环</title>
+<desc id="desc">请求理解和约束过滤后，多路候选生成进入精细打分和列表重排，返回列表并将曝光反馈写入训练数据。</desc>
+<rect x="20" y="34" width="150" height="64" rx="12" fill="#e9f1f2" stroke="#7b9da0"/><text x="95" y="60" text-anchor="middle" font-size="15" fill="#203035">请求理解</text><text x="95" y="81" text-anchor="middle" font-size="12" fill="#53676d">用户 / 场景 / 约束</text>
+<rect x="210" y="24" width="160" height="50" rx="10" fill="#dceeed" stroke="#147f80"/><text x="290" y="55" text-anchor="middle" font-size="14" fill="#203035">协同过滤召回</text>
+<rect x="210" y="88" width="160" height="50" rx="10" fill="#dceeed" stroke="#147f80"/><text x="290" y="119" text-anchor="middle" font-size="14" fill="#203035">内容 / 向量召回</text>
+<rect x="210" y="152" width="160" height="50" rx="10" fill="#dceeed" stroke="#147f80"/><text x="290" y="183" text-anchor="middle" font-size="14" fill="#203035">热门 / 业务候选</text>
+<rect x="425" y="72" width="150" height="82" rx="12" fill="#f8e7df" stroke="#d06d4d"/><text x="500" y="105" text-anchor="middle" font-size="16" fill="#203035">精细打分</text><text x="500" y="129" text-anchor="middle" font-size="12" fill="#53676d">预测单项效用</text>
+<rect x="630" y="72" width="150" height="82" rx="12" fill="#eeeaf8" stroke="#7461ba"/><text x="705" y="105" text-anchor="middle" font-size="16" fill="#203035">列表重排</text><text x="705" y="129" text-anchor="middle" font-size="12" fill="#53676d">多样性 / 频控</text>
+<rect x="820" y="84" width="84" height="58" rx="10" fill="#fff1d9" stroke="#b88a36"/><text x="862" y="108" text-anchor="middle" font-size="14" fill="#203035">展示</text><text x="862" y="127" text-anchor="middle" font-size="12" fill="#53676d">列表</text>
+<g stroke="#53676d" stroke-width="2" fill="none"><path d="M170 66 H190 V113 H206"/><path d="M370 49 H398 V91 H421"/><path d="M370 113 H421"/><path d="M370 177 H398 V137 H421"/><path d="M575 113 H626"/><path d="M780 113 H816"/></g>
+<g fill="#53676d"><path d="M206 108 l8 5 -8 5z"/><path d="M417 86 l8 5 -8 5z"/><path d="M417 108 l8 5 -8 5z"/><path d="M417 132 l8 5 -8 5z"/><path d="M622 108 l8 5 -8 5z"/><path d="M812 108 l8 5 -8 5z"/></g>
+<rect x="240" y="250" width="520" height="54" rx="12" fill="#f1f4f3" stroke="#9aaba8"/><text x="500" y="273" text-anchor="middle" font-size="15" fill="#203035">曝光与反馈日志 → 样本构造 → 离线训练 / 评估</text><text x="500" y="292" text-anchor="middle" font-size="12" fill="#53676d">请求 ID、位置、策略版本、点击、跳过、购买与投诉</text>
+<path d="M862 142 V277 H764" fill="none" stroke="#916c22" stroke-width="2" stroke-dasharray="6 5"/><path d="M240 277 H95 V102" fill="none" stroke="#147f80" stroke-width="2" stroke-dasharray="6 5"/>
+</svg>

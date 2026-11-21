@@ -1,0 +1,32 @@
+{
+  "article": "1.1.3 推荐系统与电商收入",
+  "claims": [
+    {
+      "id": "E1",
+      "claim": "阿里巴巴公告称 2019 年 11 月 11 日全球购物节 GMV 为人民币 2684 亿元，同比增长 26%",
+      "kind": "metric",
+      "source_url": "https://www.alibabagroup.com/en-US/document-1491570187978145792",
+      "locator": "Official press release, 2019-11-12; GMV highlights",
+      "status": "verified",
+      "notes": "GMV 口径涵盖阿里巴巴中国零售市场、Lazada、AliExpress、考拉、新零售及消费者服务平台 24 小时内通过支付宝结算的订单总额（含适用运费）；公告未量化推荐系统对该 GMV 的因果贡献。"
+    },
+    {
+      "id": "E2",
+      "claim": "GMV 可以按有效访问量、转化率和平均订单金额进行简化分解",
+      "kind": "derived",
+      "source_url": "https://www.alibabagroup.com/en-US/document-1491570187978145792",
+      "locator": "This article's explicitly simplified funnel definition",
+      "status": "derived",
+      "notes": "这是教学用恒等式，实际口径需处理多件商品、复购、退款、取消和去重。"
+    },
+    {
+      "id": "E3",
+      "claim": "相对 GMV 提升 1% 的算术示例不等于转化率提升 1 个百分点，也不构成实测效果",
+      "kind": "illustrative",
+      "source_url": "https://www.alibabagroup.com/en-US/document-1491570187978145792",
+      "locator": "Arithmetic derived from the published GMV baseline",
+      "status": "illustrative",
+      "notes": "示例只用于解释相对增幅，不能归因于推荐系统。"
+    }
+  ]
+}
