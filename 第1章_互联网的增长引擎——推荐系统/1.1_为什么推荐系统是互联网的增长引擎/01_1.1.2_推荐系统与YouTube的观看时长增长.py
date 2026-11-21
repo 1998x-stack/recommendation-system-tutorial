@@ -1,7 +1,3 @@
-# 01_1.1.2 推荐系统与YouTube的观看时长增长
+"""Compatibility entry point; implementation lives in examples/ch01/"""
 
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.1 为什么推荐系统是互联网的增长引擎
-Content: 01_1.1.2 推荐系统与YouTube的观看时长增长
-"""
-
+from examples.ch01.lesson_1_1_2 import *

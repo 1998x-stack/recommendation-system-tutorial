@@ -1,84 +1,58 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="YouTube 推荐系统：先找得到，再排得准：从问题、机制、指标到可运行示例的独立技术讲解。">
+<title>YouTube 推荐系统：先找得到，再排得准｜推荐系统教程</title>
+<style>
+:root{--paper:#fffdf9;--ink:#203035;--muted:#53676d;--accent:#147f80;--line:#d9e1de;--soft:#eef4f1;--warm:#fff1d9;--serif:Georgia,"Noto Serif SC","Songti SC",serif;--sans:system-ui,-apple-system,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.85 var(--sans)}
+a{color:#126f73;text-decoration-thickness:1px;text-underline-offset:3px}.skip-link{position:absolute;left:-9999px;top:0;background:#fff;padding:8px 12px;z-index:10}.skip-link:focus{left:12px;top:12px}
+.layout{max-width:1240px;margin:0 auto;padding:38px 28px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:52px}.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;border-right:1px solid var(--line);padding:10px 18px 18px 0;font-size:14px;line-height:1.6}.toc strong{display:block;margin-bottom:12px}.toc ul{list-style:none;padding:0;margin:0}.toc li{margin:8px 0}.toc a{color:var(--muted);text-decoration:none}
+main{min-width:0}article{max-width:850px;margin:0 auto}.article-header{padding:14px 0 28px;border-bottom:1px solid var(--line);margin-bottom:32px}.eyebrow{color:var(--accent);font-size:13px;letter-spacing:.08em;font-weight:700}
+h1{font:700 clamp(2rem,4vw,3.1rem)/1.25 var(--serif);letter-spacing:-.035em;margin:12px 0 16px}.dek{font-size:19px;color:var(--muted);line-height:1.7;margin:0}.article-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-size:14px}
+h2{font:700 1.55rem/1.4 var(--serif);margin:48px 0 16px;scroll-margin-top:24px}p{margin:0 0 17px}ul,ol{padding-left:1.5rem;margin:12px 0 22px}li{padding-left:4px;margin:6px 0}
+figure{margin:28px 0 34px;padding:18px;background:#f6f8f5;border:1px solid var(--line);border-radius:16px}figure svg{display:block;width:100%;height:auto;max-width:100%}figcaption{font-size:14px;line-height:1.65;color:var(--muted);margin-top:12px}
+.table-wrap{max-width:100%;overflow-x:auto;margin:18px 0 24px}table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.6}th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:var(--soft);font-weight:700}
+pre{max-width:100%;overflow-x:auto;background:#172a2d;color:#edf5f2;padding:18px;border-radius:12px;font:14px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.math-equation{max-width:100%;margin:18px 0 24px}.math-scroll{max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;padding:14px 10px;background:#f4f7f4;border-radius:10px}.math-scroll:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.math-scroll math[display="block"]{width:max-content;min-width:100%;font-size:1.2rem}.inline-math{font-family:var(--serif);white-space:nowrap}
+.demo{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:18px 20px;margin:34px 0;background:var(--warm);border:1px solid #ead7ac;border-radius:14px}.demo p{margin:5px 0 0;font-size:15px;line-height:1.65}
+button{flex:0 0 auto;border:0;border-radius:999px;background:#203f42;color:white;padding:10px 17px;font:600 14px var(--sans);cursor:pointer}button:hover{background:#126f73}
+footer{border-top:1px solid var(--line);margin-top:52px;padding:22px 0 8px;color:var(--muted);font-size:14px}
+@media(max-width:900px){.layout{display:block;padding:24px 22px}.toc{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);padding:0 0 14px;margin-bottom:28px}.toc ul{display:flex;flex-wrap:wrap;gap:4px 16px}.toc li{margin:3px 0}}
+@media(max-width:480px){body{font-size:16px}.layout{padding:16px}.dek{font-size:17px}h2{font-size:1.35rem;margin-top:38px}figure{padding:10px;margin-left:0;margin-right:0}.demo{display:block}.demo button{margin-top:12px}pre{font-size:12px;padding:14px}th,td{padding:8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{body{background:white;font-size:11pt}.layout{display:block;max-width:none;padding:0}.toc,.skip-link,.demo button{display:none}article{max-width:none}figure{break-inside:avoid}a{color:inherit;text-decoration:underline}pre{white-space:pre-wrap;overflow:visible;background:#f4f4f4;color:#111}footer{break-inside:avoid}}
+</style><link rel="icon" href="data:,">
+</head><body>
+<a class="skip-link" href="#content">跳转至正文</a><div class="layout">
+<nav class="toc" aria-label="文章目录"><strong>本文目录</strong><ul><li><a href="#section-1">规模、时效与噪声：问题从哪里来</a></li><li><a href="#section-2">第一阶段：候选生成把百万级搜索压缩成小集合</a></li><li><a href="#section-3">第二阶段：排序决定有限展示位应该放什么</a></li><li><a href="#section-4">标签与时间顺序：避免把未来泄漏给模型</a></li><li><a href="#section-5">离线指标不能替代线上实验</a></li><li><a href="#section-6">一个可运行的预期观看时长示例</a></li><li><a href="#section-7">这篇论文能说明什么，不能说明什么</a></li><li><a href="#section-8">参考资料</a></li></ul></nav>
+<main id="content"><article><header class="article-header"><div class="eyebrow">推荐系统 · 第 1 章 · 1.1.2</div><h1>YouTube 推荐系统：先找得到，再排得准</h1><p class="dek">当候选库有数百万条视频时，逐条运行最复杂的排序模型既昂贵又无法满足在线延迟。YouTube 在 2016 年公开的工业研究给出了一个影响深远的答案：把“从全库找候选”和“在候选中精排”拆成两个学习问题。</p><div class="article-links"><a href="../../index.html">返回课程首页</a><a href="01_1.1.2_推荐系统与YouTube的观看时长增长.md">阅读 Markdown 版本</a></div></header>
+<p>当候选库有数百万条视频时，逐条运行最复杂的排序模型既昂贵又无法满足在线延迟。YouTube 在 2016 年公开的工业研究给出了一个影响深远的答案：把“从全库找候选”和“在候选中精排”拆成两个学习问题。</p><section id="section-1" aria-labelledby="heading-1"><h2 id="heading-1">规模、时效与噪声：问题从哪里来</h2><p>Covington、Adams 和 Sargin 在 RecSys 2016 的论文中总结了视频推荐的三个难点：</p><ul><li><strong>规模（Scale）</strong>：视频库和用户规模很大，传统小规模算法无法直接逐项扫描。</li><li><strong>新鲜度（Freshness）</strong>：新视频不断上传，用户兴趣也会随着最近行为变化。模型不能只重复训练窗口内已经流行的内容。</li><li><strong>噪声（Noise）</strong>：用户满意度很难直接观测，观看、点击等隐式反馈会受到外部因素影响；内容元数据也未必有统一结构。</li></ul><p>这三个问题互相牵制：候选生成需要足够快，排序需要足够精细，系统还必须让新内容有机会被发现。</p></section>
+<figure class="article-figure"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+<title id="title">YouTube 论文中的两阶段推荐流程</title>
+<desc id="desc">视频库和用户历史进入候选生成网络，输出数百个候选；排序网络结合更丰富的特征后输出少量展示视频。</desc>
+<defs><marker id="arrow-b" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#53676d" stroke-width="1.5"/></marker></defs>
+<rect x="22" y="38" width="170" height="70" rx="12" fill="#e9f1f2" stroke="#7b9da0"/><text x="107" y="66" text-anchor="middle" font-size="16" fill="#203035">视频库</text><text x="107" y="88" text-anchor="middle" font-size="13" fill="#53676d">数百万候选</text>
+<rect x="22" y="188" width="170" height="66" rx="12" fill="#f1f4f3" stroke="#9aaba8"/><text x="107" y="214" text-anchor="middle" font-size="15" fill="#203035">用户历史 + 上下文</text><text x="107" y="235" text-anchor="middle" font-size="12" fill="#53676d">观看、搜索、设备</text>
+<rect x="258" y="94" width="190" height="100" rx="14" fill="#dceeed" stroke="#147f80" stroke-width="2"/><text x="353" y="132" text-anchor="middle" font-size="18" fill="#203035">候选生成网络</text><text x="353" y="157" text-anchor="middle" font-size="13" fill="#53676d">向量检索 / 高召回</text><text x="353" y="178" text-anchor="middle" font-size="12" fill="#53676d">数百万 → 数百</text>
+<rect x="514" y="94" width="190" height="100" rx="14" fill="#f8e7df" stroke="#d06d4d" stroke-width="2"/><text x="609" y="132" text-anchor="middle" font-size="18" fill="#203035">排序网络</text><text x="609" y="157" text-anchor="middle" font-size="13" fill="#53676d">丰富特征 / 精细目标</text><text x="609" y="178" text-anchor="middle" font-size="12" fill="#53676d">预测每次展示价值</text>
+<rect x="768" y="108" width="110" height="72" rx="12" fill="#eeeaf8" stroke="#7461ba"/><text x="823" y="137" text-anchor="middle" font-size="16" fill="#203035">展示列表</text><text x="823" y="158" text-anchor="middle" font-size="13" fill="#53676d">少量视频</text>
+<g stroke="#53676d" stroke-width="2" fill="none" marker-end="url(#arrow-b)"><path d="M192 73 H232 V118 H254"/><path d="M192 221 H225 V170 H254"/><path d="M448 144 H510"/><path d="M704 144 H764"/></g>
+<rect x="292" y="238" width="350" height="42" rx="10" fill="#fff1d9" stroke="#b88a36"/><text x="467" y="264" text-anchor="middle" font-size="13" fill="#654d20">离线指标用于迭代 · 线上 A/B 用于最终判断</text>
+<path d="M823 180 V259 H646" fill="none" stroke="#916c22" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow-b)"/>
+</svg><figcaption>图 1. 候选生成网络先从大规模视频库中找出小集合，排序网络再使用更丰富的展示特征进行精排。</figcaption></figure>
+<section id="section-2" aria-labelledby="heading-2"><h2 id="heading-2">第一阶段：候选生成把百万级搜索压缩成小集合</h2><p>论文把候选生成表述为极大规模的多分类问题：给定用户 <span class="inline-math">U</span> 和上下文 <span class="inline-math">C</span>，预测用户下一次会观看哪个视频 <span class="inline-math">i</span>。模型学习用户—上下文向量 <span class="inline-math">u</span> 与视频向量 <span class="inline-math">v_i</span>，用它们的内积表达匹配程度：</p><div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="公式区域，可横向滚动"><math display="block" aria-label="probability of watch i given user and context is exponential video user dot product divided by sum of exponentials"><mfrac><mrow><mi>exp</mi><mo>(</mo><msup><msub><mi>v</mi><mi>i</mi></msub><mi>⊤</mi></msup><mi>u</mi><mo>)</mo></mrow><mrow><munderover><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>V</mi></mrow><mrow></mrow></munderover><mi>exp</mi><mo>(</mo><msup><msub><mi>v</mi><mi>j</mi></msub><mi>⊤</mi></msup><mi>u</mi><mo>)</mo></mrow></mfrac></math></div></div><p>训练时，用户观看历史中的视频可以作为正例，模型还需要处理数量巨大的负类。论文使用候选采样（candidate sampling）近似完整 softmax，并通过重要性权重校正采样分布。线上服务时，并不需要为每个请求精确计算整个词表的概率，而是把用户向量与视频向量做近邻检索，取回数百个候选。</p><p>用户观看历史是可变长序列。论文将视频 ID 映射为 embedding，并对历史 embedding 做平均，得到定长表示；搜索词、地域、设备和人口属性等异构信号也可以加入模型。这里的平均池化是论文中实际采用并比较过的实现选择，不应泛化成所有推荐系统都必须采用的做法。</p></section>
+<section id="section-3" aria-labelledby="heading-3"><h2 id="heading-3">第二阶段：排序决定有限展示位应该放什么</h2><p>候选生成的目标偏向高召回：宁可多找一些可能相关的视频，也不要过早漏掉有价值的内容。排序模型面对的候选只有数百个，因此可以使用更丰富的用户、视频和展示上下文特征，给每个候选独立打分。</p><p>一个重要的区别是：论文没有把点击率当作最终目标。点击后观看了多久，才更接近这篇论文所讨论的观看时长目标。它用加权逻辑回归训练排序模型：点击的正样本按实际观看时长加权，未点击的负样本使用单位权重；推断时通过指数输出得到与每次展示预期观看时长近似对应的分数。</p><p>从概率分解看，预期观看时长可以写成：</p><div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="公式区域，可横向滚动"><math display="block" aria-label="expected watch time equals click probability times expected watch time conditional on click"><mrow><mi>E</mi><mo>[</mo><mi>T</mi><mo>|</mo><mi>x</mi><mo>]</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>click</mi><mo>|</mo><mi>x</mi><mo>)</mo><mo>×</mo><mi>E</mi><mo>[</mo><mi>T</mi><mo>|</mo><mi>click</mi><mo>,</mo><mi>x</mi><mo>]</mo></mrow></math></div></div><p>这只是一个帮助理解的分解式。论文的训练技巧是通过加权逻辑回归构造目标，并在正样本比例较低的条件下，使学到的 odds 近似预期观看时长；它不是简单地把两个独立模型的输出相乘。</p></section>
+<section id="section-4" aria-labelledby="heading-4"><h2 id="heading-4">标签与时间顺序：避免把未来泄漏给模型</h2><p>论文强调，训练样本的构造方式会影响模型是否能迁移到真实推荐场景。若随机从用户历史中抽取一个观看作为标签，却把发生在标签之后的行为仍留在输入里，模型就获得了线上请求当时不可能知道的信息。</p><p>更合理的方式是：选择一个目标观看事件，只把它之前发生的行为作为输入，预测用户接下来会看什么。论文称之为预测 future watch。这个选择也保留了观看序列中的方向性，例如连续剧集通常有顺序，兴趣也可能从热门内容逐渐转向更细分的主题。</p><p>新鲜度同样需要显式建模。论文把训练样本的年龄（example age）作为特征，让模型学习内容热度随上传时间变化的规律；服务时将该特征设为接近训练窗口末端的值。这个设计用于缓解只从历史分布学习时产生的“偏爱过去”现象。</p></section>
+<section id="section-5" aria-labelledby="heading-5"><h2 id="heading-5">离线指标不能替代线上实验</h2><p>论文使用 precision、recall、ranking loss 等离线指标推动迭代，但最终通过线上 A/B 测试评估模型效果。作者明确指出，离线实验和线上 A/B 结果并不总是相关。原因包括训练标签只是用户满意度的代理、曝光策略改变了日志分布，以及真实产品中的界面和用户行为无法被离线数据完整重建。</p><p>因此，评估至少需要分开回答三个问题：</p><ol><li>候选生成是否把未来可能观看的视频找回来？可看 Recall@K、覆盖率和候选延迟。</li><li>排序是否把更有价值的候选排在前面？可看观看时长加权的排序损失、NDCG 等。</li><li>用户在真实产品里是否获得更好的体验？需要线上实验，并同时检查负反馈、短期消费质量和长期指标。</li></ol></section>
+<section id="section-6" aria-labelledby="heading-6"><h2 id="heading-6">一个可运行的预期观看时长示例</h2><p>下面的函数把点击概率与点击后的条件观看时长组合成一个透明的期望值。它用于解释目标函数，不复现 YouTube 论文的采样 softmax、特征工程或加权逻辑回归。</p><pre><code class="language-python">from examples.ch01.lesson_1_1_2 import expected_watch_time
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <title>1.1.2 推荐系统与YouTube的观看时长增长</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
-  <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
-</head>
-<body>
-  <div class="container">
-    <h1>01_1.1.2 推荐系统与YouTube的观看时长增长</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.1 为什么推荐系统是互联网的增长引擎
-Content: 01_1.1.2 推荐系统与YouTube的观看时长增长
-</code></pre>
-<h3>01_1.1.2 推荐系统与YouTube的观看时长增长：极致详细分析</h3>
-<h4>一、YouTube推荐系统的重要性</h4>
-<p>YouTube作为全球最大的视频分享平台，其核心商业模式依赖于广告收入，而广告收入的直接驱动力是用户的观看时长。推荐系统在这一过程中扮演了至关重要的角色，通过个性化推荐，提高用户的观看时长，从而增加广告的曝光机会和点击率，实现商业目标。</p>
-<h4>二、YouTube推荐系统的优化目标</h4>
-<p>YouTube的推荐系统优化目标明确指向用户的观看时长（Watch Time），而非传统的点击率（Click Through Rate, CTR）。这一优化目标的选择有着深刻的商业和用户体验背景：</p>
-<ol>
-<li><strong>商业利益</strong>：观看时长越长，广告曝光机会越多，广告收入也随之增加。</li>
-<li><strong>用户体验</strong>：长时间的观看意味着用户找到了更多感兴趣的内容，提高了用户满意度和平台黏性。</li>
-</ol>
-<h4>三、推荐系统的工作原理</h4>
-<p>YouTube推荐系统主要通过以下步骤实现对观看时长的优化：</p>
-<h5>1. <strong>用户画像构建</strong></h5>
-<p>通过分析用户的历史观看行为、搜索记录、互动数据等，建立详尽的用户画像。用户画像包括用户的兴趣偏好、观看习惯、互动倾向等多个维度。</p>
-<h5>2. <strong>深度学习模型应用</strong></h5>
-<p>YouTube使用深度学习模型来预测用户对某个候选视频的观看时长。具体方法如下：</p>
-<ul>
-<li><strong>候选集生成模型（Candidate Generation Model）</strong>：从海量视频中快速筛选出一部分候选视频，通常减少到几百个量级。</li>
-<li><strong>排序模型（Ranking Model）</strong>：对筛选出的候选视频进行精确排序，依据用户的兴趣和预测的观看时长生成最终推荐列表。</li>
-</ul>
-<h5>3. <strong>实时计算与反馈机制</strong></h5>
-<p>为了保证推荐的及时性和准确性，YouTube的推荐系统实时监控用户的行为变化，并及时更新推荐结果。同时，通过用户的反馈，不断优化模型和推荐策略。</p>
-<h4>四、技术细节与挑战</h4>
-<h5>1. <strong>特征工程</strong></h5>
-<p>YouTube在特征工程中引入了多个关键特征，如：</p>
-<ul>
-<li><strong>Example Age特征</strong>：用于捕捉内容新鲜度，定义为训练样本生成时刻距离当前时刻的时间间隔。</li>
-<li><strong>Time Since Last Watch特征</strong>：表示用户上次观看同类视频的时间间隔，捕捉用户的持续兴趣。</li>
-</ul>
-<h5>2. <strong>模型训练与评估</strong></h5>
-<p>在模型训练过程中，YouTube对训练集和测试集进行了精细的处理：</p>
-<ul>
-<li><strong>平衡训练样本</strong>：避免高活跃用户对模型的过度影响，使模型能够更好地服务长尾用户。</li>
-<li><strong>避免数据穿越</strong>：在测试集选择中，使用用户最近一次观看行为，防止引入未来信息。</li>
-</ul>
-<h5>3. <strong>候选集生成与排序</strong></h5>
-<p>YouTube的候选集生成模型和排序模型均采用深度学习技术：</p>
-<ul>
-<li><strong>候选集生成模型</strong>：利用用户历史观看序列和搜索序列，通过Embedding方法生成视频和搜索词的表示向量，快速筛选候选视频。</li>
-<li><strong>排序模型</strong>：引入播放时长作为优化目标，通过加权逻辑回归进行训练，确保推荐结果能够最大化用户的观看时长。</li>
-</ul>
-<h4>五、YouTube推荐系统的成功案例</h4>
-<p>通过推荐系统的不断优化，YouTube实现了显著的商业增长和用户体验提升：</p>
-<ul>
-<li><strong>观看时长增加</strong>：推荐系统成功吸引用户长时间停留，提升了整体观看时长。</li>
-<li><strong>广告收入提升</strong>：随着观看时长的增加，广告的曝光机会和点击率显著提升，带动广告收入的增长。</li>
-</ul>
-<h3>结论</h3>
-<p>YouTube推荐系统通过精细的用户画像构建、深度学习模型的应用、实时计算与反馈机制，实现了观看时长的显著增长。其成功的关键在于明确的优化目标、细致的特征工程、精准的模型训练和评估。通过这些技术手段，YouTube不仅提升了用户的观看体验，也实现了显著的商业收益，充分展示了推荐系统在互联网增长引擎中的重要作用。</p>
-
-    <h3>Python 文件</h3>
-    <pre><code># 01_1.1.2 推荐系统与YouTube的观看时长增长
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.1 为什么推荐系统是互联网的增长引擎
-Content: 01_1.1.2 推荐系统与YouTube的观看时长增长
-"""
-
-</code></pre>
-  </div>
-</body>
-</html>
-  
+p_click = 0.20
+mean_watch_if_clicked = 180.0  # seconds
+print(expected_watch_time(p_click, mean_watch_if_clicked))
+# 36.0 seconds per impression</code></pre><p>若只按点击概率排序，点击诱饵可能被推高；若只按观看时长排序，又可能偏向极少数超长内容。真实目标需要结合产品场景、满意度信号和安全约束来定义。</p></section>
+<section id="section-7" aria-labelledby="heading-7"><h2 id="heading-7">这篇论文能说明什么，不能说明什么</h2><p>这是一篇 2016 年公开的系统论文，解释了当时 YouTube 推荐系统中的两阶段架构、训练样本选择、特征设计和线上评估方法。它不是当前 YouTube 系统的完整技术说明，也不能据此推断今天所有视频推荐都使用相同模型。</p><p>它最值得保留的工程思想是：把全库检索与精细排序分开；让训练样本的时间语义与线上预测一致；把新鲜度和异构信号显式纳入模型；用线上实验验证离线指标无法回答的问题。</p></section>
+<aside class="demo" aria-label="交互示例"><div><strong>查看两阶段分工</strong><p id="demo-output" aria-live="polite">候选生成关注覆盖与检索成本；排序关注少量候选中的精细目标。</p></div><button type="button" id="demo-toggle" aria-pressed="false">切换说明</button></aside>
+<section id="section-8" aria-labelledby="heading-8"><h2 id="heading-8">参考资料</h2><ul><li>Covington, Adams, Sargin, <a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>, RecSys 2016，尤其是第 2–4 节。</li><li>Google Research, <a href="https://research.google/pubs/deep-neural-networks-for-youtube-recommendations/" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>：论文官方研究页面。</li><li>Google for Developers, <a href="https://developers.google.com/machine-learning/recommendation/overview/types" rel="noopener noreferrer">Recommendation systems overview</a>：候选生成、打分和重排的通用概念。</li></ul></section>
+<footer><a href="../../index.html">回到推荐系统课程首页</a> · <a href="../../README.md">查看完整课程目录</a></footer></article></main></div>
+<script>(function(){const b=document.getElementById("demo-toggle"),o=document.getElementById("demo-output");if(!b||!o)return;b.addEventListener("click",function(){const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",String(on));o.textContent=on?"排序不是全库扫描；它接收候选生成输出的小集合。":"候选生成关注覆盖与检索成本；排序关注少量候选中的精细目标。";});})();</script>
+</body></html>

@@ -1,7 +1,3 @@
-# 00_1.2.1 推荐系统的逻辑框架
+"""Compatibility entry point; implementation lives in examples/ch01/"""
 
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 00_1.2.1 推荐系统的逻辑框架
-"""
-
+from examples.ch01.lesson_1_2_1 import *

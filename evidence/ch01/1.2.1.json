@@ -1,0 +1,32 @@
+{
+  "article": "1.2.1 推荐系统的逻辑框架",
+  "claims": [
+    {
+      "id": "L1",
+      "claim": "常见推荐流程包含候选生成、打分和重排",
+      "kind": "architecture",
+      "source_url": "https://developers.google.com/machine-learning/recommendation/overview/types",
+      "locator": "Recommendation systems overview",
+      "status": "verified",
+      "notes": "文章将请求、曝光日志和训练闭环作为产品化扩展。"
+    },
+    {
+      "id": "L2",
+      "claim": "候选生成可以结合内容方法、协同过滤与 embedding 空间检索",
+      "kind": "method",
+      "source_url": "https://developers.google.com/machine-learning/recommendation/overview/candidate-generation",
+      "locator": "Candidate generation overview",
+      "status": "verified",
+      "notes": "具体召回源应根据数据与延迟约束选择。"
+    },
+    {
+      "id": "L3",
+      "claim": "YouTube 2016 系统使用候选生成与排序两个网络，并通过线上 A/B 评估最终效果",
+      "kind": "case-study",
+      "source_url": "https://doi.org/10.1145/2959100.2959190",
+      "locator": "Sections 2 and 4",
+      "status": "verified",
+      "notes": "历史案例，不代表所有推荐系统的统一实现。"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+<title id="title">YouTube 论文中的两阶段推荐流程</title>
+<desc id="desc">视频库和用户历史进入候选生成网络，输出数百个候选；排序网络结合更丰富的特征后输出少量展示视频。</desc>
+<defs><marker id="arrow-b" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#53676d" stroke-width="1.5"/></marker></defs>
+<rect x="22" y="38" width="170" height="70" rx="12" fill="#e9f1f2" stroke="#7b9da0"/><text x="107" y="66" text-anchor="middle" font-size="16" fill="#203035">视频库</text><text x="107" y="88" text-anchor="middle" font-size="13" fill="#53676d">数百万候选</text>
+<rect x="22" y="188" width="170" height="66" rx="12" fill="#f1f4f3" stroke="#9aaba8"/><text x="107" y="214" text-anchor="middle" font-size="15" fill="#203035">用户历史 + 上下文</text><text x="107" y="235" text-anchor="middle" font-size="12" fill="#53676d">观看、搜索、设备</text>
+<rect x="258" y="94" width="190" height="100" rx="14" fill="#dceeed" stroke="#147f80" stroke-width="2"/><text x="353" y="132" text-anchor="middle" font-size="18" fill="#203035">候选生成网络</text><text x="353" y="157" text-anchor="middle" font-size="13" fill="#53676d">向量检索 / 高召回</text><text x="353" y="178" text-anchor="middle" font-size="12" fill="#53676d">数百万 → 数百</text>
+<rect x="514" y="94" width="190" height="100" rx="14" fill="#f8e7df" stroke="#d06d4d" stroke-width="2"/><text x="609" y="132" text-anchor="middle" font-size="18" fill="#203035">排序网络</text><text x="609" y="157" text-anchor="middle" font-size="13" fill="#53676d">丰富特征 / 精细目标</text><text x="609" y="178" text-anchor="middle" font-size="12" fill="#53676d">预测每次展示价值</text>
+<rect x="768" y="108" width="110" height="72" rx="12" fill="#eeeaf8" stroke="#7461ba"/><text x="823" y="137" text-anchor="middle" font-size="16" fill="#203035">展示列表</text><text x="823" y="158" text-anchor="middle" font-size="13" fill="#53676d">少量视频</text>
+<g stroke="#53676d" stroke-width="2" fill="none" marker-end="url(#arrow-b)"><path d="M192 73 H232 V118 H254"/><path d="M192 221 H225 V170 H254"/><path d="M448 144 H510"/><path d="M704 144 H764"/></g>
+<rect x="292" y="238" width="350" height="42" rx="10" fill="#fff1d9" stroke="#b88a36"/><text x="467" y="264" text-anchor="middle" font-size="13" fill="#654d20">离线指标用于迭代 · 线上 A/B 用于最终判断</text>
+<path d="M823 180 V259 H646" fill="none" stroke="#916c22" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow-b)"/>
+</svg>
