@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第9章 Wide&Deep与DeepFM</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第9章 Wide&Deep与DeepFM</h1>
 
@@ -65,9 +74,46 @@
 
         <p><strong>Deep侧</strong>是一个前馈神经网络，将分类特征映射为低维稠密embedding，然后通过若干隐藏层来学习特征之间的非线性交互。embedding的引入让模型可以泛化到未见过的特征组合。</p>
 
-        <p>最终的输出是两部分的加权和：</p>
+        <p>最终的输出是两部分的加权和。整个结构可以看成左右两条并行分支在输出层汇合：</p>
 
-        <pre><code>ŷ = σ(w_wide^T x_wide + w_deep^T a^{[l]} + b)</code></pre>
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 430" role="img" aria-labelledby="fig09-title fig09-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig09-title">Wide&Deep 的双分支联合训练结构</title>
+                <desc id="fig09-desc">Wide 侧用交叉特征做线性记忆，Deep 侧用 embedding 与隐藏层做泛化，两支输出相加后经 sigmoid 得到预测。</desc>
+                <defs><marker id="fig09-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.6"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="60" y="30" width="300" height="52" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="210" y="52" font-size="13" font-weight="700" fill="#14516e">Wide 侧输入</text><text x="210" y="72" font-size="12" fill="#475569">手工交叉特征 x_wide</text>
+                    <rect x="90" y="112" width="240" height="64" rx="12" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+                    <text x="210" y="140" font-size="13" font-weight="700" fill="#0c4a6e">线性 / LR</text><text x="210" y="160" font-size="12" fill="#475569">记忆高频共现规则</text>
+                    <rect x="90" y="206" width="240" height="50" rx="12" fill="#f1f5f9" stroke="#0284c7" stroke-width="1.6"/>
+                    <text x="210" y="236" font-size="13" fill="#0c4a6e">w_wideᵀ x_wide</text>
+
+                    <rect x="540" y="30" width="300" height="52" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="690" y="52" font-size="13" font-weight="700" fill="#3b1a75">Deep 侧输入</text><text x="690" y="72" font-size="12" fill="#475569">原始特征 → Embedding</text>
+                    <rect x="570" y="112" width="240" height="64" rx="12" fill="#ddd6fe" stroke="#6d28d9" stroke-width="2"/>
+                    <text x="690" y="140" font-size="13" font-weight="700" fill="#3b1a75">隐藏层 (ReLU)</text><text x="690" y="160" font-size="12" fill="#475569">泛化未见的特征组合</text>
+                    <rect x="570" y="206" width="240" height="50" rx="12" fill="#f1f5f9" stroke="#6d28d9" stroke-width="1.6"/>
+                    <text x="690" y="236" font-size="13" fill="#3b1a75">w_deepᵀ a^[l]</text>
+
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig09-arrow)">
+                        <path d="M210 82 V110"/><path d="M210 176 V204"/><path d="M690 82 V110"/><path d="M690 176 V204"/>
+                        <path d="M330 231 H430"/><path d="M570 231 H470"/>
+                    </g>
+                    <circle cx="450" cy="231" r="36" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+                    <text x="450" y="237" font-size="17" font-weight="700" fill="#78350f">+</text>
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig09-arrow)"><path d="M450 267 V300"/></g>
+                    <rect x="340" y="302" width="220" height="58" rx="12" fill="#e2f0ed" stroke="#147f80" stroke-width="2.5"/>
+                    <text x="450" y="326" font-size="14" font-weight="700" fill="#0f5c5d">σ(·) 联合输出</text><text x="450" y="346" font-size="12" fill="#475569">两支参数联合训练</text>
+                    <text x="450" y="396" font-size="13" font-weight="700" fill="#203035">ŷ = p(点击)</text>
+                </g>
+            </svg>
+            <figcaption>图 9-1. Wide&Deep 把擅长记忆的线性分支与擅长泛化的 DNN 分支联合训练，输出层求和。图为结构示意，用于说明两条分支的分工与汇合位置。</figcaption>
+        </figure>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="Wide&amp;Deep 输出公式区域，可横向滚动">
+            <math display="block" aria-label="output equals sigmoid of the wide side linear term plus the deep side term weighted by the last hidden layer plus bias"><mrow><mover><mi>y</mi><mo>^</mo></mover><mo>=</mo><mi>σ</mi><mo>(</mo><msubsup><mi>w</mi><mi>wide</mi><mi>T</mi></msubsup><msub><mi>x</mi><mi>wide</mi></msub><mo>+</mo><msubsup><mi>w</mi><mi>deep</mi><mi>T</mi></msubsup><msup><mi>a</mi><mrow><mo>[</mo><mi>l</mi><mo>]</mo></mrow></msup><mo>+</mo><mi>b</mi><mo>)</mo></mrow></math>
+        </div></div>
 
         <p>其中 a^{[l]} 是Deep侧最后一层隐藏层的输出。整个模型通过联合训练（Joint Training）同时优化Wide和Deep的参数。</p>
 
@@ -115,6 +161,8 @@
 
         <p>Google的线上实验结果显示，Wide&Deep相比纯Wide模型，App下载率提升了约3.9%。这个数字在今天看来可能不大，但对于Google Play这种体量的产品，3.9%意味着千万级的新增下载量。</p>
 
+        <p class="source-note">来源说明：App 下载率 +3.9% 为 Wide&Deep 原文在 Google Play 线上 A/B 测试中报告的相对提升，不同场景不可直接套用。原文：Cheng et al., <a href="https://doi.org/10.1145/2988450.2988454" rel="noopener noreferrer">Wide &amp; Deep Learning for Recommender Systems</a>, DLRS 2016。</p>
+
         <p>Wide&Deep最大的历史贡献不是它的AUC指标，而是它证明了：<strong>推荐系统可以使用深度神经网络，而且深度学习与传统线性模型可以共存、互补</strong>。</p>
 
         <h2>2. DeepFM：用FM替代Wide</h2>
@@ -133,7 +181,9 @@
 
         <p>输出由两部分相加：</p>
 
-        <pre><code>ŷ = σ(ŷ_FM + ŷ_Deep)</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="DeepFM 输出公式区域，可横向滚动">
+            <math display="block" aria-label="output equals sigmoid of the FM component plus the deep component"><mrow><mover><mi>y</mi><mo>^</mo></mover><mo>=</mo><mi>σ</mi><mo>(</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>FM</mi></msub><mo>+</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>Deep</mi></msub><mo>)</mo></mrow></math>
+        </div></div>
 
         <p>这个设计优雅在什么地方？Wide&Deep的Wide侧需要你手工挑选哪些特征需要做交叉变换——这是一个经验密集型工作。而DeepFM的FM侧自动对所有特征做二阶交叉，完全不需要人工介入。</p>
 
@@ -233,6 +283,8 @@ class DeepFM(nn.Module):
 
         <p>让我再分享一个真实的迁移故事。有一家公司的推荐团队，从Wide&Deep迁移到DeepFM后，原来的全职特征工程岗位工作量直接减少了约60%。团队负责人说："以前我们每周要花两天跑交叉特征实验，现在一个月可能才需要做一次。模型自己学交叉，大部分人工特征都变成了冗余。"</p>
 
+        <p class="source-note">教学示意："特征工程工作量减少约 60%"为个体团队的排练经验，无公开对照实验支撑，仅用于说明自动二阶交叉替代手工交叉的方向性收益。DeepFM 原始设计参见 Guo et al., <a href="https://arxiv.org/abs/1703.04247" rel="noopener noreferrer">DeepFM: A Factorization-Machine based Neural Network for CTR Prediction</a>, IJCAI 2017。</p>
+
         <p>DeepFM为推荐系统建立了一个"基准线"。无论是学术论文还是工业实践，当人们提出一个新模型时，第一个要对比的baseline往往就是DeepFM。但DeepFM不是终点——它仍然使用DNN隐式地进行高阶交叉。下一章我们要讲的DCN和xDeepFM，将带我们进入显式高阶交叉的世界。</p>
 
         <div class="footer-nav">
@@ -240,7 +292,7 @@ class DeepFM(nn.Module):
             <a href="index.html">📖 返回目录</a>
             <a href="10.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
