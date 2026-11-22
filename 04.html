@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第4章 协同过滤：推荐的基石</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第4章 协同过滤：推荐的基石</h1>
 
@@ -55,6 +64,49 @@
         <p>想象你去一个陌生的城市出差，晚上想找个饭馆吃饭。你问一个同事："附近有什么好吃的？"同事说："我不太清楚，但老王口味和你很像——你们上次出差都喜欢那家川菜馆。我问问老王。"这就是协同过滤的核心：<strong>借助相似人群的经验来为你做决策</strong>。</p>
 
         <p>从数学角度看，协同过滤利用的是用户-物品交互矩阵（User-Item Interaction Matrix）中的"共现模式"：用户A和用户B都喜欢物品1、2、3，那么用户A喜欢的物品4也很可能被用户B喜欢。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 360" role="img" aria-labelledby="fig04-title fig04-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig04-title">用户-物品评分矩阵上的 UserCF 与 ItemCF</title>
+                <desc id="fig04-desc">矩阵的行是用户、列是物品，格子里是评分。UserCF 比较行与行的相似度，ItemCF 比较列与列的相似度。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="310" y="30" font-size="14" font-weight="700" fill="#203035">用户-物品评分矩阵（? 为待预测）</text>
+                    <text x="215" y="64" font-size="13" font-weight="700" fill="#0f5c5d">电影1</text>
+                    <text x="285" y="64" font-size="13" font-weight="700" fill="#0f5c5d">电影2</text>
+                    <text x="355" y="64" font-size="13" fill="#475569">电影3</text>
+                    <text x="425" y="64" font-size="13" fill="#475569">电影4</text>
+                    <g font-size="14" text-anchor="end"><text x="172" y="112" font-weight="700" fill="#0f5c5d">用户A</text><text x="172" y="164" fill="#475569">用户B</text><text x="172" y="216" fill="#475569">用户C</text><text x="172" y="268" font-weight="700" fill="#0f5c5d">用户D</text></g>
+                    <g font-size="15">
+                        <rect x="180" y="80" width="70" height="52" fill="#c9e5e0"/><text x="215" y="112" fill="#0f3b3c">5</text>
+                        <rect x="250" y="80" width="70" height="52" fill="#e2f0ed"/><text x="285" y="112" fill="#0f3b3c">4</text>
+                        <rect x="320" y="80" width="70" height="52" fill="#c9e5e0"/><text x="355" y="112" fill="#0f3b3c">5</text>
+                        <rect x="390" y="80" width="70" height="52" fill="#f8fafc"/><text x="425" y="112" fill="#94a3b8">?</text>
+                        <rect x="180" y="132" width="70" height="52" fill="#e2f0ed"/><text x="215" y="164" fill="#0f3b3c">4</text>
+                        <rect x="250" y="132" width="70" height="52" fill="#c9e5e0"/><text x="285" y="164" fill="#0f3b3c">5</text>
+                        <rect x="320" y="132" width="70" height="52" fill="#eef4f1"/><text x="355" y="164" fill="#0f3b3c">3</text>
+                        <rect x="390" y="132" width="70" height="52" fill="#c9e5e0"/><text x="425" y="164" fill="#0f3b3c">5</text>
+                        <rect x="180" y="184" width="70" height="52" fill="#f6efe9"/><text x="215" y="216" fill="#3f3a35">2</text>
+                        <rect x="250" y="184" width="70" height="52" fill="#f6efe9"/><text x="285" y="216" fill="#3f3a35">3</text>
+                        <rect x="320" y="184" width="70" height="52" fill="#f6efe9"/><text x="355" y="216" fill="#3f3a35">1</text>
+                        <rect x="390" y="184" width="70" height="52" fill="#f6efe9"/><text x="425" y="216" fill="#3f3a35">4</text>
+                        <rect x="180" y="236" width="70" height="52" fill="#c9e5e0"/><text x="215" y="268" fill="#0f3b3c">5</text>
+                        <rect x="250" y="236" width="70" height="52" fill="#e2f0ed"/><text x="285" y="268" fill="#0f3b3c">4</text>
+                        <rect x="320" y="236" width="70" height="52" fill="#e2f0ed"/><text x="355" y="268" fill="#0f3b3c">4</text>
+                        <rect x="390" y="236" width="70" height="52" fill="#f8fafc"/><text x="425" y="268" fill="#94a3b8">?</text>
+                    </g>
+                    <g fill="none" stroke="#147f80" stroke-width="2"><rect x="176" y="76" width="288" height="216" rx="8"/></g>
+                    <g stroke="#7c3aed" stroke-width="2" fill="none"><rect x="180" y="80" width="70" height="208"/><rect x="250" y="80" width="70" height="208"/></g>
+                    <text x="215" y="316" font-size="12" fill="#7c3aed">ItemCF：列内共现 → 相似物品</text>
+                    <text x="520" y="120" font-size="13" font-weight="700" fill="#147f80" text-anchor="start">UserCF：行与行比 → 相似用户</text>
+                    <text x="520" y="146" font-size="12" fill="#475569" text-anchor="start">A 与 D 评分向量最接近，</text>
+                    <text x="520" y="166" font-size="12" fill="#475569" text-anchor="start">用 D 的“?”位置评分预测 A。</text>
+                    <text x="520" y="232" font-size="13" font-weight="700" fill="#7c3aed" text-anchor="start">ItemCF：列与列比 → 相似物品</text>
+                    <text x="520" y="258" font-size="12" fill="#475569" text-anchor="start">电影1、电影2 被同一批用户</text>
+                    <text x="520" y="278" font-size="12" fill="#475569" text-anchor="start">喜欢，故互为相似物品。</text>
+                </g>
+            </svg>
+            <figcaption>图 4-1. 同一个用户-物品评分矩阵可以沿两个方向做协同过滤：行方向（UserCF）找相似用户，列方向（ItemCF）找相似物品。图中数值为教学示意，用于比较两种思路而非复现某次实验。</figcaption>
+        </figure>
 
         <p>协同过滤主要分为两大类：</p>
 
@@ -75,14 +127,11 @@
             <li><strong>预测物品评分</strong>：用邻居用户对某个物品的评分（加权平均）来预测目标用户对该物品的评分</li>
         </ol>
 
-        <p>预测公式如下：</p>
+        <p>预测公式如下（<span class="inline-math">N(u)</span> 为用户 <span class="inline-math">u</span> 的最相似邻居集合）：</p>
 
-        <pre><code># 预测用户 u 对物品 i 的评分
-# sim(u, v) 是用户 u 和用户 v 的相似度
-# r_v,i 是用户 v 对物品 i 的评分
-# r_u_bar 是用户 u 的平均评分，r_v_bar 是用户 v 的平均评分
-
-pred(u, i) = r_u_bar + Σ_v sim(u, v) * (r_v,i - r_v_bar) / Σ_v |sim(u, v)|</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="UserCF 预测公式区域，可横向滚动">
+            <math display="block" aria-label="prediction of u on i equals the mean rating of u plus the weighted sum of neighbor rating deviations divided by the sum of absolute similarities"><mrow><mi>pred</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>i</mi><mo>)</mo><mo>=</mo><msub><mover><mi>r</mi><mo>‾</mo></mover><mi>u</mi></msub><mo>+</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>v</mi><mo>∈</mo><mi>N</mi><mo>(</mo><mi>u</mi><mo>)</mo></mrow></munder><mi>sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo>)</mo><mo>·</mo><mo>(</mo><msub><mi>r</mi><mrow><mi>v</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mover><mi>r</mi><mo>‾</mo></mover><mi>v</mi></msub><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>v</mi><mo>∈</mo><mi>N</mi><mo>(</mo><mi>u</mi><mo>)</mo></mrow></munder><mo>|</mo><mi>sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo>)</mo><mo>|</mo></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>为什么要用平均评分做修正？因为有些用户习惯于给高分（比如永远5星），有些用户给分很严格（3分就算好评了）。减去平均评分可以消除这种"评分偏差"。</p>
 
@@ -154,10 +203,11 @@ pred(u, i) = r_u_bar + Σ_v sim(u, v) * (r_v,i - r_v_bar) / Σ_v |sim(u, v)|</co
             <li><strong>为用户推荐与他过去喜欢的物品相似的物品</strong></li>
         </ol>
 
-        <p>物品i和物品j的相似度计算公式（最常见的是余弦相似度的变体）：</p>
+        <p>物品 <span class="inline-math">i</span> 和物品 <span class="inline-math">j</span> 的相似度取共现用户集合的交并比，分母对热门物品做了惩罚：</p>
 
-        <pre><code># sim(i, j) = 喜欢物品i和物品j的用户数 / sqrt(喜欢物品i的用户数 * 喜欢物品j的用户数)
-# 这个公式对热门物品做了惩罚（分母中的sqrt部分）</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="ItemCF 相似度公式区域，可横向滚动">
+            <math display="block" aria-label="similarity between items i and j equals the size of the intersection of their user sets divided by the square root of the product of the set sizes"><mrow><mi>sim</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mo>|</mo><mi>N</mi><mo>(</mo><mi>i</mi><mo>)</mo><mo>∩</mo><mi>N</mi><mo>(</mo><mi>j</mi><mo>)</mo><mo>|</mo></mrow><msqrt><mrow><mo>|</mo><mi>N</mi><mo>(</mo><mi>i</mi><mo>)</mo><mo>|</mo><mo>·</mo><mo>|</mo><mi>N</mi><mo>(</mo><mi>j</mi><mo>)</mo><mo>|</mo></mrow></msqrt></mfrac></mrow></math>
+        </div></div>
 
         <h3>3.2 为什么ItemCF比UserCF更适合电商</h3>
 
@@ -241,6 +291,8 @@ pred(u, i) = r_u_bar + Σ_v sim(u, v) * (r_v,i - r_v_bar) / Σ_v |sim(u, v)|</co
         <h3>5.2 稀疏性（Sparsity）</h3>
 
         <p>即使系统中有大量用户和物品，单个用户交互过的物品占比通常极小。在淘宝场景中，一个用户可能浏览过几百个商品，但淘宝商品总量以亿计——数据稀疏度远低于0.01%。在这种极端稀疏下，用户间"共同评分"几乎不存在，UserCF基本失效。</p>
+
+        <p class="source-note">来源说明：稀疏度量级为演示性估计，仅用来说明"交互矩阵极稀疏"这一事实，具体数值随业务体量变化，不作为实测指标。ItemCF 在电商中的优势可参见 Linden, Smith, York, <a href="https://doi.org/10.1109/MIC.2003.1167344" rel="noopener noreferrer">Amazon.com Recommendations: Item-to-Item Collaborative Filtering</a>, IEEE Internet Computing, 2003（即下文 3.2 节提到的 Amazon 论文）。</p>
 
         <h3>5.3 热门偏差（Popularity Bias）与哈利波特效应</h3>
 
@@ -333,7 +385,7 @@ print(f"ItemCF: 给用户A推荐 = {icf.recommend(0, top_k=3)}")
             <a href="index.html">📖 返回目录</a>
             <a href="05.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
