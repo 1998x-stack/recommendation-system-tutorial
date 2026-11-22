@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第8章 从LR到FM：特征交叉的进化</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第8章 从LR到FM：特征交叉的进化</h1>
 
@@ -58,12 +67,15 @@
 
         <p>逻辑回归的数学形式非常简洁：</p>
 
-        <pre><code>p(y=1|x) = σ(w^T x + b)
-         = 1 / (1 + exp(-(w^T x + b)))</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="逻辑回归公式区域，可横向滚动">
+            <math display="block" aria-label="probability of click equals sigmoid of w transpose x plus b, which equals one over one plus exponential of minus w transpose x plus b"><mrow><mi>p</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>|</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>σ</mi><mo>(</mo><msup><mi>w</mi><mi>T</mi></msup><mi>x</mi><mo>+</mo><mi>b</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mi>exp</mi><mo>(</mo><mo>−</mo><mo>(</mo><msup><mi>w</mi><mi>T</mi></msup><mi>x</mi><mo>+</mo><mi>b</mi><mo>)</mo><mo>)</mo></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>其中 σ 是 sigmoid 函数，它将任意实数映射到 (0,1) 区间，输出正好可以解释为点击概率。训练目标是最小化交叉熵损失（Cross-Entropy Loss）：</p>
 
-        <pre><code>L = -y log(p) - (1-y) log(1-p)</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="交叉熵损失公式区域，可横向滚动">
+            <math display="block" aria-label="cross entropy loss equals minus y log p minus one minus y log one minus p"><mrow><mi>L</mi><mo>=</mo><mo>−</mo><mi>y</mi><mi>log</mi><mo>(</mo><mi>p</mi><mo>)</mo><mo>−</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>y</mi><mo>)</mo><mi>log</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow></math>
+        </div></div>
 
         <p>在工业场景中，输入特征 x 经过 one-hot 编码或特征哈希（Feature Hashing）后，维度可以轻松达到千万甚至亿级。好在LR的优化算法非常成熟——FTRL（Follow The Regularized Leader）等在线学习算法可以高效处理这种稀疏大规模特征。</p>
 
@@ -76,16 +88,60 @@
         <div class="highlight">
             <p><strong>真实故事：三年LR，一朝FM</strong></p>
             <p>2015年，我了解到一家中型电商公司的推荐团队，当时他们的CTR模型是LR，特征维度超过2亿，特征工程代码超过3万行。团队每周都要花大量时间做特征上线和AB测试，交叉特征的数量级增长几乎不可控。后来他们切换到FM，两周就复现了LR + 几万条手工特征的AUC，还把特征工程的工作量减少了大约70%。团队负责人在分享时感叹："以前我们以为推荐系统的核心竞争力是特征工程，后来才发现，我们只是在为模型的缺陷打工。"</p>
+            <p class="source-note">教学示意：该案例的具体倍率与工程量数字来自行业分享的轶事式转述，无法追溯到单一公开实验，仅用于说明"手工交叉难以维护"这一方向性问题。</p>
         </div>
 
         <h2>2. FM：矩阵分解与LR的优雅结合</h2>
 
         <p>2010年，Steffen Rendle 提出了因子分解机（Factorization Machines, FM），这篇论文后来成为推荐系统领域引用最高的论文之一。FM的核心洞见极其优雅：<strong>与其为每一对特征组合学习一个独立的权重 w_ij，不如为每一个特征学习一个隐向量 v_i，然后用两个隐向量的点积来表示交叉权重</strong>。</p>
 
-        <p>数学上，FM模型的二阶部分是这样的：</p>
+        <p>数学上，FM模型的二阶部分是这样的（<span class="inline-math">v<sub>i</sub></span> 为特征 i 的隐向量，<span class="inline-math">⟨v<sub>i</sub>, v<sub>j</sub>⟩</span> 为两向量的内积）：</p>
 
-        <pre><code>ŷ(x) = w_0 + Σ w_i x_i + Σ Σ (v_i^T v_j) x_i x_j
-          i=1..n    i=1..n j=i+1..n</code></pre>
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 380" role="img" aria-labelledby="fig08-title fig08-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig08-title">因子分解机的结构：一阶项与二阶隐向量交叉</title>
+                <desc id="fig08-desc">稀疏的 one-hot 特征分为两路：一路由一阶权重 w 线性求和，另一路查询隐向量 V 并计算所有两两内积，两路相加后经 sigmoid 得到点击率预测。</desc>
+                <defs><marker id="fig08-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.6"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="20" y="130" width="150" height="130" rx="12" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="95" y="156" font-size="14" font-weight="700" fill="#0f5c5d">稀疏输入 x</text>
+                    <text x="95" y="180" font-size="12" fill="#475569">用户 / 物品 / 上下文</text>
+                    <text x="95" y="200" font-size="12" fill="#475569">one-hot、大多为 0</text>
+                    <text x="95" y="230" font-size="12" fill="#147f80">x_i 非零项很少</text>
+
+                    <rect x="250" y="60" width="200" height="70" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="350" y="88" font-size="14" font-weight="700" fill="#14516e">一阶项 wᵀx</text>
+                    <text x="350" y="110" font-size="12" fill="#475569">每个特征一个权重 w_i</text>
+
+                    <rect x="250" y="250" width="200" height="80" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="350" y="278" font-size="14" font-weight="700" fill="#4c1d95">隐向量表 V</text>
+                    <text x="350" y="300" font-size="12" fill="#475569">每个特征一个 k 维 v_i</text>
+                    <text x="350" y="320" font-size="12" fill="#7c3aed">可泛化到未共现交叉</text>
+
+                    <rect x="530" y="250" width="210" height="80" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="635" y="278" font-size="13" font-weight="700" fill="#4c1d95">Σ ⟨v_i, v_j⟩ x_i x_j</text>
+                    <text x="635" y="300" font-size="12" fill="#475569">所有二阶交叉，O(kn) 计算</text>
+
+                    <circle cx="800" cy="190" r="40" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+                    <text x="800" y="186" font-size="17" font-weight="700" fill="#78350f">σ</text>
+                    <text x="800" y="206" font-size="12" fill="#78350f">sigmoid</text>
+                    <text x="800" y="272" font-size="13" font-weight="700" fill="#203035">ŷ = p(点击)</text>
+
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig08-arrow)">
+                        <path d="M170 165 C210 165 215 95 246 95"/>
+                        <path d="M170 225 C210 225 215 290 246 290"/>
+                        <path d="M450 290 C480 290 495 290 526 290"/>
+                        <path d="M450 95 C560 95 640 130 762 172"/>
+                        <path d="M740 290 C790 290 800 250 800 232"/>
+                    </g>
+                </g>
+            </svg>
+            <figcaption>图 8-1. FM 的双路结构：一阶项沿用线性模型，二阶项用隐向量内积代替独立的交叉权重 w<sub>ij</sub>，因此未共现过的特征组合也能得到非零预测。图为结构示意，用于说明信息流而非某次实验的层数/维度配置。</figcaption>
+        </figure>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="FM 公式区域，可横向滚动">
+            <math display="block" aria-label="FM prediction equals global bias plus sum of first order terms plus sum over pairs of inner product of embeddings times the product of feature values"><mrow><mover><mi>y</mi><mo>^</mo></mover><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msub><mi>w</mi><mn>0</mn></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo>⟨</mo><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><msub><mi>v</mi><mi>j</mi></msub><mo>⟩</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>x</mi><mi>j</mi></msub></mrow></math>
+        </div></div>
 
         <p>注意最后一项：w_ij 被替换成了 v_i^T v_j。这里的 v_i 是特征 i 的 k 维隐向量（embedding）。</p>
 
@@ -93,8 +149,9 @@
 
         <p>FM还有一个工程上的神来之笔：它的计算复杂度可以优化到 O(kn)，而不是直观的 O(kn²)。关键公式变换：</p>
 
-        <pre><code>Σ Σ (v_i^T v_j) x_i x_j = ½ [ (Σ v_i x_i)^2 - Σ (v_i x_i)^2 ]
- i&lt;j                     i        i</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="FM 计算复杂度化简公式区域，可横向滚动">
+            <math display="block" aria-label="the pairwise interaction sum equals one half of the squared sum of embedding weighted features minus the sum of their squares"><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder><mo>⟨</mo><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><msub><mi>v</mi><mi>j</mi></msub><mo>⟩</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>x</mi><mi>j</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo>(</mo><msup><mrow><mo>(</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>v</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo>(</mo><msub><mi>v</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>)</mo></mrow></mrow></math>
+        </div></div>
 
         <p>这个变换把两两交叉的求和化简成了"先求和再平方"与"先平方再求和"的差，极大降低了计算量。在工程实现中，这意味着FM的前向推断几乎和LR一样快。</p>
 
@@ -114,8 +171,9 @@
 
         <p>数学上，FFM的二阶交叉是：</p>
 
-        <pre><code>Σ Σ (v_{i,f(j)}^T v_{j,f(i)}) x_i x_j
- i=1..n j=i+1..n</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="FFM 二阶交叉公式区域，可横向滚动">
+            <math display="block" aria-label="FFM second order term sums field aware embedding inner products times the product of feature values"><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo>⟨</mo><msub><mi>v</mi><mrow><mi>i</mi><mo>,</mo><mi>f</mi><mo>(</mo><mi>j</mi><mo>)</mo></mrow></msub><mo>,</mo><msub><mi>v</mi><mrow><mi>j</mi><mo>,</mo><mi>f</mi><mo>(</mo><mi>i</mi><mo>)</mo></mrow></msub><mo>⟩</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>x</mi><mi>j</mi></msub></mrow></math>
+        </div></div>
 
         <p>这里 f(j) 表示特征 j 所属的 field。假如有 m 个 field，每个特征就有 m-1 个隐向量（不与自己field中的特征交叉？实际上是的）。这显著增加了参数量。</p>
 
@@ -130,6 +188,8 @@
         <div class="warning">
             <p><strong>踩坑提醒：</strong>FFM不是银弹。我曾经见过一个团队在数据量只有100万样本时强行上线FFM，结果AUC比FM还低了1.5个点——过拟合导致泛化能力下降。FFM更适合大厂级别的数据量（千万到亿级样本）。如果你的数据量在百万级，先试试FM，大概率就够了。</p>
         </div>
+
+        <p class="source-note">来源说明："AUC 低 1.5 个点"为个体团队排练经验的教学示意，缺乏可复现的公开数据，仅用于提醒过拟合风险。FM 的原始定义参见 Rendle, <a href="https://doi.org/10.1109/ICDM.2010.127" rel="noopener noreferrer">Factorization Machines</a>, ICDM 2010；FFM 参见 Juan et al., <a href="https://doi.org/10.1145/2959100.2959134" rel="noopener noreferrer">Field-aware Factorization Machines for CTR Prediction</a>, RecSys 2016。</p>
 
         <p>下面的表格总结了LR、FM、FFM三者的关键差异：</p>
 
@@ -240,7 +300,7 @@ class FM:
             <a href="index.html">📖 返回目录</a>
             <a href="09.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
