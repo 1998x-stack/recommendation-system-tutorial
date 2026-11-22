@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第3章 推荐系统的评估体系</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第3章 推荐系统的评估体系</h1>
 
@@ -54,11 +63,46 @@
 
         <p>离线评估是用历史数据模拟模型的预测能力。它的优点是快速、低成本、可复现；缺点是"历史不等于未来"。我们先来看最常用的几个指标。</p>
 
+        <figure class="article-figure">
+            <svg viewBox="0 0 880 300" role="img" aria-labelledby="fig03-title fig03-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig03-title">ROC 曲线与 NDCG 位置衰减的直观对比</title>
+                <desc id="fig03-desc">左侧坐标系中 ROC 曲线越向左上凸起，曲线下面积 AUC 越大；右侧展示排名越靠后折扣权重越小。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+                    <line x1="70" y1="250" x2="430" y2="250" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="70" y1="250" x2="70" y2="40" stroke="#475569" stroke-width="1.6"/>
+                    <text x="250" y="284" font-size="13" fill="#475569" text-anchor="middle">假阳性率 FPR</text>
+                    <text x="30" y="150" font-size="13" fill="#475569" text-anchor="middle" transform="rotate(-90 30 150)">真阳性率 TPR</text>
+                    <path d="M70 250 L430 40" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 5"/>
+                    <text x="300" y="170" font-size="12" fill="#94a3b8">随机猜测 (AUC=0.5)</text>
+                    <path d="M70 250 L130 130 L180 86 L240 62 L320 48 L430 40 L430 250 Z" fill="#e2f0ed" opacity="0.85"/>
+                    <path d="M70 250 L130 130 L180 86 L240 62 L320 48 L430 40" fill="none" stroke="#147f80" stroke-width="2.6"/>
+                    <text x="150" y="120" font-size="13" fill="#0f5c5d">模型 ROC</text>
+                    <text x="250" y="90" font-size="13" fill="#147f80" text-anchor="middle">AUC = 曲线下面积</text>
+
+                    <text x="500" y="60" font-size="13" font-weight="700" fill="#203035">NDCG：位置越靠后，权重越低</text>
+                    <g>
+                        <rect x="500" y="80" width="165" height="24" rx="6" fill="#7c3aed" opacity="0.85"/><text x="684" y="97" font-size="12" fill="#4c1d95">1 / log₂2 = 1.00</text>
+                        <rect x="500" y="116" width="104" height="24" rx="6" fill="#7c3aed" opacity="0.7"/><text x="684" y="133" font-size="12" fill="#4c1d95">1 / log₂3 ≈ 0.63</text>
+                        <rect x="500" y="152" width="82" height="24" rx="6" fill="#7c3aed" opacity="0.55"/><text x="684" y="169" font-size="12" fill="#4c1d95">1 / log₂4 = 0.50</text>
+                        <rect x="500" y="188" width="71" height="24" rx="6" fill="#7c3aed" opacity="0.45"/><text x="684" y="205" font-size="12" fill="#4c1d95">1 / log₂5 ≈ 0.43</text>
+                        <rect x="500" y="224" width="63" height="24" rx="6" fill="#7c3aed" opacity="0.35"/><text x="684" y="241" font-size="12" fill="#4c1d95">1 / log₂6 ≈ 0.39</text>
+                    </g>
+                </g>
+            </svg>
+            <figcaption>图 3-1. 两类离线指标的直观：AUC 把正负样本对拿出来看排序概率，NDCG 则对列表位置施加对数衰减。图中曲线与权重条为示意图，用于说明趋势而非某次实验的实测结果。</figcaption>
+        </figure>
+
         <h3>1.1 AUC：最常用的排序能力指标</h3>
 
         <p>AUC（Area Under the ROC Curve）是推荐系统中最重要的离线指标之一。它的直观含义是：随机选一个正样本和一个负样本，模型把正样本排在负样本前面的概率。</p>
 
         <p>数学上，AUC = 0.5 表示模型没比随机好，AUC = 1.0 表示模型能完美区分正负样本。工业级推荐系统的AUC通常在0.65到0.85之间——超过0.9反而要警惕了，很可能是数据泄露了。</p>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="AUC 公式区域，可横向滚动">
+            <math display="block" aria-label="AUC 等于随机抽一个正样本与一个负样本时，正样本得分更高的概率"><mrow><mi>AUC</mi><mo>=</mo><mi>P</mi><mo>(</mo><msub><mi>s</mi><mi>pos</mi></msub><mo>&gt;</mo><msub><mi>s</mi><mi>neg</mi></msub><mo>)</mo></mrow></math>
+        </div></div>
+
+        <p class="source-note">来源说明：“AUC 0.65–0.85”是工业经验中常见的取值区间，会随任务难度、正负样本比例与样本构造方式变化，此处作为教学示意给出，不作为精确阈值。</p>
 
         <p>但是AUC有一个重要缺陷：它对全量样本一视同仁。如果某个用户只有1个正样本和100个负样本，AUC会把他对整体指标的贡献拉低——但也许这个用户只是不太活跃，并不意味着模型对他"失效"了。这就引出了下一个指标。</p>
 
@@ -73,6 +117,18 @@
         <p>NDCG（Normalized Discounted Cumulative Gain）是一个信息检索领域的重要指标。它衡量的是：模型排序中前K个结果，"好的"内容是不是排在了"差的"前面。NDCG的核心价值在于引入了位置衰减——排在第1位比排在第10位重要得多。</p>
 
         <p>公式看起来有点复杂，但直觉很简单：我们给每个位置一个"权重"，越靠前权重越高，然后看模型有没有把好东西放在权重高的位置。</p>
+
+        <p>设第 <span class="inline-math">i</span> 个位置的相关度标签为 <span class="inline-math">rel<sub>i</sub></span>，则折扣累积收益 DCG 与归一化后的 NDCG 定义为：</p>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="DCG 公式区域，可横向滚动">
+            <math display="block" aria-label="DCG at K equals sum from i=1 to K of two to the rel_i minus one, divided by log base 2 of i plus 1"><mrow><msub><mi>DCG</mi><mi>K</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><mfrac><mrow><msup><mn>2</mn><msub><mi>rel</mi><mi>i</mi></msub></msup><mo>−</mo><mn>1</mn></mrow><mrow><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow></mfrac></mrow></math>
+        </div></div>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="NDCG 公式区域，可横向滚动">
+            <math display="block" aria-label="NDCG at K equals DCG at K divided by IDCG at K"><mrow><msub><mi>NDCG</mi><mi>K</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>DCG</mi><mi>K</mi></msub></mrow><mrow><msub><mi>IDCG</mi><mi>K</mi></msub></mrow></mfrac></mrow></math>
+        </div></div>
+
+        <p>其中 IDCG 是把相关度按理想顺序（降序）排列后得到的 DCG，因此 NDCG 的取值落在 0 到 1 之间，便于跨查询、跨用户比较。</p>
 
         <p>在精排阶段，NDCG@K比AUC更贴近实际体验。两个模型可能有相同的AUC，但NDCG@10更高的那个，用户看到的前几名结果质量更好。</p>
 
@@ -268,7 +324,7 @@ print(f"NDCG@10: {compute_ndcg(y_true, y_pred, k=10):.4f}")
             <a href="index.html">📖 返回目录</a>
             <a href="04.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
