@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第13章 召回模型（上）：双塔与向量检索</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第13章 召回模型（上）：双塔与向量检索</h1>
 
@@ -84,6 +93,50 @@
         </ol>
 
         <p>整个过程中，不需要对每个物品做单独的模型推理——这正是双塔召回能支持亿级候选的关键。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 420" role="img" aria-labelledby="fig13-title fig13-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig13-title">双塔召回：用户塔与物品塔共享同一向量空间</title>
+                <desc id="fig13-desc">用户塔在线实时计算用户向量，物品塔离线预计算物品向量，两者内积作为匹配得分，最后用向量索引检索 Top-K。</desc>
+                <defs><marker id="fig13-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.6"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="30" font-size="13" font-weight="700" fill="#64748b">共享同一个 d 维向量空间</text>
+                    <text x="200" y="76" font-size="13" font-weight="700" fill="#0f5c5d">用户塔（在线）</text>
+                    <rect x="100" y="90" width="200" height="52" rx="12" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="200" y="112" font-size="13" fill="#0f3b3c">用户画像 / 历史行为</text><text x="200" y="132" font-size="12" fill="#475569">请求时组装</text>
+                    <rect x="120" y="168" width="160" height="76" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="200" y="200" font-size="13" font-weight="700" fill="#14516e">DNN</text><text x="200" y="222" font-size="12" fill="#475569">多层全连接</text>
+                    <rect x="130" y="270" width="140" height="52" rx="26" fill="#c9e5e0" stroke="#147f80" stroke-width="2"/>
+                    <text x="200" y="302" font-size="15" font-weight="700" fill="#0f3b3c">user u</text>
+
+                    <text x="700" y="76" font-size="13" font-weight="700" fill="#4c1d95">物品塔（离线预计算）</text>
+                    <rect x="600" y="90" width="200" height="52" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="700" y="112" font-size="13" fill="#3b1a75">物品 ID / 属性 / 类别</text><text x="700" y="132" font-size="12" fill="#475569">定时批量计算</text>
+                    <rect x="620" y="168" width="160" height="76" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="700" y="200" font-size="13" font-weight="700" fill="#14516e">DNN</text><text x="700" y="222" font-size="12" fill="#475569">独立参数</text>
+                    <rect x="630" y="270" width="140" height="52" rx="26" fill="#ded4f7" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="700" y="302" font-size="15" font-weight="700" fill="#3b1a75">item i</text>
+
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig13-arrow)">
+                        <path d="M200 142 V166"/><path d="M200 244 V268"/>
+                        <path d="M700 142 V166"/><path d="M700 244 V268"/>
+                        <path d="M272 296 H406"/><path d="M628 296 H496"/>
+                    </g>
+                    <circle cx="451" cy="296" r="42" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+                    <text x="451" y="292" font-size="15" font-weight="700" fill="#78350f">⟨u, i⟩</text>
+                    <text x="451" y="312" font-size="11" fill="#78350f">内积得分</text>
+                    <rect x="600" y="358" width="240" height="50" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+                    <text x="720" y="380" font-size="13" font-weight="700" fill="#203035">ANN 索引检索 Top-K</text>
+                    <text x="720" y="399" font-size="12" fill="#475569">亿级候选 → 千级</text>
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig13-arrow)"><path d="M451 338 V383 H596"/></g>
+                </g>
+            </svg>
+            <figcaption>图 13-1. 双塔结构把用户侧和物品侧分别编码到同一向量空间：物品塔可离线批量产出向量并建索引，在线只需算一次用户向量再做近邻检索。图中维度与层数为示意，用来说明分工而非具体配置。</figcaption>
+        </figure>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="双塔匹配公式区域，可横向滚动">
+            <math display="block" aria-label="matching score equals the inner product of the user tower output and the item tower output"><mrow><mi>s</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>i</mi><mo>)</mo><mo>=</mo><mo>⟨</mo><msub><mi>f</mi><mi>θu</mi></msub><mo>(</mo><msub><mi>x</mi><mi>u</mi></msub><mo>)</mo><mo>,</mo><msub><mi>g</mi><mi>θi</mi></msub><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo><mo>⟩</mo></mrow></math>
+        </div></div>
 
         <table>
             <thead>
@@ -127,7 +180,11 @@
             </tbody>
         </table>
 
-        <p>训练双塔模型时，正样本通常是用户点击/购买的物品，负样本是未被用户互动的物品。负样本的选择至关重要（我们后面专门讨论"负采样"的问题）。常用的损失函数是<strong>Sampled Softmax</strong>或<strong>NCE Loss</strong>。</p>
+        <p>训练双塔模型时，正样本通常是用户点击/购买的物品，负样本是未被用户互动的物品。负样本的选择至关重要（我们后面专门讨论"负采样"的问题）。常用的损失函数是<strong>Sampled Softmax</strong>或<strong>NCE Loss</strong>。全量 softmax 需要遍历全库，代价不可接受；采样后只在一小部分候选中归一化：</p>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="采样 softmax 公式区域，可横向滚动">
+            <math display="block" aria-label="probability of item i given user u equals exponential of the score divided by the sum over the candidate set of exponential scores"><mrow><mi>P</mi><mo>(</mo><mi>i</mi><mo>|</mo><mi>u</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>exp</mi><mo>(</mo><mi>s</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>i</mi><mo>)</mo><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>C</mi></mrow></munder><mi>exp</mi><mo>(</mo><mi>s</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>)</mo></mrow></mfrac></mrow></math>
+        </div></div>
 
         <h2>3. 经典召回模型解析</h2>
 
@@ -146,6 +203,8 @@
 
         <p>这个<strong>"分类即检索"</strong>（Classification as Retrieval）的trick是YouTube DNN最具启发性的设计。它把精排模型和召回模型统一到了同一个数学框架下——区别只是精排用复杂的交叉特征做精确打分，召回用向量内积做快速过滤。</p>
 
+        <p class="source-note">来源：YouTube DNN 的架构与负采样做法参见 Covington, Adams, Sargin, <a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>, RecSys 2016。</p>
+
         <div class="warning">
             <p><strong>踩坑提醒：</strong>YouTube DNN的训练有一个非常容易出错的细节——负采样。YouTube的做法是"从全库中随机采样作为负样本"，而不是用"曝光未点击"的样本。为什么？因为曝光未点击的数据是有偏的——只有通过召回筛选的物品才会被曝光，这些物品本身已经是"比较相关"的。如果用它们做负样本，模型学到的决策边界会偏窄。这个问题在所有双塔召回训练中都会遇到，我们将在第20章"消偏"中深入讨论。</p>
         </div>
@@ -155,6 +214,8 @@
         <p>双塔模型产出向量后，如何从几千万甚至上亿个物品向量中找到与用户向量最相似的Top-K个？暴力计算所有内积（Brute Force）在亿级规模下是不可能完成的任务。答案就是<strong>近似最近邻搜索（ANN, Approximate Nearest Neighbor）</strong>。</p>
 
         <p>ANN的核心思想是"用精度换速度"——不保证找到精确的最近邻，但能在毫秒级给出足够好的近似结果。</p>
+
+        <p class="source-note">来源说明：下表 QPS 与 Recall@10 的量级为教学示意，实际取值高度依赖索引参数、向量维度、硬件与数据集，不同基准不可直接横向对比；选型时请以官方文档与实际压测为准。</p>
 
         <table>
             <thead>
@@ -250,6 +311,8 @@ print(f"对应的距离: {distances[0]}")</code></pre>
 
         <p>让我分享一个真实的踩坑故事。有一个团队的推荐系统AUC一直上不去。他们花了两个月的时间优化精排模型——从DeepFM迁移到DCN，再到多任务学习，AUC只涨了不到0.5%。后来一个资深工程师偶然检查了Faiss配置，发现 nprobe 被设成了4（默认值），而数据集分布非常分散。把 nprobe 调到32之后，召回 recall@100 直接从82%跳到了94%，整体推荐CTR提升了7%。团队主管苦笑："我们优化了两个月的模型，不如调一个参数。"</p>
 
+        <p class="source-note">教学示意：该案例的召回率与 CTR 数字来自行业轶事，缺乏可复现的公开实验，仅用于说明"查询参数会直接影响召回天花板"这一点；nprobe 的语义与调优方法可参考 Faiss 官方文档。</p>
+
         <p>双塔模型和向量检索是召回阶段最主流的技术方案，但并不是唯一的方案。双塔模型有一个天然的缺陷——每个用户只对应一个embedding向量。但正如我们在DIN中讨论过的，用户的兴趣其实是多面的。一个用户向量无法同时准确地表示"他今天想买手机壳"和"他下周想买办公椅"这两个完全不同的兴趣。下一章，我们将介绍多兴趣召回（MIND）和图召回（PinSAGE），它们从不同的角度解决了"一个用户向量不够用"的问题。</p>
 
         <div class="footer-nav">
@@ -257,7 +320,7 @@ print(f"对应的距离: {distances[0]}")</code></pre>
             <a href="index.html">📖 返回目录</a>
             <a href="14.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
