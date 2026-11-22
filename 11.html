@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第11章 DIN：深度兴趣网络</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第11章 DIN：深度兴趣网络</h1>
 
@@ -117,9 +126,55 @@
             <li>这个 v_u 就是针对候选物品 e_c 的"自适应用户兴趣表示"</li>
         </ul>
 
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 380" role="img" aria-labelledby="fig11-title fig11-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig11-title">DIN 的自适应注意力池化</title>
+                <desc id="fig11-desc">候选物品与用户的历史行为逐个计算注意力得分，相关行为获得更高权重，再加权求和得到与当前候选相关的用户兴趣向量。</desc>
+                <defs><marker id="fig11-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.6"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="350" y="20" width="200" height="58" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.5"/>
+                    <text x="450" y="46" font-size="15" font-weight="700" fill="#4c1d95">候选物品 e_c</text>
+                    <text x="450" y="66" font-size="12" fill="#475569">“透明手机壳”</text>
+
+                    <g>
+                        <rect x="30" y="185" width="150" height="68" rx="12" fill="#c9e5e0" stroke="#147f80" stroke-width="4"/>
+                        <text x="105" y="212" font-size="13" font-weight="700" fill="#0f5c5d">手机壳点击</text><text x="105" y="234" font-size="12" fill="#475569">a₁ = 0.50</text>
+                        <rect x="240" y="185" width="150" height="68" rx="12" fill="#eef4f1" stroke="#147f80" stroke-width="1.2"/>
+                        <text x="315" y="212" font-size="13" fill="#475569">笔记本评测</text><text x="315" y="234" font-size="12" fill="#64748b">a₂ = 0.08</text>
+                        <rect x="450" y="185" width="150" height="68" rx="12" fill="#c9e5e0" stroke="#147f80" stroke-width="3"/>
+                        <text x="525" y="212" font-size="13" font-weight="700" fill="#0f5c5d">手机贴膜</text><text x="525" y="234" font-size="12" fill="#475569">a₃ = 0.34</text>
+                        <rect x="660" y="185" width="150" height="68" rx="12" fill="#eef4f1" stroke="#147f80" stroke-width="1.2"/>
+                        <text x="735" y="212" font-size="13" fill="#475569">耳机搜索</text><text x="735" y="234" font-size="12" fill="#64748b">a₄ = 0.08</text>
+                    </g>
+                    <g stroke="#7c3aed" stroke-width="1.5" fill="none" marker-end="url(#fig11-arrow)">
+                        <path d="M410 78 C300 120 160 150 110 181"/>
+                        <path d="M430 78 C400 120 340 150 318 181"/>
+                        <path d="M470 78 C520 120 520 150 522 181"/>
+                        <path d="M505 78 C640 120 690 150 733 181"/>
+                    </g>
+                    <text x="250" y="120" font-size="12" fill="#7c3aed">逐行为计算注意力得分</text>
+                    <text x="470" y="120" font-size="12" fill="#7c3aed">softmax 归一化</text>
+
+                    <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#fig11-arrow)">
+                        <path d="M105 253 V300"/><path d="M315 253 V300"/><path d="M525 253 V300"/><path d="M735 253 V300"/>
+                    </g>
+                    <rect x="250" y="302" width="400" height="56" rx="12" fill="#e2f0ed" stroke="#147f80" stroke-width="2.5"/>
+                    <text x="450" y="326" font-size="14" font-weight="700" fill="#0f5c5d">加权求和 v_u(e_c) = Σ aᵢ · bᵢ</text>
+                    <text x="450" y="346" font-size="12" fill="#475569">与候选相关的自适应兴趣向量</text>
+                </g>
+            </svg>
+            <figcaption>图 11-1. DIN 用候选物品与每条历史行为的相关性来分配权重：手机壳类行为权重高，笔记本/耳机行为权重低，因此用户向量会随候选物品而改变。图中权重为教学示意，用于说明机制而非某次真实推理的数值。</figcaption>
+        </figure>
+
         <p>注意力得分的计算方式是DIN的精华之一。它使用一个MLP来计算相关性，而不是简单的点积：</p>
 
-        <pre><code>a(b_i, e_c) = MLP([e_i, e_c, e_i ⊙ e_c, e_i - e_c])</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="DIN 注意力得分公式区域，可横向滚动">
+            <math display="block" aria-label="attention score equals an MLP applied to the concatenation of behavior embedding, candidate embedding, their elementwise product and their difference"><mrow><mi>a</mi><mo>(</mo><msub><mi>b</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>c</mi></msub><mo>)</mo><mo>=</mo><mi>MLP</mi><mo>[</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>c</mi></msub><mo>,</mo><msub><mi>e</mi><mi>i</mi></msub><mo>⊙</mo><msub><mi>e</mi><mi>c</mi></msub><mo>,</mo><msub><mi>e</mi><mi>i</mi></msub><mo>−</mo><msub><mi>e</mi><mi>c</mi></msub><mo>]</mo></mrow></math>
+        </div></div>
+
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="DIN 加权求和公式区域，可横向滚动">
+            <math display="block" aria-label="adaptive user representation equals the attention weighted sum of behavior embeddings"><mrow><msub><mi>v</mi><mi>u</mi></msub><mo>(</mo><msub><mi>e</mi><mi>c</mi></msub><mo>)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>a</mi><mi>i</mi></msub><msub><mi>b</mi><mi>i</mi></msub></mrow></math>
+        </div></div>
 
         <p>注意输入包含了四个部分：行为embedding e_i、候选embedding e_c、逐元素乘积 e_i ⊙ e_c、逐元素差 e_i - e_c。为什么要这么复杂？因为点积只能建模"e_i 和 e_c 的方向一致性"，而MLP的输入中包含了 e_i 和 e_c 的多种交互模式——模型可以学到"e_i 的哪些维度大、哪些维度小"与候选物品的关系。</p>
 
@@ -195,6 +250,8 @@ class AttentionUnit(nn.Module):
 
         <p>DIN论文公布了在阿里巴巴展示广告场景的线上A/B测试结果：CTR提升了10%，RPM（千次展示收入）提升了3.8%。这在广告系统中是一个非常显著的提升，既提升了用户体验（更高的CTR），也提升了平台收入（更高的RPM）。</p>
 
+        <p class="source-note">来源说明：CTR +10.0%、RPM +3.8% 为 DIN 原文报告的阿里巴巴展示广告 A/B 测试结果，不同场景不可直接套用。原文：Zhou et al., <a href="https://doi.org/10.1145/3219819.3219865" rel="noopener noreferrer">Deep Interest Network for Click-Through Rate Prediction</a>, KDD 2018。</p>
+
         <p>但DIN的落地并不总是一帆风顺。有几件事需要特别注意：</p>
 
         <ul>
@@ -214,7 +271,7 @@ class AttentionUnit(nn.Module):
             <a href="index.html">📖 返回目录</a>
             <a href="12.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
