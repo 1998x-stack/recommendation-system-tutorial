@@ -156,3 +156,18 @@ th {
     body { padding: 10px; }
     .main-content { padding: 20px; }
 }
+
+/* === Figures & MathML（离线教学图解与公式） === */
+.skip-link { position: absolute; left: -9999px; top: 0; background: #fff; padding: 8px 12px; z-index: 100; }
+.skip-link:focus { left: 12px; top: 12px; outline: 3px solid #6d28d9; }
+figure.article-figure { margin: 20px 0; padding: 14px; background: #fafafe; border: 1px solid #ddd6fe; border-radius: 16px; }
+figure.article-figure svg { display: block; width: 100%; height: auto; max-width: 100%; }
+figure.article-figure figcaption { margin-top: 10px; font-size: 0.86rem; line-height: 1.65; color: #475569; }
+.math-equation { margin: 16px 0; }
+.math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 12px 10px; background: #f5f3ff; border-radius: 12px; }
+.math-scroll:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #6d28d9; outline-offset: 3px; }
+.math-scroll math[display="block"] { width: max-content; min-width: 100%; font-size: 1.15rem; }
+.inline-math { font-style: normal; white-space: nowrap; }
+.source-note { font-size: 0.82rem; line-height: 1.6; color: #64748b; margin: 8px 0 14px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print { figure.article-figure, .tip, .highlight { break-inside: avoid; } .skip-link { display: none; } }

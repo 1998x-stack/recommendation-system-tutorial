@@ -5,11 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第1章 推荐系统概览</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        /* 离线冗余保障：即使外部样式表未加载也不会横向溢出 */
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html" class="active">第1章 推荐系统概览</a></li>
@@ -41,8 +51,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第1章 推荐系统概览</h1>
 
@@ -162,6 +172,47 @@
             </tbody>
         </table>
 
+        <figure class="article-figure">
+            <svg viewBox="0 0 920 340" role="img" aria-labelledby="fig01-title fig01-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig01-title">推荐系统四阶段漏斗：从百万候选到最终列表</title>
+                <desc id="fig01-desc">召回把百万级候选缩到千级，粗排到百级，精排到十级，重排产出最终展示列表；各阶段延迟预算由低到高再回落。</desc>
+                <defs>
+                    <marker id="fig01-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+                </defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="30" y="70" width="180" height="150" rx="16" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="120" y="104" font-size="19" font-weight="700" fill="#203035">召回 Recall</text>
+                    <text x="120" y="138" font-size="16" fill="#1f4b4d">10⁶ → 10³</text>
+                    <text x="120" y="168" font-size="13" fill="#475569">协同过滤 / 双塔</text>
+                    <text x="120" y="190" font-size="13" fill="#475569">向量检索 / 多路并行</text>
+                    <text x="120" y="252" font-size="13" fill="#147f80">延迟预算 ~10ms</text>
+
+                    <rect x="252" y="90" width="168" height="110" rx="16" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="336" y="124" font-size="18" font-weight="700" fill="#203035">粗排 Pre-Rank</text>
+                    <text x="336" y="156" font-size="16" fill="#14516e">10³ → 10²</text>
+                    <text x="336" y="182" font-size="13" fill="#475569">轻量 DNN / 内积</text>
+                    <text x="336" y="252" font-size="13" fill="#0284c7">延迟预算 ~10ms</text>
+
+                    <rect x="462" y="108" width="160" height="74" rx="16" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="542" y="140" font-size="18" font-weight="700" fill="#203035">精排 Ranking</text>
+                    <text x="542" y="168" font-size="16" fill="#4c1d95">10² → 10¹</text>
+                    <text x="542" y="252" font-size="13" fill="#7c3aed">延迟预算 ~50–100ms</text>
+
+                    <rect x="662" y="122" width="158" height="46" rx="14" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+                    <text x="741" y="143" font-size="16" font-weight="700" fill="#203035">重排 Re-Rank</text>
+                    <text x="741" y="162" font-size="12" fill="#78350f">10¹ → 最终列表</text>
+                    <text x="741" y="252" font-size="13" fill="#b45309">延迟预算 ~10ms</text>
+
+                    <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig01-arrow)">
+                        <path d="M210 145 H248"/><path d="M420 145 H458"/><path d="M622 145 H658"/>
+                    </g>
+                    <text x="120" y="44" font-size="13" fill="#64748b">候选逐级缩减，计算逐级变重</text>
+                    <text x="741" y="200" font-size="12" fill="#64748b">多样性 / 业务规则</text>
+                </g>
+            </svg>
+            <figcaption>图 1-1. 工业推荐的典型四阶段漏斗：候选规模逐级缩减（百万 → 千 → 百 → 十），精排承担最重的模型计算。候选数量与延迟预算为业界常见量级区间，用于说明阶段分工，属教学示意，不代表任一具体平台的实测值。</figcaption>
+        </figure>
+
         <p>这四阶段的目的非常清晰：</p>
 
         <ul>
@@ -198,6 +249,8 @@
             <li><strong>Netflix</strong>：超过80%的观看时长来自推荐算法推荐的内容。Netflix甚至声称"推荐系统就是Netflix的产品本身"。</li>
             <li><strong>YouTube</strong>：推荐系统驱动的观看量占比超过70%。YouTube的推荐算法是全球最复杂的深度学习推荐系统之一。</li>
         </ul>
+
+        <p class="source-note">来源说明：以上平台占比与营收归因数字来自各平台公开的技术分享与媒体转述，口径与统计年份不完全一致，此处仅用于说明“推荐是核心体验层”这一趋势，属教学示意，不应作为精确指标引用。</p>
 
         <p>推荐系统之所以能取得如此巨大的商业成功，是因为它创造了一个<strong>良性飞轮</strong>（Virtuous Cycle）：</p>
 
@@ -243,7 +296,7 @@
             <a href="index.html">📖 返回目录</a>
             <a href="02.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
