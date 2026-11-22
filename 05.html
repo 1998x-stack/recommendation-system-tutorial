@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第5章 矩阵分解与隐语义模型</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +50,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第5章 矩阵分解与隐语义模型</h1>
 
@@ -63,6 +72,37 @@
         </ul>
 
         <p>矩阵分解的解决方案是为每个用户和每个物品学习一个<strong>低维稠密向量（Latent Factor Vector / Embedding）</strong>。用户向量表示用户的"口味偏好"（比如对科幻片的喜爱程度、对爱情片的喜爱程度），物品向量表示物品的"属性特征"（比如电影包含科幻元素的多少）。用户对物品的预测评分 = 用户向量与物品向量的内积。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 300" role="img" aria-labelledby="fig05-title fig05-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig05-title">矩阵分解：稀疏评分矩阵分解为两个低秩因子矩阵</title>
+                <desc id="fig05-desc">稀疏的用户-物品评分矩阵 R 近似等于用户因子矩阵 P 与物品因子矩阵转置 Qᵀ 的乘积，中间维度 k 远小于用户数和物品数。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="60" y="70" width="150" height="180" rx="12" fill="#e2f0ed" stroke="#147f80" stroke-width="2.5"/>
+                    <text x="135" y="150" font-size="30" font-weight="700" fill="#0f5c5d">R</text>
+                    <text x="135" y="180" font-size="13" fill="#475569">m × n 稀疏</text>
+                    <text x="135" y="202" font-size="12" fill="#64748b">大多为未知</text>
+                    <text x="135" y="276" font-size="12" fill="#147f80">用户-物品评分</text>
+
+                    <text x="245" y="168" font-size="30" fill="#203035">≈</text>
+                    <rect x="300" y="70" width="120" height="180" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2.5"/>
+                    <text x="360" y="150" font-size="28" font-weight="700" fill="#14516e">P</text>
+                    <text x="360" y="180" font-size="13" fill="#475569">m × k</text>
+                    <text x="360" y="202" font-size="12" fill="#64748b">稠密</text>
+                    <text x="360" y="276" font-size="12" fill="#0284c7">用户隐向量</text>
+
+                    <text x="460" y="168" font-size="30" fill="#203035">·</text>
+                    <rect x="515" y="110" width="190" height="100" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.5"/>
+                    <text x="610" y="156" font-size="28" font-weight="700" fill="#4c1d95">Qᵀ</text>
+                    <text x="610" y="184" font-size="13" fill="#475569">k × n</text>
+                    <text x="610" y="276" font-size="12" fill="#7c3aed">物品隐向量</text>
+                    <text x="740" y="112" font-size="13" font-weight="700" fill="#203035" text-anchor="start">k ≪ m, n</text>
+                    <text x="740" y="132" font-size="12" fill="#475569" text-anchor="start">降维保留主要模式，</text>
+                    <text x="740" y="152" font-size="12" fill="#475569" text-anchor="start">抑制评分噪声。</text>
+                </g>
+            </svg>
+            <figcaption>图 5-1. 矩阵分解把稀疏的用户-物品评分矩阵 R 近似为两个低秩因子矩阵的乘积：P 的每一行是用户隐向量，Qᵀ 的每一列是物品隐向量，两者的内积就是预测评分。图中矩阵尺寸为示意，用于说明低秩近似的结构。</figcaption>
+        </figure>
 
         <p>这种做法的精妙之处在于：即使两个用户没有"共同评分"的物品，只要他们的隐向量在隐空间中是相似的，系统依然知道他们是"相似用户"。这就绕过了CF的稀疏性限制。</p>
 
@@ -169,6 +209,10 @@ item_factors.show(truncate=False)
 
         <p>基本的矩阵分解公式是：预测评分 = 用户向量 · 物品向量（内积）。但在实际数据中，用户的"评分行为"受到很多系统性的偏差影响：</p>
 
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="基础矩阵分解公式区域，可横向滚动">
+            <math display="block" aria-label="predicted rating of u on i equals the dot product of the user factor vector and the item factor vector"><mrow><msub><mover><mi>r</mi><mo>^</mo></mover><mrow><mi>u</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>=</mo><msubsup><mi>p</mi><mi>u</mi><mi>T</mi></msubsup><msub><mi>q</mi><mi>i</mi></msub></mrow></math>
+        </div></div>
+
         <ul>
             <li><strong>全局偏差（Global Bias）</strong>：所有用户对所有物品的平均评分。比如某个平台的全体平均分是3.5。</li>
             <li><strong>用户偏差（User Bias）</strong>：某些用户倾向于给高分（"老好人"永远4-5星），某些用户倾向于给低分（"严格派"很少有4星以上）。</li>
@@ -177,14 +221,16 @@ item_factors.show(truncate=False)
 
         <p>引入偏置项的Bias MF模型（由Koren在Netflix Prize期间提出）的预测公式为：</p>
 
-        <pre><code># r̂_u,i = μ + b_u + b_i + p_u · q_i
-# 其中：
-# μ = 全量数据的平均评分
-# b_u = 用户u的偏差（用户u的平均评分 - μ）
-# b_i = 物品i的偏差（物品i的平均评分 - μ）
-# p_u = 用户u的隐向量
-# q_i = 物品i的隐向量
-# p_u · q_i = 用户向量与物品向量的内积（捕获"个性匹配"的部分）</code></pre>
+        <div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="Bias MF 公式区域，可横向滚动">
+            <math display="block" aria-label="predicted rating of u on i equals global mean plus user bias plus item bias plus the inner product of user and item factors"><mrow><msub><mover><mi>r</mi><mo>^</mo></mover><mrow><mi>u</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>b</mi><mi>u</mi></msub><mo>+</mo><msub><mi>b</mi><mi>i</mi></msub><mo>+</mo><msub><mi>p</mi><mi>u</mi></msub><mo>·</mo><msub><mi>q</mi><mi>i</mi></msub></mrow></math>
+        </div></div>
+
+        <ul>
+            <li><strong>μ</strong>：全量数据的平均评分</li>
+            <li><strong>b<sub>u</sub></strong>：用户 u 的偏差（用户 u 的平均评分 − μ）</li>
+            <li><strong>b<sub>i</sub></strong>：物品 i 的偏差（物品 i 的平均评分 − μ）</li>
+            <li><strong>p<sub>u</sub> · q<sub>i</sub></strong>：用户向量与物品向量的内积，捕获"个性匹配"的部分</li>
+        </ul>
 
         <p>加入偏置后的模型效果通常比不加偏置好很多——因为偏置项捕获了"系统性的评分趋势"，让隐向量专注于学习真正的"匹配关系"。</p>
 
@@ -209,6 +255,8 @@ item_factors.show(truncate=False)
         <p>2009年6月，比赛进入最后冲刺。BellKor团队（Koren所在的团队）和The Ensemble团队（由AT&T研究院的研究员组成）交替领先。距离截止不到24小时，BellKor团队合并了另一支队伍Pragmatic Chaos的模型，组成了"BellKor's Pragmatic Chaos"——一个由107个独立模型组成的超级集成。</p>
 
         <p>最终，BellKor's Pragmatic Chaos以10.06%的RMSE提升率（刚好超过10%的门槛）赢得了比赛。第二名的The Ensemble成绩是8.43%。差距非常微小。</p>
+
+        <p class="source-note">来源说明：上述提升率按 Netflix Prize 官方排行榜的公开成绩转述，接近临界值的排名可能因分母口径而异，此处用于说明"集成微小领先"这一结论，不作精确指标引用。算法细节参见 Koren, Bell, Volinsky, <a href="https://doi.org/10.1109/MC.2009.263" rel="noopener noreferrer">Matrix Factorization Techniques for Recommender Systems</a>, IEEE Computer, 2009。</p>
 
         <h3>5.4 Netflix为什么没有部署</h3>
 
@@ -283,7 +331,7 @@ item_factors.show(truncate=False)
             <a href="index.html">📖 返回目录</a>
             <a href="06.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
