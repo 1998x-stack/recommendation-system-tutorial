@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第16章 多任务学习</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第16章 多任务学习</h1>
 
@@ -76,13 +88,51 @@
             <li><strong>CVR</strong>：P(转化 | 点击)，不直接训练，而是通过 CTCVR / CTR 间接得到</li>
         </ul>
 
-        <p>数学上：CTCVR = CTR × CVR，所以 CVR = CTCVR / CTR。ESMM的架构包含两个并行的tower——CTR tower和CVR tower，共享底层的embedding层。CTR tower预测CTR，CVR tower预测CVR。训练时，两个tower的预测值相乘得到CTCVR，用CTCVR的损失去更新CVR tower的参数。这样一来，CVR tower接收到了来自"全量曝光样本"的梯度信号，而不仅仅是点击样本——全空间训练的目标达成了。</p>
+        <p>数学上：CTCVR = CTR × CVR，所以 CVR = CTCVR / CTR。ESMM的架构包含两个并行的tower——CTR tower和CVR tower，共享底层的embedding层。CTR tower预测CTR，CVR tower预测CVR。训练时，两个tower的预测值相乘得到CTCVR，用CTCVR的损失去更新CVR tower的参数。这样一来，CVR tower接收到了来自“全量曝光样本”的梯度信号，而不仅仅是点击样本——全空间训练的目标达成了。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="ESMM 条件概率分解公式区域，可横向滚动">
+                <math display="block" aria-label="点击且转化的概率等于点击概率乘转化概率；因此转化概率等于点击且转化概率除以点击概率"><mrow><mi>pCTCVR</mi><mo>=</mo><mi>pCTR</mi><mo>×</mo><mi>pCVR</mi><mo>,</mo><mspace width="1.2em"/><mi>pCVR</mi><mo>=</mo><mfrac><mrow><mi>pCTCVR</mi></mrow><mrow><mi>pCTR</mi></mrow></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">即 P(转化|曝光)=P(点击|曝光)×P(转化|点击,曝光)。ESMM 只用全量曝光样本监督 pCTR 与 pCTCVR，pCVR 由两者相除间接得到，避免仅在点击样本上训练带来的样本选择偏差。</p>
 
         <p>这个设计的精妙之处在于：CVR tower的输入特征是全量样本，但它的梯度只通过CTCVR损失回传。这相当于CVR tower在"全空间"上做表示学习，但只在"点击空间"上做分类——两个tower共享的embedding在曝光和点击样本上都得到了更新，缓解了样本选择偏差。</p>
 
         <div class="highlight">
-            <p><strong>关键洞察：</strong>ESMM的贡献不在于模型架构有多复杂，而在于它重新定义了"训练数据应该从哪来"。在ESMM之前，大家都在想"怎么在点击样本上更好地预测CVR"。ESMM说：别在点击样本上做文章了，去全曝光空间看看。这种"换个数据流视角"的思路，比调模型结构带来的收益大得多。</p>
+            <p><strong>关键洞察：</strong>ESMM的贡献不在于模型架构有多复杂，而在于它重新定义了“训练数据应该从哪来”。在ESMM之前，大家都在想“怎么在点击样本上更好地预测CVR”。ESMM说：别在点击样本上做文章了，去全曝光空间看看。这种“换个数据流视角”的思路，比调模型结构带来的收益大得多。</p>
         </div>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 380" role="img" aria-labelledby="fig16-title fig16-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig16-title">ESMM：在全量曝光空间上多任务建模</title>
+                <desc id="fig16-desc">全量曝光样本经共享 Embedding 层分为 CTR tower 与 CVR tower，两者输出相乘得到 CTCVR；CVR 不直接监督，由 CTCVR 除以 CTR 间接得到。</desc>
+                <defs>
+                    <marker id="fig16-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker>
+                </defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="300" y="26" width="300" height="50" rx="12" fill="#e2e8f0" stroke="#64748b" stroke-width="1.8"/>
+                    <text x="450" y="57" font-size="14" font-weight="700" fill="#203035">全量曝光样本（无偏）</text>
+                    <rect x="300" y="108" width="300" height="50" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.8"/>
+                    <text x="450" y="139" font-size="14" font-weight="700" fill="#14516e">共享 Embedding 层</text>
+                    <rect x="100" y="200" width="280" height="76" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+                    <text x="240" y="232" font-size="13" font-weight="700" fill="#203035">CTR tower</text>
+                    <text x="240" y="256" font-size="13" fill="#4c1d95">→ pCTR（监督）</text>
+                    <rect x="520" y="200" width="280" height="76" rx="14" fill="#fce7f3" stroke="#db2777" stroke-width="1.8"/>
+                    <text x="660" y="232" font-size="13" font-weight="700" fill="#203035">CVR tower</text>
+                    <text x="660" y="256" font-size="13" fill="#9d174d">→ pCVR（间接）</text>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig16-arrow)">
+                        <path d="M450 76 V104"/><path d="M420 158 L300 196"/><path d="M480 158 L600 196"/>
+                    </g>
+                    <circle cx="450" cy="326" r="20" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+                    <text x="450" y="332" font-size="16" font-weight="700" fill="#b45309">×</text>
+                    <path d="M240 276 L280 340 H430" stroke="#7c3aed" stroke-width="1.8" fill="none" marker-end="url(#fig16-arrow)"/>
+                    <path d="M660 276 L620 340 H472" stroke="#db2777" stroke-width="1.8" fill="none" marker-end="url(#fig16-arrow)"/>
+                    <text x="450" y="372" font-size="13" font-weight="700" fill="#78350f">pCTCVR = pCTR × pCVR（用 CTCVR 损失训练）</text>
+                </g>
+            </svg>
+            <figcaption>图 16-1. ESMM 的全空间多任务结构：CTR 与 CVR 两个子塔共享底层 Embedding，输出相乘得到 CTCVR 并用其损失训练；CVR 由 CTCVR / CTR 间接得到，使其梯度来自全量曝光样本。</figcaption>
+        </figure>
 
         <h2>3. MMOE：多门控专家混合</h2>
 
@@ -241,12 +291,14 @@ class MMOE(nn.Module):
 
         <p>好了，多任务学习就聊到这里。精排模型给出了每个物品的分数，多任务学习确保了分数综合考虑了多个目标。但精排的输出是按"单点"逐物品打分——它没有考虑物品之间的相互影响。五个相似的内容挤在前五名，即使每个单独看都很好，用户体验也是很差的。这就引出了下一阶段的工作：在精排之后，我们需要一个专门负责"列表级优化"的模块——<strong>重排与业务规则</strong>，这就是下一章的内容。</p>
 
+        <p class="source-note">来源说明：ESMM 出自 Ma 等，2018（<a href="https://arxiv.org/abs/1804.07931">arXiv:1804.07931</a>）；MMOE 出自 Ma 等，2018（Google，<a href="https://arxiv.org/abs/1806.02136">arXiv:1806.02136</a>）；PLE（渐进式分层提取）出自 Tang 等，2020（DOI <a href="https://doi.org/10.1145/3383313.3412236">10.1145/3383313.3412236</a>）。正文中“CTR +15% / CVR -5% / 6 个月回到原点”等多任务跷跷板故事为教学轶事，未附可公开复现的实验数据，属教学示意，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="15.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="17.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
