@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第10章 DCN与xDeepFM</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第10章 DCN与xDeepFM</h1>
 
@@ -77,6 +89,12 @@
         <p>Cross Network的每一层是这样计算的：</p>
 
         <pre><code>x_{l+1} = x_0 * (w^T x_l) + b + x_l</code></pre>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="DCN 交叉层公式区域，可横向滚动">
+                <math display="block" aria-label="DCN 交叉层公式：x 下标 l 加一 等于 x 下标 0 点乘左括号 w 转置乘 x 下标 l 右括号 加 b 加 x 下标 l；DCN-V2 将向量 w 换成矩阵 W"><mrow><msub><mi>x</mi><mrow><mi>l</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub><mo>⊙</mo><mrow><mo>(</mo><msup><mi>w</mi><mi mathvariant="normal">T</mi></msup><msub><mi>x</mi><mi>l</mi></msub><mo>)</mo></mrow><mo>+</mo><mi>b</mi><mo>+</mo><msub><mi>x</mi><mi>l</mi></msub><mspace width="1.5em"/><mtext>（V2：</mtext><mi>w</mi><mo>→</mo><mi>W</mi><mtext>）</mtext></mrow></math>
+            </div>
+        </div>
 
         <p>我们来拆解这个公式。x_0 是输入的embedding向量，x_l 是第 l 层的输出。每一层做的事情是：</p>
 
@@ -148,6 +166,48 @@ class CrossNetwork(nn.Module):
         <p>更直观地说，CIN在做的是一种"特征维度的交互图"：第1层产生所有二阶的维度级交叉，第2层产生三阶的，以此类推。每一层的输出都直接拼入最终的特征向量，让后面的DNN和输出层可以访问所有阶的交叉信息。</p>
 
         <p>xDeepFM的完整架构是：<strong>Embedding → [CIN + DNN] → 合并 → 输出</strong>。CIN提供显式的有限阶交叉，DNN提供隐式的高阶交叉，两者互补。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 400" role="img" aria-labelledby="fig10-title fig10-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig10-title">DCN 的 Cross Network 与 xDeepFM 的 CIN 的交叉方式对比</title>
+                <desc id="fig10-desc">左侧 DCN 在向量/矩阵级别逐层做交叉，每层提升一阶；右侧 CIN 在元素级别做外积与卷积压缩，各层输出 sum pooling 后拼接。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+                    <text x="225" y="34" text-anchor="middle" font-size="15" font-weight="700" fill="#4c1d95">DCN · Cross Network</text>
+                    <text x="675" y="34" text-anchor="middle" font-size="15" font-weight="700" fill="#b45309">xDeepFM · CIN</text>
+                    <rect x="40" y="54" width="370" height="300" rx="16" fill="#f8f7ff" stroke="#c4b5fd" stroke-width="1.5"/>
+                    <rect x="490" y="54" width="370" height="300" rx="16" fill="#fffdf3" stroke="#fcd34d" stroke-width="1.5"/>
+                    <g text-anchor="middle">
+                        <rect x="90" y="78" width="270" height="44" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+                        <text x="225" y="105" font-size="13" fill="#203035">输入 x₀（embedding 向量）</text>
+                        <rect x="90" y="146" width="270" height="44" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+                        <text x="225" y="173" font-size="12" fill="#203035">xₗ₊₁ = x₀ ⊙ (W xₗ) + b + xₗ</text>
+                        <rect x="120" y="212" width="210" height="34" rx="10" fill="#e9d5ff" stroke="#a855f7" stroke-width="1.5"/>
+                        <text x="225" y="234" font-size="12" fill="#4c1d95">重复 L 层 · 每层 +1 阶</text>
+                        <rect x="90" y="286" width="270" height="46" rx="12" fill="#d8b4fe" stroke="#7c3aed" stroke-width="1.8"/>
+                        <text x="225" y="314" font-size="13" font-weight="700" fill="#203035">最高 L+1 阶显式交叉</text>
+
+                        <rect x="540" y="78" width="270" height="44" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+                        <text x="675" y="105" font-size="13" fill="#203035">Field embeddings</text>
+                        <rect x="540" y="146" width="270" height="44" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+                        <text x="675" y="173" font-size="12" fill="#203035">外积 Zˡ = X 与 Xˡ 逐维相乘</text>
+                        <rect x="540" y="212" width="270" height="44" rx="12" fill="#fde68a" stroke="#d97706" stroke-width="1.8"/>
+                        <text x="675" y="239" font-size="12" fill="#78350f">卷积压缩 → 新一组 embedding</text>
+                        <rect x="540" y="286" width="270" height="46" rx="12" fill="#fcd34d" stroke="#d97706" stroke-width="1.8"/>
+                        <text x="675" y="314" font-size="13" font-weight="700" fill="#203035">各层 sum pooling → 拼接输出</text>
+                    </g>
+                    <g stroke="#7c3aed" stroke-width="1.8" fill="none" marker-end="url(#fig10-arrow)">
+                        <path d="M225 122 V142"/><path d="M225 190 V208"/><path d="M225 246 V282"/>
+                    </g>
+                    <g stroke="#d97706" stroke-width="1.8" fill="none" marker-end="url(#fig10-arrow)">
+                        <path d="M675 122 V142"/><path d="M675 190 V208"/><path d="M675 256 V282"/>
+                    </g>
+                </g>
+                <defs>
+                    <marker id="fig10-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker>
+                </defs>
+            </svg>
+            <figcaption>图 10-1. 两种显式交叉模块：DCN 的 Cross Network 在向量/矩阵级别逐层累加交叉阶数；CIN 在元素级别做外积与卷积压缩，每层结果都拼入输出。后续 DNN 与输出层可访问所有阶的交叉信息。</figcaption>
+        </figure>
 
         <div class="warning">
             <p><strong>踩坑提醒：</strong>CIN的计算复杂度较高——每层的复杂度是 O(m²·d·H)（m是field数，d是embedding维度，H是隐藏单元数）。在field数量很大（>200）的场景下，CIN的训练速度会明显慢于DCN和DeepFM。我见过一个团队在300+field的数据上使用xDeepFM，训练时间比DeepFM多了5倍，而AUC提升只有0.1%。这种情况下，xDeepFM的投入产出比并不划算。</p>
@@ -226,12 +286,14 @@ class CrossNetwork(nn.Module):
 
         <p>下一章，我们将进入深度兴趣网络（DIN）的世界——它用注意力机制来解决"用户的静态embedding无法刻画动态兴趣"这个核心问题。</p>
 
+        <p class="source-note">来源说明：DCN 与 DCN-V2 出自 Google 的 Deep &amp; Cross Network（Wang 等，2017；Wang 等，2020，<a href="https://arxiv.org/abs/2008.13535">arXiv:2008.13535</a>），其中 V2 将向量 w 升级为矩阵 W 并给出低秩近似；xDeepFM 与 CIN 出自 Lian 等，2018（<a href="https://arxiv.org/abs/1803.05170">arXiv:1803.05170</a>）。正文中“AUC 0.78→0.785”“训练时间多 5 倍”等为教学轶事，未附可公开复现的实验设置，属教学示意。</p>
+
         <div class="footer-nav">
             <a href="09.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="11.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
