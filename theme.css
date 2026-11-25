@@ -62,7 +62,8 @@ body {
 }
 
 /* === Main Content === */
-.main-content { padding: 30px 35px; background: white; }
+.main-content { padding: 30px 35px; background: white; min-width: 0; }
+.container > * { min-width: 0; }
 
 /* === Typography === */
 h2 {

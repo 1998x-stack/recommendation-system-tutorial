@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第6章 特征工程（上）</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第6章 特征工程（上）</h1>
 
@@ -121,7 +133,39 @@
             <li><strong>购买/转化（Purchase/Conversion）</strong>：最强烈的正反馈</li>
         </ul>
 
-        <p>3个周期 × 5种行为 = 15个基础统计量。如果再加上"按品类聚合"（用户在过去3天点击了多少"运动鞋"类目下的商品），特征数量很容易扩展到几十甚至上百个。</p>
+        <p>3个周期 × 5种行为 = 15个基础统计量。如果再加上“按品类聚合”（用户在过去3天点击了多少“运动鞋”类目下的商品），特征数量很容易扩展到几十甚至上百个。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 360" role="img" aria-labelledby="fig06-title fig06-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig06-title">3 个时间周期与 5 种行为的统计特征矩阵</title>
+                <desc id="fig06-desc">行为从弱到强（曝光、点击、点赞收藏、评论分享、购买转化），时间窗口从短到长（短期 3 天、中期 7–14 天、长期 30–90 天），每个交叉单元即为一个基础统计量，共 15 个。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+                    <text x="450" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#334155">3 个周期 × 5 种行为 = 15 个基础统计量</text>
+                    <g font-size="13" fill="#475569" text-anchor="middle">
+                        <text x="360" y="72">曝光</text><text x="470" y="72">点击</text><text x="580" y="72">点赞/收藏</text><text x="690" y="72">评论/分享</text><text x="800" y="72">购买/转化</text>
+                    </g>
+                    <text x="220" y="128" text-anchor="end" font-size="13" fill="#1f4b4d">短期 3d</text>
+                    <text x="220" y="198" text-anchor="end" font-size="13" fill="#14516e">中期 7–14d</text>
+                    <text x="220" y="268" text-anchor="end" font-size="13" fill="#4c1d95">长期 30–90d</text>
+                    <g stroke="#ffffff" stroke-width="2">
+                        <g fill="#d7efe9">
+                            <rect x="300" y="95" width="110" height="46" rx="8"/><rect x="410" y="95" width="110" height="46" rx="8"/><rect x="520" y="95" width="110" height="46" rx="8"/><rect x="630" y="95" width="110" height="46" rx="8"/><rect x="740" y="95" width="120" height="46" rx="8"/>
+                        </g>
+                        <g fill="#cfe8f6">
+                            <rect x="300" y="165" width="110" height="46" rx="8"/><rect x="410" y="165" width="110" height="46" rx="8"/><rect x="520" y="165" width="110" height="46" rx="8"/><rect x="630" y="165" width="110" height="46" rx="8"/><rect x="740" y="165" width="120" height="46" rx="8"/>
+                        </g>
+                        <g fill="#e4defa">
+                            <rect x="300" y="235" width="110" height="46" rx="8"/><rect x="410" y="235" width="110" height="46" rx="8"/><rect x="520" y="235" width="110" height="46" rx="8"/><rect x="630" y="235" width="110" height="46" rx="8"/><rect x="740" y="235" width="120" height="46" rx="8"/>
+                        </g>
+                    </g>
+                    <g font-size="12" fill="#64748b" text-anchor="middle">
+                        <text x="450" y="308">行为强度（弱）→ 行为强度（强）</text>
+                        <text x="450" y="334">每个单元可再按品类维度展开，特征数迅速增长</text>
+                    </g>
+                </g>
+            </svg>
+            <figcaption>图 6-1. 统计特征的组织方式：横轴为行为强度，纵轴为时间窗口。每个交叉单元对应一个计数特征，再叠品类聚合即可扩展出数十到上百个特征。周期与行为的划分是工业常见做法，属教学归纳。</figcaption>
+        </figure>
 
         <h3>2.2 比率特征</h3>
 
@@ -134,7 +178,13 @@
             <li><strong>跳出率</strong>：停留 < 3秒的点击次数 / 总点击次数（负反馈信号）</li>
         </ul>
 
-        <p>需要注意：比率特征在样本量不足时波动很大。比如一个商品只曝光了2次被点击了1次，CTR = 50%，但显然这个数字不可靠。通常的做法是加上"平滑"处理（如贝叶斯平滑）：</p>
+        <p>需要注意：比率特征在样本量不足时波动很大。比如一个商品只曝光了2次被点击了1次，CTR = 50%，但显然这个数字不可靠。通常的做法是加上“平滑”处理（如贝叶斯平滑）：</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="贝叶斯平滑 CTR 公式区域，可横向滚动">
+                <math display="block" aria-label="平滑后的点击率等于点击次数加 alpha，除以曝光次数加 alpha 加 beta；其中 alpha 等于全局点击率乘先验强度 S，beta 等于 S 减 alpha"><mrow><msub><mi>CTR</mi><mi>smooth</mi></msub><mo>=</mo><mfrac><mrow><mi>clicks</mi><mo>+</mo><mi>α</mi></mrow><mrow><mi>impressions</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>β</mi></mrow></mfrac><mo>,</mo><mspace width="1em"/><mi>α</mi><mo>=</mo><msub><mi>CTR</mi><mi>global</mi></msub><mo>·</mo><mi>S</mi><mo>,</mo><mspace width="0.5em"/><mi>β</mi><mo>=</mo><mi>S</mi><mo>−</mo><mi>α</mi></mrow></math>
+            </div>
+        </div>
 
         <pre><code># 平滑CTR = (点击次数 + α) / (曝光次数 + α + β)
 # 其中 α 和 β 是先验参数（通常取全局平均CTR的对应值）
@@ -269,12 +319,14 @@ def compute_ratio_features(feature_df, numerator_col, denominator_col, new_col_n
 
         <p>好了，特征工程（上）的内容就到这里了。我们讲了推荐系统的四类特征、统计特征设计的"3周期×5行为"框架、特征交叉的基本方法，以及如何做特征选择和成本评估。这些内容看上去不像模型算法那么"性感"，但恰恰是工业推荐系统"每天在做的苦活累活"。下一章（特征工程下），我们继续聊实时特征、Embedding特征和Feature Store的工程实践，这些内容将帮助你理解——在真正的工业系统中，如何让特征"流动起来"。</p>
 
+        <p class="source-note">来源说明：本章方法脉络可对照可查论文：GBDT+LR（He 等，2014）可将原始特征自动映射为叶子路径再入 LR；FFM（Juan 等，2016，<a href="https://arxiv.org/abs/1601.00670">arXiv:1601.00670</a>）给特征交叉提供字段感知的隐向量；Wide&amp;Deep（Cheng 等，2016，<a href="https://arxiv.org/abs/1606.07792">arXiv:1606.07792</a>）验证了“记忆与泛化结合”的工程价值。正文中“AUC +0.2 / +1.5”“CTR 翻倍”等实验对比为教学轶事，未附可公开复现的数据集与基线，属教学示意，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="05.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="07.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
