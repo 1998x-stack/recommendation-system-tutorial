@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第7章 特征工程（下）</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第7章 特征工程（下）</h1>
 
@@ -94,6 +106,13 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="行为衰减分数公式区域，可横向滚动">
+                <math display="block" aria-label="行为衰减分数等于对用户历史行为求和，每项权重乘以 e 的负 lambda 乘时间差次方"><mrow><mi>score</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>c</mi><mo>)</mo><mo>=</mo><munder><mo>∑</mo><mrow><mi>i</mi><mo>∈</mo><mi>H</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>c</mi><mo>)</mo></mrow></munder><msub><mi>w</mi><mi>i</mi></msub><mo>·</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>λ</mi><mo>·</mo><mi>Δ</mi><msub><mi>t</mi><mi>i</mi></msub></mrow></msup></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">式中 H(u,c) 为用户 u 对类目/物品 c 的历史行为集合，Δt 为行为距当前的时间差（秒），λ 控制衰减速度。该形式为常见的时间衰减聚合写法，用于说明“新行为权重更高”，属教学示意。</p>
 
         <div class="highlight">
             <p><strong>真实故事："过去5分钟CTR"的威力</strong></p>
@@ -160,6 +179,48 @@ Flink作业：按用户ID分桶(keyBy userId)
         </ul>
 
         <p>Feature Store就是为了解决这类问题而生的中央化特征管理系统。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 400" role="img" aria-labelledby="fig07-title fig07-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig07-title">实时特征与 Feature Store 的离线/在线双通道</title>
+                <desc id="fig07-desc">离线通道用 Spark 批量聚合写入离线特征表供训练；在线通道用 Flink 窗口聚合写入 Redis 供推理；两者由同一份 FG 定义生成，以保证一致性。</desc>
+                <defs>
+                    <marker id="fig07-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker>
+                </defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="40" y="40" font-size="14" font-weight="700" fill="#147f80" text-anchor="start">离线通道（T+1 / 批量）</text>
+                    <rect x="40" y="52" width="210" height="76" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="145" y="86" font-size="14" font-weight="700" fill="#203035">行为日志</text>
+                    <text x="145" y="108" font-size="12" fill="#1f4b4d">Hive / ODS</text>
+                    <rect x="350" y="52" width="210" height="76" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="455" y="86" font-size="14" font-weight="700" fill="#203035">Spark 批量聚合</text>
+                    <text x="455" y="108" font-size="12" fill="#1f4b4d">过去 3/7/30 天</text>
+                    <rect x="660" y="52" width="200" height="76" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+                    <text x="760" y="86" font-size="14" font-weight="700" fill="#203035">离线特征表</text>
+                    <text x="760" y="108" font-size="12" fill="#1f4b4d">训练样本 join</text>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig07-arrow)">
+                        <path d="M250 90 H346"/><path d="M560 90 H656"/>
+                    </g>
+                    <text x="40" y="185" font-size="14" font-weight="700" fill="#0284c7" text-anchor="start">在线通道（秒级 / 流式）</text>
+                    <rect x="40" y="197" width="210" height="76" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="145" y="231" font-size="14" font-weight="700" fill="#203035">实时事件</text>
+                    <text x="145" y="253" font-size="12" fill="#14516e">Kafka Topic</text>
+                    <rect x="350" y="197" width="210" height="76" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="455" y="231" font-size="14" font-weight="700" fill="#203035">Flink 窗口聚合</text>
+                    <text x="455" y="253" font-size="12" fill="#14516e">5 分钟滑动窗口</text>
+                    <rect x="660" y="197" width="200" height="76" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                    <text x="760" y="231" font-size="14" font-weight="700" fill="#203035">Redis 在线特征</text>
+                    <text x="760" y="253" font-size="12" fill="#14516e">亚毫秒级查询</text>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig07-arrow)">
+                        <path d="M250 235 H346"/><path d="M560 235 H656"/>
+                    </g>
+                    <rect x="40" y="312" width="820" height="62" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="450" y="338" font-size="14" font-weight="700" fill="#4c1d95">同一份 FG 定义：写一次，生成离线 SQL 与在线 KV 查询</text>
+                    <text x="450" y="360" font-size="12" fill="#475569">配合 Point-in-Time 正确性，防止“时间旅行”式的数据泄露</text>
+                </g>
+            </svg>
+            <figcaption>图 7-1. Feature Store 的离线/在线双通道：离线用 Spark 批量聚合供训练，在线用 Flink 流式聚合供推理，两侧由同一份特征定义（FG）生成，避免“离线代码与在线代码不一致”。</figcaption>
+        </figure>
 
         <h3>3.2 Feature Store的核心功能</h3>
 
@@ -270,12 +331,14 @@ def validate_feature_consistency(sample_ids, feature_names,
 
         <p>从第1章到第7章，我们完成了推荐系统课程的"基础部分"——知道了推荐系统是什么、它的历史和评估方法、协同过滤和矩阵分解两大经典算法、以及特征工程这个"苦活累活"。从下一章开始，我们进入"深度学习推荐模型"的核心部分。下一章要讲的是——<strong>从LR到FM：特征交叉的进化</strong>。你会发现，前面讲的特征工程中"人工交叉"的痛点，正好是FM要解决的核心问题。</p>
 
+        <p class="source-note">来源说明：Feature Store 与 FG 模式的公开实现可参考 Feast（开源）与 Feathr（LinkedIn 开源，与 Spark 集成），二者均提供训练/推理双通道与 Point-in-Time 正确性。正文中“实时特征上线后在线 CTR +3%”“离线 AUC 0.88→0.73”等数据为教学轶事，未附可公开复现的实验设置，属教学示意，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="06.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="08.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
