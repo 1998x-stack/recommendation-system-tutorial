@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第15章 排序模型深入</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第15章 排序模型深入</h1>
 
@@ -122,7 +134,14 @@
 4. 可选：加入点击标签做辅助损失
    Loss = alpha * MSE + (1-alpha) * BCE(学生(x_light), y_click)</code></pre>
 
-        <p>蒸馏的好处是学生不需要看到全量特征，也不需要学到那么复杂的模式——它只需要"模仿"老师的输出就好。这比直接学习点击标签要高效得多。</p>
+        <p>蒸馏的好处是学生不需要看到全量特征，也不需要学到那么复杂的模式——它只需要“模仿”老师的输出就好。这比直接学习点击标签要高效得多。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="知识蒸馏损失公式区域，可横向滚动">
+                <math display="block" aria-label="蒸馏总损失等于 alpha 乘学生输出与老师打分的均方误差，加一减 alpha 乘学生输出与点击标签的交叉熵"><mrow><mi>L</mi><mo>=</mo><mi>α</mi><mo>·</mo><mi>MSE</mi><mrow><mo>(</mo><mi>s</mi><mo>(</mo><msub><mi>x</mi><mi>light</mi></msub><mo>)</mo><mo>,</mo><mi>t</mi><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo>)</mo></mrow><mo>·</mo><mi>BCE</mi><mrow><mo>(</mo><mi>s</mi><mo>(</mo><msub><mi>x</mi><mi>light</mi></msub><mo>)</mo><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">式中 s(·) 为学生模型输出，t 为老师（精排）的打分，y 为真实点击标签，α 控制两项的权重。该写法用于说明“同时学老师打分与点击标签”的思路，属教学示意。</p>
 
         <div class="tip">
             <p><strong>工业小贴士：</strong>粗排阶段的特征选择是一门艺术。有些特征虽然对精度提升很大，但计算成本太高（比如实时统计特征需要查Redis），在粗排阶段可能不值得引入。一个实用的方法论：对每个候选特征，做一次A/B测试——引入该特征后AUC提升 vs 延迟增加。如果边际收益小于成本，果断放弃。</p>
@@ -157,6 +176,50 @@
         <p>这个方案的核心思路是：用GBDT做自动特征转换，将原始特征映射为高维稀疏的叶子节点ID序列，然后把这些ID作为LR模型的特征输入。</p>
 
         <p>为什么它如此重要？因为在此之前，特征工程主要靠人工——你需要手动做特征交叉、分箱、组合，非常依赖领域知识。GBDT + LR提供了一种自动化的特征转换方法：GBDT的每棵树都在学习特征之间的交互模式，它的叶子节点天然编码了高阶特征交叉信息。你不再需要手动设计交叉特征了。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 340" role="img" aria-labelledby="fig15-title fig15-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig15-title">GBDT + LR 的两阶段结构：叶子节点做自动特征转换</title>
+                <desc id="fig15-desc">原始特征先过 GBDT 森林，每棵树输出一个叶子节点编号，拼成高维稀疏向量，再输入逻辑回归得到点击概率。</desc>
+                <defs>
+                    <marker id="fig15-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker>
+                </defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="26" y="120" width="150" height="92" rx="14" fill="#e2e8f0" stroke="#64748b" stroke-width="1.8"/>
+                    <text x="101" y="158" font-size="14" font-weight="700" fill="#203035">原始特征 x</text>
+                    <text x="101" y="180" font-size="12" fill="#475569">离散 + 连续</text>
+
+                    <rect x="210" y="56" width="250" height="228" rx="16" fill="#e2f0ed" stroke="#147f80" stroke-width="1.8"/>
+                    <text x="335" y="82" font-size="13" font-weight="700" fill="#203035">GBDT 森林（自动交叉）</text>
+                    <g stroke="#147f80" stroke-width="1.6" fill="none">
+                        <path d="M245 128 L230 168 M245 128 L260 168"/>
+                        <path d="M315 128 L300 168 M315 128 L330 168"/>
+                        <path d="M385 128 L370 168 M385 128 L400 168"/>
+                    </g>
+                    <g fill="#a7d8d0" stroke="#147f80" stroke-width="1.4">
+                        <circle cx="245" cy="122" r="12"/><circle cx="315" cy="122" r="12"/><circle cx="385" cy="122" r="12"/>
+                    </g>
+                    <g font-size="12" fill="#1f4b4d">
+                        <text x="230" y="196">叶 id</text><text x="300" y="196">叶 id</text><text x="370" y="196">叶 id</text>
+                    </g>
+                    <text x="335" y="248" font-size="12" fill="#475569">每棵树 → 一个叶子节点编号</text>
+                    <text x="335" y="270" font-size="12" fill="#475569">拼接后即为高阶交叉特征</text>
+
+                    <rect x="500" y="120" width="150" height="92" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+                    <text x="575" y="154" font-size="13" font-weight="700" fill="#203035">One-Hot</text>
+                    <text x="575" y="176" font-size="12" fill="#4c1d95">高维稀疏向量</text>
+
+                    <rect x="690" y="120" width="180" height="92" rx="14" fill="#fef9c3" stroke="#d97706" stroke-width="1.8"/>
+                    <text x="780" y="156" font-size="14" font-weight="700" fill="#203035">LR</text>
+                    <text x="780" y="180" font-size="13" font-weight="700" fill="#b45309">→ pCTR</text>
+
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig15-arrow)">
+                        <path d="M180 166 H206"/><path d="M464 166 H496"/><path d="M654 166 H686"/>
+                    </g>
+                </g>
+            </svg>
+            <figcaption>图 15-1. GBDT + LR：树模型把原始特征自动映射为叶子节点编号（天然编码交叉），拼成高维稀疏向量后交给逻辑回归。相比纯人工交叉，它降低了特征工程的人力依赖。</figcaption>
+        </figure>
 
         <p>下面是一个简化版的GBDT + LR训练流程：</p>
 
@@ -200,12 +263,14 @@ lr.fit(X_train_transformed, y_train)
 
         <p>从粗排的轻量级模型到精排的深度网络，排序这条流水线上的每一个环节都有自己的权衡和智慧。粗排追求极致的速度，精排追求极致的精度，而模型校准确保输出值的可靠性。但排序只是推荐链路中的一环——当你需要对多个目标同时优化时（CTR、CVR、点赞、转发……），简单的单任务模型就不够用了。下一章我们就来聊聊<strong>多任务学习</strong>，看看如何让一个模型同时做好几件事。</p>
 
+        <p class="source-note">来源说明：GBDT + LR 出自 Facebook 的 He 等，2014，论文《<a href="https://doi.org/10.1145/2648584.2648589">Practical Lessons from Predicting Clicks on Ads at Facebook</a>》。正文中“物品近 1 小时点击率提升精排 AUC 约 2–3%”（称来源为字节跳动公开分享）、“离线 AUC 0.78→0.83 / 实验组 CTR +15% / 概率偏高约 3 倍”均为教学轶事或转述，未附可公开复现的数据集与基线，属教学示意，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="14.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="16.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
