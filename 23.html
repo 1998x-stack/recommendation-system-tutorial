@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第23章 推荐系统工具链</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,14 +53,56 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第23章 推荐系统工具链</h1>
 
         <p>前面二十二章，我们学遍了推荐系统的核心算法——从协同过滤一路讲到大模型。但有一个问题一直悬而未决：这些算法，你到底用什么框架来实现？特征怎么管理？模型怎么训练？怎么部署到线上？怎么监控它有没有跑偏？</p>
 
         <p>这一章我们不聊算法原理，我们来聊<strong>工程</strong>。推荐系统的工具链，就是把你从"在Jupyter Notebook里画出了漂亮的ROC曲线"带到"每天服务几亿用户、跑着几十个模型、出问题了能十分钟内定位"的东西。相信我，后者比前者难一个数量级。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 300" role="img" aria-labelledby="fig23-title fig23-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig23-title">推荐系统工具链的四个环节</title>
+                <desc id="fig23-desc">从特征平台到模型训练、模型部署与监控告警四个环节串联；任一环节的短板都会成为全链路瓶颈。</desc>
+                <defs><marker id="fig23-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="30" font-size="15" font-weight="700" fill="#4c1d95">推荐系统工具链的四个环节</text>
+                    <g stroke-width="1.8">
+                        <rect x="20" y="70" width="200" height="190" rx="14" fill="#e0f2fe" stroke="#0ea5e9"/>
+                        <rect x="240" y="70" width="200" height="190" rx="14" fill="#ede9fe" stroke="#7c3aed"/>
+                        <rect x="460" y="70" width="200" height="190" rx="14" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="680" y="70" width="200" height="190" rx="14" fill="#fef9c3" stroke="#d97706"/>
+                    </g>
+                    <g font-size="14" font-weight="700">
+                        <text x="120" y="102" fill="#14516e">① 特征平台</text>
+                        <text x="340" y="102" fill="#5b21b6">② 模型训练</text>
+                        <text x="560" y="102" fill="#166534">③ 模型部署</text>
+                        <text x="780" y="102" fill="#b45309">④ 监控告警</text>
+                    </g>
+                    <g font-size="12" fill="#334155">
+                        <text x="120" y="140">离线批量计算</text>
+                        <text x="120" y="166">在线 KV 服务</text>
+                        <text x="120" y="192">特征注册表</text>
+                        <text x="340" y="140">PS / All-Reduce</text>
+                        <text x="340" y="166">混合精度 FP16/BF16</text>
+                        <text x="340" y="192">实验追踪</text>
+                        <text x="560" y="140">TorchServe / Triton</text>
+                        <text x="560" y="166">ONNX 导出</text>
+                        <text x="560" y="192">量化 INT8</text>
+                        <text x="780" y="140">特征漂移</text>
+                        <text x="780" y="166">预测分布</text>
+                        <text x="780" y="192">在线 AUC</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig23-arrow)">
+                        <path d="M222 165 H236"/><path d="M442 165 H456"/><path d="M662 165 H676"/>
+                    </g>
+                    <text x="450" y="286" font-size="12.5" font-weight="700" fill="#334155">四个环节缺一不可，任一环节的短板都会成为全链路瓶颈</text>
+                </g>
+            </svg>
+            <figcaption>图 23-1. 推荐系统工具链的四个环节：特征平台决定迭代速度，训练设施决定验证速度，部署决定服务能力，监控决定系统稳定性。</figcaption>
+        </figure>
 
         <h2>1. 框架选型指南</h2>
 
@@ -148,6 +202,13 @@
 
         <p>实践中，大多数推荐系统采用<strong>混合方案</strong>：超大Embedding用PS方式管理，DNN部分用All-Reduce同步。</p>
 
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="参数服务器梯度聚合公式区域，可横向滚动">
+                <math display="block" aria-label="参数服务器同步：用所有 worker 的平均梯度更新参数"><mrow><mi>θ</mi><mo>←</mo><mi>θ</mi><mo>−</mo><mi>η</mi><mfrac><mn>1</mn><mrow><mo>|</mo><mi>W</mi><mo>|</mo></mrow></mfrac><munder><mo>∑</mo><mrow><mi>w</mi><mo>∈</mo><mi>W</mi></mrow></munder><msub><mi>g</mi><mi>w</mi></msub></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">θ 为参数，η 为学习率，W 为 worker 集合，g_w 为第 w 个 worker 的梯度；PS 的关键开销在于 server 与 worker 间的推/拉参数网络通信。</p>
+
         <p><strong>混合精度训练（FP16/BF16）</strong></p>
 
         <p>如果你还没有使用混合精度训练，那你可能浪费了50%的GPU算力。将训练精度从FP32降到FP16或BF16，可以带来接近2倍的速度提升，同时显存占用减半。BF16相比FP16更稳定（保留了和FP32相同的指数范围），是当前推荐模型训练的首选低精度格式。唯一的代价是极少数场景下精度损失——但99%的推荐模型完全不受影响。</p>
@@ -226,6 +287,13 @@ default_response_timeout=300</code></pre>
             <li><strong>在线AUC追踪</strong>：线上的点击日志可以实时计算AUC。如果在线AUC突然掉点，说明模型效果在退化。</li>
         </ul>
 
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="特征漂移 z 分数公式区域，可横向滚动">
+                <math display="block" aria-label="特征漂移的 z 分数等于当前均值与训练均值之差除以训练标准差"><mrow><mi>z</mi><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mi>t</mi></msub><mo>−</mo><msub><mi>μ</mi><mi>train</mi></msub></mrow><msub><mi>σ</mi><mi>train</mi></msub></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">x_t 为当前窗口的特征均值，μ_train、σ_train 为训练集上的均值与标准差；|z| 超过预设阈值就触发特征漂移告警。</p>
+
         <div class="warning">
             <p><strong>告警策略：什么时候该半夜打电话？</strong></p>
             <p>做监控的最终目的是告警，但告警的设计是一门艺术。告警太多会让团队麻木，告警太少会漏掉关键问题。我的经验是三个原则：（1）单点异常不告警，持续性异常才告警——连续5分钟以上预测分布偏离3σ阈值才触发；（2）区分P0/P1等级——P0（核心指标如CTR掉30%）即时电话，P1（一般指标波动）发到值班群；（3）每个告警必须有明确的排查指南，不能让值班的同学半夜起来对着一个告警不知道从哪里看起。如果没有排查指南，这个告警就不应该存在。</p>
@@ -235,12 +303,14 @@ default_response_timeout=300</code></pre>
 
         <p>好了，工具链是我们的"基础设施"。接下来我们要聊一个根本性地改变推荐系统范式的技术——<strong>大模型驱动的新一代推荐</strong>。LLM的出现不只是给推荐系统加了一个新工具，而是在重新定义"推荐"这件事本身。下一章，我们就来深入这个话题。</p>
 
+        <p class="source-note">来源说明：表中框架的模型数量与特性会随版本变化，此处为撰写时的量级描述；DCN V2 见 Wang 等，2020（<a href="https://arxiv.org/abs/2008.13535">arXiv:2008.13535</a>）；在线漂移监控可参考 Gama 等，2014（<a href="https://doi.org/10.1145/2523813">DOI 10.1145/2523813</a>）。正文中“300+ 特征、AUC 0.78→0.72、数百万营收损失”的故事、混合精度“省 50% 算力”、TensorRT“提速 2–5 倍”、INT8“提速 4 倍”等均为教学示意与典型量级描述，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="22.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="24.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
