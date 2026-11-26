@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第17章 重排与业务规则</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,10 +53,12 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第17章 重排与业务规则</h1>
+
+        <h2>1. 精排之后，为什么还需要重排</h2>
 
         <p>回顾一下我们走过的推荐链路。前几章的排序模型告诉了我们"每个物品的用户点击概率是多少"。有了这个分数，理论上就能给所有物品排个名次了，对吧？如果事情真这么简单，那推荐系统工程师可能是世界上最轻松的工作了。</p>
 
@@ -56,11 +70,41 @@
             <p><strong>关键洞察：</strong>大部分用户对推荐系统的抱怨——"怎么老是推荐一样的东西"、"我昨天才看过的又推给我"——问题通常不在精排模型，而在重排。精排模型说"这几个都相关"，重排说"但不能全上"。重排出问题，用户骂的是整个推荐系统。</p>
         </div>
 
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 340" role="img" aria-labelledby="fig17-title fig17-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig17-title">重排：从逐物品打分到列表级优化</title>
+                <desc id="fig17-desc">精排逐点打分易让多个相似物品排在前列；重排在精排分数之上施加 MMR、DPP 与业务规则等列表级约束，输出兼顾相关性与多样性的最终列表。</desc>
+                <defs><marker id="fig17-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <rect x="24" y="40" width="250" height="250" rx="16" fill="#fef9c3" stroke="#d97706" stroke-width="1.8"/>
+                    <text x="149" y="70" font-size="14" font-weight="700" fill="#b45309">精排输出 · 逐物品打分</text>
+                    <g fill="#fde68a" stroke="#d97706" stroke-width="1.4"><rect x="52" y="92" width="194" height="26" rx="6"/><rect x="72" y="128" width="174" height="26" rx="6"/><rect x="92" y="164" width="154" height="26" rx="6"/><rect x="112" y="200" width="134" height="26" rx="6"/><rect x="132" y="236" width="114" height="26" rx="6"/></g>
+                    <g font-size="12" fill="#78350f"><text x="149" y="110">同类物品 A · 0.93</text><text x="149" y="146">同类物品 B · 0.92</text><text x="149" y="182">同类物品 C · 0.91</text><text x="149" y="218">同类物品 D · 0.90</text><text x="149" y="254">同类物品 E · 0.89</text></g>
+                    <rect x="330" y="120" width="240" height="90" rx="16" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.8"/>
+                    <text x="450" y="152" font-size="14" font-weight="700" fill="#14516e">重排 · 列表级优化</text>
+                    <text x="450" y="176" font-size="12" fill="#0c4a6e">MMR / DPP / 业务规则 / 硬约束</text>
+                    <rect x="626" y="40" width="250" height="250" rx="16" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+                    <text x="751" y="70" font-size="14" font-weight="700" fill="#5b21b6">最终列表 · 兼顾多样</text>
+                    <g font-size="12" fill="#4c1d95"><text x="751" y="108">1. 手机壳 · 数码</text><text x="751" y="140">2. 无线耳机 · 数码</text><text x="751" y="172">3. 马克杯 · 家居</text><text x="751" y="204">4. 散文集 · 图书</text><text x="751" y="236">5. 跑鞋 · 运动</text></g>
+                    <text x="751" y="272" font-size="12" font-weight="700" fill="#6d28d9">类别不再霸屏</text>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig17-arrow)"><path d="M274 165 H326"/><path d="M570 165 H622"/></g>
+                </g>
+            </svg>
+            <figcaption>图 17-1. 重排的作用：精排逐点打分会让多个高度相似的物品挤进前列；重排在精排分数之上做列表级约束（多样性、去重、类目上限、广告与扶持规则），输出对用户真正有用的最终列表。图中分数与类目为教学示意。</figcaption>
+        </figure>
+
         <h2>2. MMR：在相关性中注入多样性</h2>
 
         <p>MMR（Maximal Marginal Relevance）是重排领域最经典、最简洁、也最广泛使用的算法之一。最早由Jaime Carbonell和Jade Goldstein在1998年提出，用于信息检索中的多样性优化，后来被推荐系统界"借"了过来，一用就是二十年。</p>
 
         <p>MMR的核心思想非常直观：每一步选择下一个物品时，既考虑它与用户的相关性，又考虑它与已选物品的差异性。用数学公式来表达：</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="MMR 贪心选择公式区域，可横向滚动">
+                <math display="block" aria-label="MMR 从剩余候选中选出使相关性与冗余惩罚加权和最大的物品"><mrow><mi>MMR</mi><mo>=</mo><munder><mo>arg max</mo><mrow><mi>i</mi><mo>∈</mo><mi>C</mi><mo>∖</mo><mi>S</mi></mrow></munder><mrow><mo>[</mo><mi>λ</mi><mo>·</mo><mi>rel</mi><mo>(</mo><mi>i</mi><mo>)</mo><mo>−</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo><munder><mo>max</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><mi>sim</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>]</mo></mrow></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">其中 rel(i) 为精排给出的相关性分数，sim(i,j) 为物品间相似度，C∖S 为尚未选中的候选集，S 为已选集合，λ∈[0,1] 平衡相关性与多样性。</p>
 
         <pre><code>MMR = argmax_{i in Candidates} [ λ * Rel(i) - (1-λ) * max_{j in Selected} Sim(i, j) ]
 
@@ -128,6 +172,12 @@ def mmr_selection(scores, similarity_matrix, lambda_param=0.5, top_k=10):
         <p>理解DPP的关键在于搞懂它的<strong>核矩阵</strong>（Kernel Matrix）。核矩阵L是一个n×n的半正定矩阵，其中L_ij衡量物品i和物品j的"质量×相似度"。具体来说，通常将L分解为：L_ij = q_i × q_j × S_ij，其中q_i是物品i的质量分数（精排输出），S_ij是物品i和j的相似度。</p>
 
         <p>那么，DPP给一个物品集合Y（Y是候选集的一个子集）赋予的概率是：</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="DPP 集合概率公式区域，可横向滚动">
+                <math display="block" aria-label="DPP 给物品集合 Y 的概率等于其核子矩阵的行列式除以归一化常数"><mrow><mi>P</mi><mo>(</mo><mi>Y</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>det</mi><mo>(</mo><msub><mi>L</mi><mi>Y</mi></msub><mo>)</mo></mrow><mrow><mi>det</mi><mo>(</mo><mi>L</mi><mo>+</mo><mi>I</mi><mo>)</mo></mrow></mfrac></mrow></math>
+            </div>
+        </div>
 
         <pre><code>P(Y) = det(L_Y) / det(L + I)
 
@@ -215,7 +265,7 @@ det(L_Y) 衡量了Y的"体积" = 质量 × 多样性</code></pre>
         <p>用户已经看过但不感兴趣的内容（被划走、被跳过），重排阶段应该降低其排名。实现方式是在精排分数上乘以一个衰减因子，衰减幅度由"被忽略次数"决定。</p>
 
         <div class="warning">
-            <p><strong>真实故事：短时间快手DPP带来的奇迹</strong></p>
+            <p><strong>教学示例（数字为教学示意，非实测）：某短视频平台重排改造的示意收益</strong></p>
             <p>某短视频平台在改版前，推荐流的重排策略极其简单——精排分数排序 + 简单的同作者去重。用户反馈中"推荐太重复"的投诉占了约30%。推荐团队在两周内上线了基于DPP的重排模块，没有改动任何召回和精排模型，上线一周后：用户平均观看时长提升了8%，"推荐太重复"的投诉下降了60%。团队leader后来总结说："我们当时一直觉得问题在模型精度上，花了很多精力调DeepFM。实际上模型已经够好了，是我们没有把模型的输出转换成好的用户体验。重排才是打通'模型精度→用户体验'的最后一公里。"</p>
         </div>
 
@@ -223,12 +273,14 @@ det(L_Y) 衡量了Y的"体积" = 质量 × 多样性</code></pre>
 
         <p>但重排也带来了一个副作用——让推荐系统的pipeline变得更长、更复杂。每一层都在修改前一层的排序结果，整个链路的优化和问题排查变得越来越困难。而这引出了更系统性的问题：如何保证从用户行为产生到推荐结果返回，整个链路的延迟可控？如何让推荐系统在用户行为的"下一秒"就做出反应？这就是我们下一章的主题——<strong>实时推荐系统</strong>。</p>
 
+        <p class="source-note">来源说明：MMR 出自 Carbonell 与 Goldstein，1998（SIGIR，<a href="https://doi.org/10.1145/290941.291025">DOI 10.1145/290941.291025</a>）；DPP 的系统论述见 Kulesza 与 Taskar，2012（<a href="https://arxiv.org/abs/1207.6083">arXiv:1207.6083</a>）。正文中“投诉约 30%、观看时长提升 8%、投诉下降 60%”等数字为教学示意，未附可公开复现的实验数据，不作为实测指标引用。业务规则中的新鲜度加成 f(new)=1/(1+t/T) 为教学简化写法。</p>
+
         <div class="footer-nav">
             <a href="16.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="18.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
