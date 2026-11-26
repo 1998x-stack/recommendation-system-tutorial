@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第28章 综合实战项目</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html" class="active">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第28章 综合实战项目</h1>
 
@@ -51,6 +63,46 @@
         <p>这一章不是一个代码片段合集，而是一个完整的项目路线图。我强烈建议你关上网页，打开IDE，跟着这一章的步骤一步步实现。<strong>读完28章不等于学完了这门课——当你亲手把最后一个API调通、看到推荐结果返回的那一刻，你才算真正毕业。</strong></p>
 
         <h2>1. 项目定义与数据集</h2>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 350" role="img" aria-labelledby="fig28-title fig28-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig28-title">端到端推荐项目架构</title>
+                <desc id="fig28-desc">从数据流水线到双塔召回、DeepFM 排序、FastAPI 在线服务；下方一路用 Replay 离线回放对比热门基线。</desc>
+                <defs><marker id="fig28-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="28" font-size="15" font-weight="700" fill="#4c1d95">MovieLens-1M 端到端推荐项目</text>
+                    <g stroke-width="1.6">
+                        <rect x="20" y="70" width="190" height="90" rx="12" fill="#e0f2fe" stroke="#0ea5e9"/>
+                        <rect x="240" y="70" width="190" height="90" rx="12" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="460" y="70" width="190" height="90" rx="12" fill="#fef9c3" stroke="#d97706"/>
+                        <rect x="680" y="70" width="200" height="90" rx="12" fill="#fce7f3" stroke="#db2777"/>
+                    </g>
+                    <g font-size="13" font-weight="700">
+                        <text x="115" y="100" fill="#14516e">① 数据流水线</text>
+                        <text x="335" y="100" fill="#166534">② 双塔召回</text>
+                        <text x="555" y="100" fill="#b45309">③ DeepFM 排序</text>
+                        <text x="780" y="100" fill="#9d174d">④ 在线服务</text>
+                    </g>
+                    <g font-size="11.5" fill="#334155">
+                        <text x="115" y="126">探索 → 特征 → 划分</text><text x="115" y="146">→ 负采样</text>
+                        <text x="335" y="126">用户/物品 → 向量</text><text x="335" y="146">Faiss Top-100</text>
+                        <text x="555" y="126">候选 → 点击概率</text><text x="555" y="146">Top-10</text>
+                        <text x="780" y="126">FastAPI /recommend</text><text x="780" y="146">Docker 部署</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig28-arrow)">
+                        <path d="M212 115 H236"/><path d="M432 115 H456"/><path d="M652 115 H676"/>
+                    </g>
+                    <rect x="240" y="215" width="420" height="80" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.6"/>
+                    <text x="450" y="244" font-size="13" font-weight="700" fill="#334155">Replay 离线回放评估</text>
+                    <text x="450" y="268" font-size="11.5" fill="#334155">HR@10 / NDCG@10：个性化（召回+排序） 对比 热门基线</text>
+                    <g stroke="#94a3b8" stroke-width="1.6" fill="none" stroke-dasharray="5 4">
+                        <path d="M450 162 V211"/>
+                    </g>
+                    <text x="450" y="330" font-size="12" fill="#334155">离线指标只做筛选，最终效果仍需线上 A/B 验证；本图与各模块指标均为教学示例</text>
+                </g>
+            </svg>
+            <figcaption>图 28-1. 综合实战项目的端到端架构：数据流水线打磨特征与时间感知划分，双塔召回缩到百级候选，DeepFM 精排到十级，FastAPI 对外服务；下方用 Replay 回放在离线阶段对比热门基线。</figcaption>
+        </figure>
 
         <p>我们选择<strong>MovieLens-1M</strong>数据集作为项目的数据基础。为什么选它？</p>
 
@@ -67,6 +119,13 @@
             <li>离线评估：HR@10（Hit Rate at 10）和 NDCG@10（Normalized Discounted Cumulative Gain at 10）</li>
             <li>模拟在线评估：基于历史回放的Replay Evaluation——对于测试集中的每个用户行为时间点，只使用该时间点之前的数据做推荐，看推荐结果是否包含了用户实际点击的物品。</li>
         </ul>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="NDCG@K 评估公式区域，可横向滚动">
+                <math display="block" aria-label="NDCG@K 等于 DCG@K 除以理想 DCG@K，其中 DCG 对位置 i 用对数折扣加权"><mrow><msub><mi>NDCG</mi><mi>K</mi></msub><mo>=</mo><mfrac><msub><mi>DCG</mi><mi>K</mi></msub><msub><mi>IDCG</mi><mi>K</mi></msub></mfrac><mo>,</mo><mspace width="0.5em"/><msub><mi>DCG</mi><mi>K</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><mfrac><mrow><msup><mn>2</mn><msub><mi>rel</mi><mi>i</mi></msub></msup><mo>−</mo><mn>1</mn></mrow><mrow><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">NDCG@K：rel_i 为位置 i 上物品的相关性（点击为 1），分母 IDCG@K 是理想排序下的最大 DCG；对数折扣“log₂(i+1)”使靠前位置的命中得到更高权重。HR@10 则只看前 10 是否命中，不区分顺序。</p>
 
         <h2>2. 数据流水线搭建</h2>
 
@@ -343,12 +402,14 @@ def recall_at_k(model, index, test_data, k=100):
 
         <p>感谢你跟着这门课一路走到这里。如果课程中的任何内容在你未来的工作中帮到了你，那将是我最大的欣慰。我们江湖再见！</p>
 
+        <p class="source-note">来源说明：MovieLens-1M 的规模（约 6040 用户、3706 电影、100 万条评分）来自 GroupLens 公开数据集说明；其余指标——召回 Recall@100 的 0.4–0.6、DeepFM 的 AUC 0.75–0.85、NDCG@10 > 0.3、个性化对比热门基线 HR@10 提升 20–40%——均为典型经验区间的教学示意，会随特征设计、负采样与划分方式变化，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="27.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="javascript:void(0)">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
