@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第26章 前沿趋势盘点</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,14 +53,55 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第26章 前沿趋势盘点</h1>
 
         <p>同学们好，欢迎来到第六部分。在过去的25章里，我们完整地走过了推荐系统的技术栈——从最经典的协同过滤，到深度学习的各类模型，再到LLM驱动的推荐范式。这些知识在未来三到五年内都不会过时。不过，推荐系统这个领域，变是唯一的不变。在最后三章里，我们先抬头看看前方——站在2025-2026年这个时间节点，哪些技术趋势正在重塑推荐系统的未来？</p>
 
         <p>这一章我们不深入任何一篇论文的细节，而是做一次全景式的巡礼，帮你建立一个"未来地图"。等到你在工作中遇到具体问题时，这张地图会告诉你去哪个方向寻找答案。</p>
+
+        <p>这一章我们不深入任何一篇论文的细节，而是做一次全景式的巡礼，帮你建立一个"未来地图"。等到你在工作中遇到具体问题时，这张地图会告诉你去哪个方向寻找答案。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 340" role="img" aria-labelledby="fig26-title fig26-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig26-title">推荐系统五大前沿趋势地图</title>
+                <desc id="fig26-desc">生成式推荐、Semantic ID、搜推一体化、多 Agent 协同、Scaling Law 五条趋势共同推动推荐系统从匹配引擎转向智能理解引擎。</desc>
+                <defs><marker id="fig26-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="30" font-size="15" font-weight="700" fill="#4c1d95">从"匹配引擎"到"智能理解引擎"</text>
+                    <rect x="120" y="50" width="240" height="34" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+                    <rect x="540" y="50" width="240" height="34" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+                    <text x="240" y="73" font-size="13" font-weight="700" fill="#334155">打分：给定用户+物品 → 分数</text>
+                    <text x="660" y="73" font-size="13" font-weight="700" fill="#5b21b6">理解：理解需求与语义 → 生成</text>
+                    <path d="M366 67 H534" stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig26-arrow)"/>
+                    <g stroke-width="1.6">
+                        <rect x="20" y="120" width="160" height="170" rx="12" fill="#dbeafe" stroke="#3b82f6"/>
+                        <rect x="194" y="120" width="160" height="170" rx="12" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="368" y="120" width="160" height="170" rx="12" fill="#fef9c3" stroke="#d97706"/>
+                        <rect x="542" y="120" width="160" height="170" rx="12" fill="#fce7f3" stroke="#db2777"/>
+                        <rect x="716" y="120" width="160" height="170" rx="12" fill="#e0f2fe" stroke="#0ea5e9"/>
+                    </g>
+                    <g font-size="13" font-weight="700">
+                        <text x="100" y="150" fill="#1e40af">① 生成式推荐</text>
+                        <text x="274" y="150" fill="#166534">② Semantic ID</text>
+                        <text x="448" y="150" fill="#b45309">③ 搜推一体化</text>
+                        <text x="622" y="150" fill="#9d174d">④ 多 Agent 协同</text>
+                        <text x="796" y="150" fill="#14516e">⑤ Scaling Law</text>
+                    </g>
+                    <g font-size="11.5" fill="#334155">
+                        <text x="100" y="182">条件生成</text><text x="100" y="204">替代打分</text><text x="100" y="226">端到端优化</text><text x="100" y="248">天然多样性</text>
+                        <text x="274" y="182">物品语义编码</text><text x="274" y="204">层次聚类</text><text x="274" y="226">RQ-VAE</text><text x="274" y="248">零样本泛化</text>
+                        <text x="448" y="182">消除人为边界</text><text x="448" y="204">共享子空间</text><text x="448" y="226">Null-space 投影</text><text x="448" y="248">统一体验</text>
+                        <text x="622" y="182">意图理解</text><text x="622" y="204">召回/排序 Agent</text><text x="622" y="226">解释与对话</text><text x="622" y="248">动态规划工具链</text>
+                        <text x="796" y="182">参数↑效果↑</text><text x="796" y="204">验证正相关</text><text x="796" y="226">算力竞争</text><text x="796" y="248">蒸馏/量化对冲</text>
+                    </g>
+                    <text x="450" y="322" font-size="12" fill="#334155">五条趋势共同指向：从"匹配用户与物品"进化为"理解需求、语义与动态关系"</text>
+                </g>
+            </svg>
+            <figcaption>图 26-1. 推荐系统的五条前沿趋势：前三条改变建模与表示，第四条改变系统组织方式，第五条改变竞争格局；它们共同把推荐系统从匹配引擎推向智能理解引擎。</figcaption>
+        </figure>
 
         <h2>1. 生成式推荐：从打分到生成</h2>
 
@@ -90,6 +143,13 @@
             <li><strong>层次聚类（Hierarchical Clustering）</strong>：对物品的内容embedding做层次聚类，每个聚类分配一个编码路径。优点是简单直观，缺点是聚类结果不稳定——重新聚类会改变所有物品的ID。</li>
             <li><strong>RQ-VAE（Residual Quantized VAE）</strong>：用多级残差量化器，每一层量化embedding的残差。优点是编码更加紧凑高效，且天然支持多尺度语义。</li>
         </ul>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="RQ-VAE 多级残差量化公式区域，可横向滚动">
+                <math display="block" aria-label="RQ-VAE 用多级码本向量之和近似物品嵌入"><mrow><mi>e</mi><mo>≈</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><msub><mi>c</mi><mi>k</mi></msub><mo>,</mo><mspace width="0.3em"/><msub><mi>c</mi><mi>k</mi></msub><mo>∈</mo><msub><mi>C</mi><mi>k</mi></msub></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">RQ-VAE 的多级残差量化：每层码本 C_k 从上一层残差中选出一个向量 c_k，物品嵌入 e 近似为这 K 个码本向量之和；因此每层 c_k 的下标就是 Semantic ID 在该层的取值。</p>
 
         <p>下面是用层次聚类生成Semantic ID的伪代码：</p>
 
@@ -250,12 +310,14 @@ def generate_semantic_ids(item_embeddings, depth=3, branching_factor=10):
 
         <p>但如果你的团队只有5个人、DAU只有10万，这些前沿技术跟你有什么关系？所有前沿都是建立在扎实的基础之上的。下一章，我们就从云端回到地面，聊聊一个真实的推荐系统应该怎么搭建——从0到1，从小到大的<strong>推荐系统架构设计</strong>。</p>
 
+        <p class="source-note">来源说明：生成式推荐 Meta GR 见 Zhai 等，2023（<a href="https://arxiv.org/abs/2306.17128">arXiv:2306.17128</a>）；RQ-VAE 多级残差量化见 Zeghidour 等，2021（<a href="https://arxiv.org/abs/2107.03312">arXiv:2107.03312</a>）。文中 LUM 的 GAUC 表格与参数量/数据量（0.632→0.685、+8.4% 等）为便于讲解而构造的教学示意，不是 LUM 原文实测值；同理，OneRec、GEMS（SIGIR 2026）、ChainRec、Meta/Google 内部搜推一体化“至少一半训练资源、2–3% 提升”等具体数字均为教学示意或基于公开技术分享的行业观察，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="25.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="27.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
