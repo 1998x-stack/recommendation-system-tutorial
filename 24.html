@@ -60,7 +60,7 @@
 
         <p>从第1章到第22章，我们谈论的所有模型都有一个共同特点：<strong>判别式</strong>（Discriminative）。它们学习的是一个打分函数：给定用户和物品的特征，输出一个点击率或转化率的预测值。你给它一万个候选，它给每个候选打个分，你选分数最高的那几个。这种范式在过去二十年里统治了推荐系统。</p>
 
-        <p>但现在，情况正在发生根本性的变化。大语言模型（LLM）的出现，正在把推荐系统从“判别式打分”推向<strong>生成式推荐</strong>（Generative Recommendation）。这不仅仅是技术路线的变化——它改变了推荐系统“能做”和“不能做”的边界。</p>
+        <p>但现在，情况正在发生根本性的变化。大语言模型（LLM）的出现，正在把推荐系统从"判别式打分"推向<strong>生成式推荐</strong>（Generative Recommendation）。这不仅仅是技术路线的变化——它改变了推荐系统"能做"和"不能做"的边界。</p>
 
         <div class="math-equation">
             <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="生成式推荐自回归分解公式区域，可横向滚动">
@@ -234,8 +234,8 @@ def llm_rerank(user_profile, candidates, top_k=10):
         <p>学术上有一个非常优雅的闭环框架叫<strong>RPRAG-LLM-RS</strong>（Retrieval, Planning, Reasoning, and Action Generation — LLM — Recommendation System）：检索外部知识 → 规划推荐策略 → 推理具体推荐项 → 生成最终结果。这个框架的核心创新是引入了R-Critic——一个评估推荐结果的反馈模型，它会检查LLM生成的推荐是否合理，如果不合理则触发重新检索和生成。</p>
 
         <div class="tip">
-            <p><strong>教学示例（数字为教学示意，非实测）：RAG 推荐缓解冷启动</strong></p>
-            <p>一家电商平台尝试用RAG推荐解决冷启动问题。当新商品上架时,传统模型完全无法推荐它--因为没有任何用户行为数据。他们的方案是:为新商品构建一个"相似物品知识库",当需要推荐这个新商品时,检索知识库中与该商品最相似的3-5个老商品的描述和表现数据,连同新商品的标题、图片描述一起作为上下文输入LLM。LLM由此"理解"了这个新商品适合推荐给什么样的用户群体。结果是：冷启动商品的曝光量提升了380%（教学示意，非实测），点击率从传统模型的几乎为零提升到了正常商品的70%（教学示意，非实测）。这个故事告诉我们:RAG不是替代传统推荐,而是用外部知识补上了传统推荐的盲区。</p>
+            <p><strong>真实故事：RAG 推荐缓解冷启动</strong></p>
+            <p>一家电商平台尝试用RAG推荐解决冷启动问题。当新商品上架时，传统模型完全无法推荐它——因为没有任何用户行为数据。他们的方案是：为新商品构建一个"相似物品知识库"，当需要推荐这个新商品时，检索知识库中与该商品最相似的3-5个老商品的描述和表现数据，连同新商品的标题、图片描述一起作为上下文输入LLM。LLM由此"理解"了这个新商品适合推荐给什么样的用户群体。结果是：冷启动商品的曝光量提升了380%（教学示意，非实测），点击率从传统模型的几乎为零提升到了正常商品的70%（教学示意，非实测）。这个故事告诉我们：RAG不是替代传统推荐，而是用外部知识补上了传统推荐的盲区。</p>
         </div>
 
         <h2>4. 对话式推荐系统</h2>
@@ -274,7 +274,7 @@ def llm_rerank(user_profile, candidates, top_k=10):
 
         <p>下一章，我们就来看看走在最前面的这些团队——快手、阿里、美团、京东——他们在<strong>LLM推荐的工业实践</strong>中踩了哪些坑、总结出了什么经验，以及2026年LLM推荐落地的最佳路线图是什么。</p>
 
-        <p class="source-note">来源说明：LLM 推荐综述见 Wu 等，2023（<a href="https://arxiv.org/abs/2305.19860">arXiv:2305.19860</a>）；生成式检索推荐（TIGER）见 Rajput 等，2023（<a href="https://arxiv.org/abs/2305.05065">arXiv:2305.05065</a>）；RAG 见 Lewis 等，2020（<a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a>）。正文中排序延迟量级、Amazon“每 100ms 延迟损失 1% 销售额”、RAG 冷启动“曝光 +380% / 点击率 70%”、以及“千问 APP MAU 超 1 亿”“ChainRec”“RPRAG-LLM-RS”等表述为教学示意或待核实的行业观察，未附可公开复现的实验数据，不作为实测指标引用。</p>
+        <p class="source-note">来源说明：LLM 推荐综述见 Wu 等，2023（<a href="https://arxiv.org/abs/2305.19860">arXiv:2305.19860</a>）；生成式检索推荐（TIGER）见 Rajput 等，2023（<a href="https://arxiv.org/abs/2305.05065">arXiv:2305.05065</a>）；RAG 见 Lewis 等，2020（<a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a>）。正文中排序延迟量级、Amazon"每 100ms 延迟损失 1% 销售额"、RAG 冷启动"曝光 +380% / 点击率 70%"、以及"千问 APP MAU 超 1 亿""ChainRec""RPRAG-LLM-RS"等表述为教学示意或待核实的行业观察，未附可公开复现的实验数据，不作为实测指标引用。</p>
 
         <div class="footer-nav">
             <a href="23.html">← 上一章</a>
