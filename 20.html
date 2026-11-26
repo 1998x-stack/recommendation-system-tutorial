@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第20章 推荐系统消偏</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第20章 推荐系统消偏</h1>
 
@@ -121,15 +133,66 @@
 
         <pre><code>P(click | item, position) = P(relevant | item) × P(seen | position)</code></pre>
 
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="位置偏差分解公式区域，可横向滚动">
+                <math display="block" aria-label="点击概率等于物品相关概率乘以该位置被看到的概率"><mrow><mi>P</mi><mo>(</mo><mi>click</mi><mo>|</mo><mi>item</mi><mo>,</mo><mi>position</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>relevant</mi><mo>|</mo><mi>item</mi><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mi>seen</mi><mo>|</mo><mi>position</mi><mo>)</mo></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">该分解是位置偏差建模的基础：只有 P(seen | position) 与位置有关而与物品无关，才能在训练时把“被看到”与“被喜欢”拆开。</p>
+
         <p>用户点击一个物品的概率，可以被分解为两个独立事件的乘积：(1) 用户对物品感兴趣的概率，乘以 (2) 用户在这个位置上注意到物品的概率。注意，<code>P(seen | position)</code> 只和位置有关，和物品本身无关——排在第一位的物品被看到的概率远远高于排在第十位的。</p>
 
         <p>这个分解看似简单，但它揭示了一个深刻的含义：<strong>我们不能直接用点击数据来训练模型，因为点击并不等于兴趣</strong>。一个排在第一位的低质量物品，可能因为被看到的机会多而获得了大量的点击，而这些点击信号会让模型误以为用户很喜欢它。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 330" role="img" aria-labelledby="fig20-title fig20-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig20-title">位置偏差与 IPW 反向补偿</title>
+                <desc id="fig20-desc">越是靠后的位置，被看到的概率越低；IPW 用权重的倒数上调靠后位置的样本，使训练信号不再被顶部位置垄断。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="26" font-size="15" font-weight="700" fill="#4c1d95">位置偏差：点击机会随位置衰减，IPW 反向补偿</text>
+                    <g stroke-width="1.6" fill="#fee2e2" stroke="#ef4444">
+                        <rect x="40" y="50" width="150" height="64" rx="10"/>
+                        <rect x="200" y="50" width="150" height="64" rx="10"/>
+                        <rect x="360" y="50" width="150" height="64" rx="10"/>
+                        <rect x="520" y="50" width="150" height="64" rx="10"/>
+                        <rect x="680" y="50" width="150" height="64" rx="10"/>
+                    </g>
+                    <g font-size="12.5" fill="#7f1d1d">
+                        <text x="115" y="74">位置 1</text><text x="115" y="96">p(view)=0.90</text>
+                        <text x="275" y="74">位置 2</text><text x="275" y="96">p(view)=0.70</text>
+                        <text x="435" y="74">位置 3</text><text x="435" y="96">p(view)=0.50</text>
+                        <text x="595" y="74">位置 4</text><text x="595" y="96">p(view)=0.35</text>
+                        <text x="755" y="74">位置 5</text><text x="755" y="96">p(view)=0.25</text>
+                    </g>
+                    <line x1="40" y1="290" x2="830" y2="290" stroke="#94a3b8" stroke-width="1.6"/>
+                    <g fill="#7c3aed">
+                        <rect x="85" y="244" width="60" height="46" rx="6"/>
+                        <rect x="245" y="230" width="60" height="60" rx="6"/>
+                        <rect x="405" y="206" width="60" height="84" rx="6"/>
+                        <rect x="565" y="168" width="60" height="122" rx="6"/>
+                        <rect x="725" y="122" width="60" height="168" rx="6"/>
+                    </g>
+                    <g font-size="12" font-weight="700" fill="#5b21b6">
+                        <text x="115" y="238">1.1</text><text x="275" y="224">1.4</text><text x="435" y="200">2.0</text><text x="595" y="162">2.9</text><text x="755" y="116">4.0</text>
+                    </g>
+                    <text x="450" y="316" font-size="12.5" fill="#334155">柱高 = IPW 权重 1/p(view)：位置越靠后，样本被上调得越多（数值为教学示意）</text>
+                </g>
+            </svg>
+            <figcaption>图 20-1. 位置偏差与 IPW 补偿：靠后位置的展示机会更少，若直接训练会让顶部位置垄断训练信号；IPW 用 1/p(seen) 上调靠后样本，让各位置的贡献更接近真实兴趣。图中概率与权重为教学示意。</figcaption>
+        </figure>
 
         <p>工业界主要用三种方法来解决位置偏差：</p>
 
         <p><strong>方法一：位置作为特征（Position as Feature）</strong>。在训练时，把物品的展示位置作为一个输入特征喂给模型。模型可以学到位置对点击率的影响。但这里有一个大坑：<strong>推理时位置是未知的</strong>（你正在预测的是未排序的结果，怎么可能知道最终位置？）。解决方案是推理时将位置特征设为一个固定值（如0），或在模型结构上做特殊设计使位置特征仅在训练时生效。</p>
 
-        <p><strong>方法二：逆倾向加权（Inverse Propensity Weighting, IPW）</strong>。这是目前学术界和工业界最通用的方法。核心思路是：每个训练样本按照其被观察到的概率进行加权。如果某条样本在位置1被展示（被看到的概率高），它应该被少加权；如果在位置10被展示（被看到的概率低），它应该被多加权。这个权重就是1/P(seen|position)。</p>
+        <p><strong>方法二:逆倾向加权(Inverse Propensity Weighting, IPW)</strong>。这是目前学术界和工业界最通用的方法。核心思路是：每个训练样本按照其被观察到的概率进行加权。如果某条样本在位置1被展示（被看到的概率高），它应该被少加权；如果在位置10被展示（被看到的概率低），它应该被多加权。这个权重就是1/P(seen|position)。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="IPW 样本权重公式区域，可横向滚动">
+                <math display="block" aria-label="IPW 样本权重等于该位置被看到概率的倒数"><mrow><msub><mi>w</mi><mi>i</mi></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mi>P</mi><mo>(</mo><mi>seen</mi><mo>|</mo><mi>position</mi><mo>)</mo></mrow></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">直觉上，位置越靠后、越难得被看到，单个样本携带的信息越稀缺，权重 1/p 就越大；但 p 很小时权重会爆炸，因此工业实现必须做裁剪（裁剪上下限）。</p>
 
         <p><strong>方法三：RandPair</strong>。这是Google在2019年提出的一种巧妙方法。思路是：在推荐列表中随机交换两个物品的位置，观察点击率的变化。如果交换后点击率发生显著变化，说明位置偏差影响了点击决策，而不仅仅是物品本身的质量。通过大量随机交换的实验数据，可以估计出位置对点击率的真实影响。</p>
 
@@ -137,7 +200,7 @@
             <p><strong>工业实践：</strong>在大多数大厂的推荐系统中，位置消偏是"标配"而非"选配"。阿里、字节、Google都在线上部署了位置消偏模块。常用的方案是将位置特征和IPW结合使用——位置特征吸收掉大部分偏差，IPW处理剩余的部分。</p>
         </div>
 
-        <p>回到开头的故事：那个团队移除了位置特征后，新模型和旧模型的AUC变得几乎一致。这意味着整个3%的"提升"全是虚假信号。更扎心的是，类似的"虚假提升"在推荐系统领域屡见不鲜——有团队测算过，位置偏差在某些场景下可以解释高达40%的"模型提升"。消偏不是锦上添花，是模型评估的前提条件。</p>
+        <p>回到开头的故事:那个团队移除了位置特征后,新模型和旧模型的AUC变得几乎一致。这意味着整个3%的"提升"全是虚假信号。更扎心的是,类似的"虚假提升"在推荐系统领域屡见不鲜--有团队测算过，位置偏差在某些场景下可以解释高达40%的“模型提升”（教学示意，非实测）。消偏不是锦上添花,是模型评估的前提条件。</p>
 
         <h2>3. 流行度偏差：富者越富</h2>
 
@@ -301,6 +364,8 @@ for batch in dataloader:
             <li><strong>第四步：Doubly Robust或因果图</strong>。只有在大规模团队且消偏需求非常明确时才考虑。</li>
         </ul>
 
+        <p class="source-note">来源说明：位置偏差的因果分解与无偏排序见 Joachims 等，2017（<a href="https://arxiv.org/abs/1608.04468">arXiv:1608.04468</a>）；推荐系统偏差的系统综述见 Chen 等，2023（<a href="https://arxiv.org/abs/2010.03240">arXiv:2010.03240</a>），“七种偏差”的分类参考该综述。正文开头“AUC 提升 3 个百分点”的故事与“位置偏差可解释高达 40% 的模型提升”均为教学轶事，未附可公开复现的实验数据，属教学示意，不作为实测指标引用。</p>
+
         <h2>5. 小结</h2>
 
         <p>推荐系统中的偏差是一个"看不见的敌人"——它无时无刻不在影响你的数据、模型和业务指标，但你很难直观地感知到它的存在。位置偏差让你误以为模型更好了（实际上只是学会了作弊），流行度偏差让头部内容统治一切，选择偏差让你对未曝光物品毫无信息。</p>
@@ -316,7 +381,7 @@ for batch in dataloader:
             <a href="index.html">📖 返回目录</a>
             <a href="21.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
