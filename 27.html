@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第27章 推荐系统架构设计</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,14 +53,55 @@
             <li><a href="27.html" class="active">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第27章 推荐系统架构设计</h1>
 
         <p>上一章我们抬头看天，畅想了推荐系统的前沿趋势。这一章我们低头看路——如果你明天就要开始搭建一个推荐系统，从哪里开始？这可能是整门课程中最实用的一章。我们不谈花哨的模型，只谈怎么从零到一、从小到大，以及怎么让你的团队睡得着觉。</p>
 
         <h2>1. 从0到1的推荐系统</h2>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 340" role="img" aria-labelledby="fig27-title fig27-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig27-title">从0到1的推荐系统四阶段路线图</title>
+                <desc id="fig27-desc">按数据量从少到多依次用热度规则、协同过滤、线性/因子分解模型、深度多阶段模型，团队规模同步从 1–2 人扩到 5–10 人。</desc>
+                <defs><marker id="fig27-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="28" font-size="15" font-weight="700" fill="#4c1d95">从 0 到 1：按数据量递增选择方案</text>
+                    <line x1="60" y1="270" x2="860" y2="270" stroke="#94a3b8" stroke-width="1.5"/>
+                    <g stroke-width="1.6">
+                        <rect x="70" y="205" width="170" height="65" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="270" y="170" width="170" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+                        <rect x="470" y="135" width="170" height="135" rx="10" fill="#fef9c3" stroke="#d97706"/>
+                        <rect x="670" y="100" width="170" height="170" rx="10" fill="#fce7f3" stroke="#db2777"/>
+                    </g>
+                    <g font-size="13" font-weight="700">
+                        <text x="155" y="230" fill="#166534">Phase 1</text>
+                        <text x="355" y="195" fill="#1e40af">Phase 2</text>
+                        <text x="555" y="160" fill="#b45309">Phase 3</text>
+                        <text x="755" y="125" fill="#9d174d">Phase 4</text>
+                    </g>
+                    <g font-size="11.5" fill="#334155">
+                        <text x="155" y="250">热度 + 规则</text>
+                        <text x="355" y="215">协同过滤</text><text x="355" y="235">ItemCF/UserCF</text>
+                        <text x="555" y="180">LR / FM</text><text x="555" y="200">简单特征工程</text>
+                        <text x="755" y="145">深度模型</text><text x="755" y="165">多路召回 + 多阶段</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig27-arrow)">
+                        <path d="M242 237 H264"/><path d="M442 220 H464"/><path d="M642 202 H664"/>
+                    </g>
+                    <g font-size="11" fill="#64748b">
+                        <text x="155" y="292">1–2 人 · 4 周</text>
+                        <text x="355" y="292">2–3 人 · 2–3 月</text>
+                        <text x="555" y="292">3–5 人 · 4–6 月</text>
+                        <text x="755" y="292">5–10 人 · 7–12 月</text>
+                    </g>
+                    <text x="450" y="325" font-size="12" fill="#334155">横轴：数据与用户规模递增；每一步升级都要有明确的数据支撑，而非为了用新模型而用新模型</text>
+                </g>
+            </svg>
+            <figcaption>图 27-1. 从 0 到 1 的推荐系统四阶段路线图：先用能立即上线的热度/规则验证产品价值，再逐步引入协同过滤、线性/因子分解模型与深度多阶段架构。时间窗口与团队规模为经验性教学示意。</figcaption>
+        </figure>
 
         <p>你加入了一家创业公司，产品刚刚上线，DAU不到1万，老板说"我们也要推荐系统"。你怎么做？</p>
 
@@ -142,6 +195,13 @@ latency_budget = {
     "re_rank": 20,       # 重排阶段 20ms
     "network": 110,      # 网络传输和其他开销
 }</code></pre>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="峰值 QPS 预估公式区域，可横向滚动">
+                <math display="block" aria-label="峰值 QPS 等于日均请求量除以一天秒数再乘以高峰因子"><mrow><msub><mi>Q</mi><mi>peak</mi></msub><mo>=</mo><mfrac><mrow><mi>DAU</mi><mo>×</mo><mi>S</mi><mo>×</mo><mi>R</mi></mrow><mrow><mn>24</mn><mo>×</mo><mn>3600</mn></mrow></mfrac><mo>×</mo><mi>f</mi></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">峰值 QPS 预估：DAU 为日活，S 为人均每日启动次数，R 为每次启动触发的推荐请求数，f 为高峰因子（通常取 2–5）。先算出日均 QPS，再乘高峰因子得到需要预留的峰值吞吐。上式与代码示例中的数值均为教学示意，实际取值需用业务埋点实测。</p>
 
         <p>有了这些基础数字，你就可以做出明智的选型决策：</p>
 
@@ -276,12 +336,14 @@ latency_budget = {
 
         <p>理论听了那么多，不如动手做一次。下一章就是这门课的压轴大戏——我们将使用MovieLens数据集，从数据预处理到模型训练再到在线服务，完整地实现一个推荐系统。<strong>综合实战项目</strong>等你来挑战。</p>
 
+        <p class="source-note">来源说明：本章的容量数字（DAU 10 万 / 600 万日请求 / 约 70 平均 QPS / 约 280 峰值 QPS / 256MB embedding / 300ms 延迟预算）、各阶段时间窗口与团队规模、以及“好特征提升 AUC 2–3%、换 DCNv2 仅 0.1–0.3%”等量化说法均为便于讲解的教学示意，用于说明量级与取舍思路，不代表某一真实系统的实测值，不作为实测指标引用。文中 TorchEasyRec、FuxiCTR、DeepCTR、PAI、AWS Personalize、Google Recommendations AI 等为各自厂商公开的产品/项目名称。</p>
+
         <div class="footer-nav">
             <a href="26.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="28.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
