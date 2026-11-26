@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第18章 实时推荐系统</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第18章 实时推荐系统</h1>
 
@@ -68,6 +80,43 @@
         <p>实时特征写入Redis等高速在线存储后，推荐服务在收到用户请求时，从Redis读取最新特征，拼装成模型输入，执行推理。整个推理链路同样有严格的时间预算。</p>
 
         <p>这三条流水线串起来，就构成了实时推荐的核心骨架。我们来深入看看每条流水线的具体实现。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 360" role="img" aria-labelledby="fig18-title fig18-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig18-title">实时推荐的三条流水线</title>
+                <desc id="fig18-desc">用户行为经埋点进入 Kafka 消息队列（行为流水线），Flink 滑动窗口实时聚合特征（特征流水线），结果写入 Redis 供推荐服务读取并推理（模型流水线）；用户刷新时读取已就绪特征，不现场计算。</desc>
+                <defs><marker id="fig18-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="32" font-size="15" font-weight="700" fill="#4c1d95">行为 → 特征 → 模型：三条流水线</text>
+                    <g stroke-width="1.8">
+                        <rect x="25" y="70" width="185" height="96" rx="14" fill="#fef9c3" stroke="#d97706"/>
+                        <rect x="240" y="70" width="185" height="96" rx="14" fill="#e0f2fe" stroke="#0ea5e9"/>
+                        <rect x="455" y="70" width="185" height="96" rx="14" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="670" y="70" width="185" height="96" rx="14" fill="#ede9fe" stroke="#7c3aed"/>
+                    </g>
+                    <g font-size="14" font-weight="700" fill="#203035">
+                        <text x="117" y="108">① 行为流水线</text>
+                        <text x="332" y="108">② 特征流水线</text>
+                        <text x="547" y="108">③ 模型流水线</text>
+                        <text x="762" y="108">在线推理</text>
+                    </g>
+                    <g font-size="12" fill="#475569">
+                        <text x="117" y="134">埋点 → Kafka</text>
+                        <text x="332" y="134">Flink 滑窗聚合</text>
+                        <text x="547" y="134">Redis 在线特征</text>
+                        <text x="762" y="134">拼特征 → 打分</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig18-arrow)">
+                        <path d="M212 118 H236"/><path d="M427 118 H451"/><path d="M642 118 H666"/>
+                    </g>
+                    <rect x="25" y="212" width="830" height="86" rx="14" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.6"/>
+                    <text x="440" y="244" font-size="13" font-weight="700" fill="#334155">新鲜度窗口：行为 → 特征就绪约在毫秒级（典型示意）</text>
+                    <text x="440" y="270" font-size="12" fill="#475569">推理读的是已就绪的在线特征，不在请求时现场跑 Flink；端到端延迟 = 各串行组件之和</text>
+                    <text x="440" y="290" font-size="12" fill="#475569">监控看 p99 / p999，而不是平均值</text>
+                </g>
+            </svg>
+            <figcaption>图 18-1. 实时推荐的三条流水线：行为日志经 Kafka 进入流式系统，Flink 以滑动窗口聚合实时特征并写入 Redis，推荐服务在请求时读取已就绪特征完成推理。图中延迟量级为教学示意。</figcaption>
+        </figure>
 
         <h2>2. 实时特征引擎</h2>
 
@@ -130,6 +179,13 @@ GROUP BY
         <h2>3. 延迟预算管理</h2>
 
         <p>实时推荐最容易被忽略的问题是：虽然每个组件都在追求低延迟，但推荐系统的端到端延迟是各个组件延迟的<strong>和</strong>。任何一个组件的延迟抖动，都会直接拖累整个链路。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="端到端延迟公式区域，可横向滚动">
+                <math display="block" aria-label="端到端延迟近似等于各串行组件延迟之和"><mrow><msub><mi>L</mi><mi>e2e</mi></msub><mo>≈</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>L</mi><mi>k</mi></msub><mo>=</mo><msub><mi>L</mi><mi>ingest</mi></msub><mo>+</mo><msub><mi>L</mi><mi>window</mi></msub><mo>+</mo><msub><mi>L</mi><mi>store</mi></msub><mo>+</mo><msub><mi>L</mi><mi>read</mi></msub><mo>+</mo><msub><mi>L</mi><mi>infer</mi></msub></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">L_ingest、L_window、L_store 为行为在流式链路中的串行耗时；L_read、L_infer 为请求时读取在线特征与模型推理的耗时。各值此处均为教学示意量级。</p>
 
         <p>一份典型的实时推荐延迟预算分配表：</p>
 
@@ -195,7 +251,7 @@ GROUP BY
         <p>这是实时推荐领域争议最大的问题之一。在线学习（Online Learning）指的是模型参数随新数据实时更新——用户点一个商品，模型立即更新对这个商品embedding的梯度。听起来很美好对吧？但工业界的现实是：<strong>99%的团队不需要在线学习。</strong></p>
 
         <div class="warning">
-            <p><strong>真实故事：六个月白干，换来0.5% CTR提升</strong></p>
+            <p><strong>教学示例（数字为教学示意，非实测）：在线学习的投入产出示意</strong></p>
             <p>某中大型互联网公司的推荐团队（约15人，支撑千万级DAU），花了整整六个月搭建在线学习系统。他们实现了Flink实时消费行为日志 → 实时拼接训练样本 → 实时更新模型参数的全链路。所有基础设施都是自研的——因为开源的在线学习框架在百万级特征规模下扛不住。六个月后上线了，AB测试CTR提升了0.5%。然后噩梦开始了：模型参数在线上频繁震荡，有时候上午表现好的模型下午就崩了。他们又花了六个月来修复稳定性问题：加参数约束、加梯度裁剪、加回滚机制、加模型版本管理。最终复盘时发现，如果把这12个月投入到"更好的实时特征 + 小时级增量训练"上，CTR提升可能不止0.5%，而且运维成本低得多。后来他们的架构变成了：实时特征（Flink + Redis）+ 每小时增量重训（Spark + GPU集群），简单、稳定、效果不差。</p>
         </div>
 
@@ -221,12 +277,14 @@ GROUP BY
 
         <p>好了，实时推荐系统到这里就结束了。实时推荐解决了"已知用户"的问题——有了足够的交互数据，我们能实时追踪用户的兴趣变化。但有一个更棘手的问题一直悬而未决：当一个新用户第一次来到你的平台，没有任何行为数据时，你该怎么办？这正是我们下一章要深入探讨的话题——<strong>冷启动问题</strong>。</p>
 
+        <p class="source-note">来源说明：在线学习的系统综述见 Hoi 等，2021（<a href="https://arxiv.org/abs/1802.02871">arXiv:1802.02871</a>）。消息队列与流式计算为工程实践：Kafka 的消息模型见 Kreps 等，2011（NetDB，“Kafka: a Distributed Messaging System for Log Processing”），Flink 滑动窗口语义见其官方文档。正文延迟预算表中的数值为典型量级教学示意；“六个月白干、CTR +0.5%”与“DAU &lt; 1 亿”等表述为教学轶事与经验判断，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="17.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="19.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
