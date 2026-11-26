@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第24章 大模型驱动的新一代推荐</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,14 +53,21 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第24章 大模型驱动的新一代推荐</h1>
 
         <p>从第1章到第22章，我们谈论的所有模型都有一个共同特点：<strong>判别式</strong>（Discriminative）。它们学习的是一个打分函数：给定用户和物品的特征，输出一个点击率或转化率的预测值。你给它一万个候选，它给每个候选打个分，你选分数最高的那几个。这种范式在过去二十年里统治了推荐系统。</p>
 
-        <p>但现在，情况正在发生根本性的变化。大语言模型（LLM）的出现，正在把推荐系统从"判别式打分"推向<strong>生成式推荐</strong>（Generative Recommendation）。这不仅仅是技术路线的变化——它改变了推荐系统"能做"和"不能做"的边界。</p>
+        <p>但现在，情况正在发生根本性的变化。大语言模型（LLM）的出现，正在把推荐系统从“判别式打分”推向<strong>生成式推荐</strong>（Generative Recommendation）。这不仅仅是技术路线的变化——它改变了推荐系统“能做”和“不能做”的边界。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="生成式推荐自回归分解公式区域，可横向滚动">
+                <math display="block" aria-label="生成式推荐将推荐结果建模为自回归的条件概率乘积"><mrow><mi>P</mi><mo>(</mo><mi>y</mi><mo>|</mo><mi>x</mi><mo>)</mo><mo>=</mo><munderover><mo>∏</mo><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><mi>T</mi></munderover><msub><mi>P</mi><mi>θ</mi></msub><mo>(</mo><msub><mi>y</mi><mi>t</mi></msub><mo>|</mo><msub><mi>y</mi><mrow><mo>&lt;</mo><mi>t</mi></mrow></msub><mo>,</mo><mi>x</mi><mo>)</mo></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">判别式模型直接估计打分 P(click | x, item)；生成式推荐则把推荐序列 y 当作语言来逐步解码，x 为提示（用户画像 + 候选物品），y_t 为第 t 步生成的 token 或物品。</p>
 
         <h2>1. 为什么LLM改变了推荐</h2>
 
@@ -78,6 +97,37 @@
             <li><strong>Pair-wise（两两比较）</strong>：给LLM两个候选，让它选更优的那个。然后通过排序算法（如MergeSort）得到全局排序。效果通常比point-wise好。</li>
             <li><strong>List-wise（列表排序）</strong>：给LLM一个候选项列表，让它直接输出排序后的结果。效率最高，但受限于LLM的上下文窗口长度，且对LLM的排序能力要求更高。</li>
         </ul>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 300" role="img" aria-labelledby="fig24-title fig24-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig24-title">LLM 在推荐漏斗中的介入位置</title>
+                <desc id="fig24-desc">召回、粗排、精排逐层缩小候选集，LLM 只在漏斗末端的十级候选上做重排并生成推荐理由，以控制延迟与成本。</desc>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="30" font-size="15" font-weight="700" fill="#4c1d95">LLM 推荐：只在对的小候选集上介入</text>
+                    <g stroke-width="1.6">
+                        <rect x="40" y="52" width="820" height="42" rx="8" fill="#e0f2fe" stroke="#0ea5e9"/>
+                        <rect x="140" y="110" width="620" height="42" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+                        <rect x="240" y="168" width="420" height="42" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+                        <rect x="340" y="226" width="220" height="42" rx="8" fill="#fce7f3" stroke="#db2777"/>
+                    </g>
+                    <g font-size="12.5" font-weight="700" fill="#203035">
+                        <text x="450" y="78">召回 · 百万级候选</text>
+                        <text x="450" y="136">粗排 · 千级</text>
+                        <text x="450" y="194">精排（传统模型）· 百级</text>
+                        <text x="450" y="252">LLM 重排 + 生成理由 · 十级</text>
+                    </g>
+                    <text x="450" y="290" font-size="12.5" fill="#334155">LLM 延迟与成本高，放在漏斗末端的小候选集上，收益最大</text>
+                </g>
+            </svg>
+            <figcaption>图 24-1. LLM 在推荐漏斗中的介入位置：召回与粗排承担海量候选的筛选，LLM 只在末端的少量候选上做重排与理由生成，从而兼顾效果与延迟/成本。</figcaption>
+        </figure>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="逐点排序 softmax 公式区域，可横向滚动">
+                <math display="block" aria-label="逐点排序可用带温度系数的 softmax 将候选分数转为概率分布"><mrow><mi>P</mi><mo>(</mo><mi>i</mi><mo>|</mo><mi>c</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>exp</mi><mo>(</mo><msub><mi>s</mi><mi>i</mi></msub><mo>/</mo><mi>τ</mi><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>C</mi></mrow></munder><mi>exp</mi><mo>(</mo><msub><mi>s</mi><mi>j</mi></msub><mo>/</mo><mi>τ</mi><mo>)</mo></mrow></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">Point-wise 排序可写为上式：s_i 为 LLM 给候选的分数，τ 为温度；Pair-wise / List-wise 则直接建模候选之间的相对顺序或整个列表。</p>
 
         <p>下面是一个list-wise排序的Prompt模板示例：</p>
 
@@ -184,8 +234,8 @@ def llm_rerank(user_profile, candidates, top_k=10):
         <p>学术上有一个非常优雅的闭环框架叫<strong>RPRAG-LLM-RS</strong>（Retrieval, Planning, Reasoning, and Action Generation — LLM — Recommendation System）：检索外部知识 → 规划推荐策略 → 推理具体推荐项 → 生成最终结果。这个框架的核心创新是引入了R-Critic——一个评估推荐结果的反馈模型，它会检查LLM生成的推荐是否合理，如果不合理则触发重新检索和生成。</p>
 
         <div class="tip">
-            <p><strong>真实故事：RAG推荐搞定冷启动</strong></p>
-            <p>一家电商平台尝试用RAG推荐解决冷启动问题。当新商品上架时，传统模型完全无法推荐它——因为没有任何用户行为数据。他们的方案是：为新商品构建一个"相似物品知识库"，当需要推荐这个新商品时，检索知识库中与该商品最相似的3-5个老商品的描述和表现数据，连同新商品的标题、图片描述一起作为上下文输入LLM。LLM由此"理解"了这个新商品适合推荐给什么样的用户群体。结果是：冷启动商品的曝光量提升了380%，点击率从传统模型的几乎为零提升到了正常商品的70%。这个故事告诉我们：RAG不是替代传统推荐，而是用外部知识补上了传统推荐的盲区。</p>
+            <p><strong>教学示例（数字为教学示意，非实测）：RAG 推荐缓解冷启动</strong></p>
+            <p>一家电商平台尝试用RAG推荐解决冷启动问题。当新商品上架时,传统模型完全无法推荐它--因为没有任何用户行为数据。他们的方案是:为新商品构建一个"相似物品知识库",当需要推荐这个新商品时,检索知识库中与该商品最相似的3-5个老商品的描述和表现数据,连同新商品的标题、图片描述一起作为上下文输入LLM。LLM由此"理解"了这个新商品适合推荐给什么样的用户群体。结果是：冷启动商品的曝光量提升了380%（教学示意，非实测），点击率从传统模型的几乎为零提升到了正常商品的70%（教学示意，非实测）。这个故事告诉我们:RAG不是替代传统推荐,而是用外部知识补上了传统推荐的盲区。</p>
         </div>
 
         <h2>4. 对话式推荐系统</h2>
@@ -224,12 +274,14 @@ def llm_rerank(user_profile, candidates, top_k=10):
 
         <p>下一章，我们就来看看走在最前面的这些团队——快手、阿里、美团、京东——他们在<strong>LLM推荐的工业实践</strong>中踩了哪些坑、总结出了什么经验，以及2026年LLM推荐落地的最佳路线图是什么。</p>
 
+        <p class="source-note">来源说明：LLM 推荐综述见 Wu 等，2023（<a href="https://arxiv.org/abs/2305.19860">arXiv:2305.19860</a>）；生成式检索推荐（TIGER）见 Rajput 等，2023（<a href="https://arxiv.org/abs/2305.05065">arXiv:2305.05065</a>）；RAG 见 Lewis 等，2020（<a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a>）。正文中排序延迟量级、Amazon“每 100ms 延迟损失 1% 销售额”、RAG 冷启动“曝光 +380% / 点击率 70%”、以及“千问 APP MAU 超 1 亿”“ChainRec”“RPRAG-LLM-RS”等表述为教学示意或待核实的行业观察，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="23.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="25.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
