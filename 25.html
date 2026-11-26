@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第25章 LLM推荐的工业实践</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,14 +53,51 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第25章 LLM推荐的工业实践</h1>
 
         <p>上一章我们聊了LLM驱动推荐的各种前沿方案——LLM as Ranker、RAG推荐、对话式推荐、Agent推荐。读完之后你可能会有一个感觉：这些听起来都很美好，但到底有多少真的在大规模生产系统里跑起来了？</p>
 
         <p>这一章，我们就来实地考察几家中国互联网巨头的LLM推荐落地实践。为什么聚焦中国公司？因为中国互联网公司在LLM推荐这个方向的投入是全世界最激进的——这里有最丰富的业务场景（电商、短视频、生活服务、出行），有最多的用户行为数据，更重要的是，有决心把新技术转化为业务增长的动力。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 330" role="img" aria-labelledby="fig25-title fig25-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig25-title">LLM 推荐工业落地的三级台阶</title>
+                <desc id="fig25-desc">从离线特征增强，到精排重排增强，再到全链路生成式推荐，延迟预算收紧、风险升高、收益预期放大，多数团队从最低一级开始。</desc>
+                <defs><marker id="fig25-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="30" font-size="15" font-weight="700" fill="#4c1d95">LLM 推荐工业落地的三级台阶</text>
+                    <g stroke-width="1.8">
+                        <rect x="60" y="230" width="220" height="64" rx="12" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="340" y="160" width="220" height="64" rx="12" fill="#dbeafe" stroke="#3b82f6"/>
+                        <rect x="620" y="90" width="220" height="64" rx="12" fill="#fce7f3" stroke="#db2777"/>
+                    </g>
+                    <g font-size="13.5" font-weight="700">
+                        <text x="170" y="256" fill="#166534">Phase 1 · 特征增强</text>
+                        <text x="450" y="186" fill="#1e40af">Phase 2 · 精排/重排增强</text>
+                        <text x="730" y="116" fill="#9d174d">Phase 3 · 全链路生成式</text>
+                    </g>
+                    <g font-size="12" fill="#334155">
+                        <text x="170" y="279">离线产出语义特征</text>
+                        <text x="450" y="209">LLM rerank + 生成理由</text>
+                        <text x="730" y="139">端到端生成推荐结果</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig25-arrow)">
+                        <path d="M282 262 C 320 240 320 200 336 192"/>
+                        <path d="M562 192 C 600 176 600 138 616 124"/>
+                    </g>
+                    <g font-size="11.5" fill="#64748b">
+                        <text x="170" y="222">无在线延迟</text>
+                        <text x="450" y="152">50–200ms</text>
+                        <text x="730" y="82">20–100ms（需优化）</text>
+                    </g>
+                    <text x="450" y="318" font-size="12" font-weight="700" fill="#334155">越往右：延迟预算越紧、风险越高、收益预期越大；工程上按阶段小流量验证、随时可回滚</text>
+                </g>
+            </svg>
+            <figcaption>图 25-1. LLM 推荐工业落地的三级台阶：特征增强风险最低、回报最确定；精排/重排增强是当前主流；全链路生成式潜力最大但延迟与成本压力最高。延迟与收益为典型量级描述，属教学示意。</figcaption>
+        </figure>
 
         <h2>1. 快手OneRec系列：从判别到生成</h2>
 
@@ -111,6 +160,13 @@
         <p><strong>模型蒸馏</strong></p>
 
         <p>知识蒸馏（Knowledge Distillation）是另一种高效的轻量化方案。用一个大规模的"教师"LLM生成推荐结果和推荐理由，然后用这些数据训练一个小规模的"学生"模型。学生模型（通常1B以下）可以达到教师模型90%以上的效果，但推理速度提升10倍以上。京东和快手都有公开的技术分享描述了这种方案的成功实践。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="知识蒸馏损失公式区域，可横向滚动">
+                <math display="block" aria-label="知识蒸馏损失由学生对教师软标签的交叉熵与对真实标签的交叉熵加权组成"><mrow><mi>L</mi><mo>=</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo><msub><mi>L</mi><mi>CE</mi></msub><mo>(</mo><mi>y</mi><mo>,</mo><msub><mi>p</mi><mi>s</mi></msub><mo>)</mo><mo>+</mo><mi>λ</mi><msup><mi>T</mi><mn>2</mn></msup><msub><mi>L</mi><mi>KL</mi></msub><mo>(</mo><msubsup><mi>p</mi><mi>t</mi><mi>T</mi></msubsup><mo>∥</mo><msubsup><mi>p</mi><mi>s</mi><mi>T</mi></msubsup><mo>)</mo></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">蒸馏损失 L 中，p_s、p_t 分别为学生与教师的输出分布，y 为真实标签，λ 控制软标签权重，T 为温度；p^T 表示温度缩放后的分布。上式对应 Hinton 等提出的标准蒸馏形式。</p>
 
         <p><strong>推测解码（Speculative Decoding）</strong></p>
 
@@ -210,12 +266,15 @@ rec_dataset = [
 
         <p>从第23章的工程基础设施到第24章的技术原理再到本章的工业实践，我们完整地走了一遍LLM推荐的全景图。但推荐系统的进化远没有停止——从多模态到端侧推理，从Agent推荐到具身智能推荐，新的方向在不断涌现。下一章，我们来做一次<strong>前沿趋势盘点</strong>，看看推荐系统在2026-2027年最值得关注的十个方向，以及这28章课程中我们学到的东西最终如何融会贯通到一个完整的系统架构中。</p>
 
+        <p class="source-note">来源说明：1-bit 量化可参考微软 BitNet，Wang 等，2023（<a href="https://arxiv.org/abs/2310.11453">arXiv:2310.11453</a>）；知识蒸馏标准形式见 Hinton 等，2015（<a href="https://arxiv.org/abs/1503.02531">arXiv:1503.02531</a>）。正文中 OneRec / OneReason / Pool-Rec、阿里 LUM、美团 MTGR 与 EGA_V2、京东 DMP 智能人群定向、以及 BitNet「7B 模型显存 16GB→<1GB」、蒸馏「学生达教师 90% 效果、提速 10 倍」、推测解码「提速 2–3 倍」、端云协同架构等均为教学示意或基于公开技术分享的行业观察，未附可公开复现的实验数据，不作为实测指标引用。</p>
+
         <div class="footer-nav">
             <a href="24.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="26.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
+</div>
 </div>
 </div>
 </body>
