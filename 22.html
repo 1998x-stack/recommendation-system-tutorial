@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第22章 多模态与内容理解</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        html, body { max-width: 100%; }
+        img, svg { max-width: 100%; height: auto; }
+        pre, code { overflow-wrap: anywhere; }
+        pre { max-width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { word-break: break-word; overflow-wrap: anywhere; }
+        .main-content { min-width: 0; }
+        .container > * { min-width: 0; }
+        .math-scroll { max-width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>🤖 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 推荐系统概览</a></li>
@@ -41,8 +53,8 @@
             <li><a href="27.html">第27章 推荐系统架构设计</a></li>
             <li><a href="28.html">第28章 综合实战项目</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content"><article>
 
         <h1>第22章 多模态与内容理解</h1>
 
@@ -76,6 +88,13 @@
         <p>文本是互联网上最普遍的内容形式。无论是新闻标题、商品描述、视频标题还是用户评论，文本都承载了丰富的语义信息。</p>
 
         <p><strong>语义嵌入（Semantic Embedding）</strong>是文本理解的基础。传统的TF-IDF只能做关键词匹配——"汽车"和"车辆"这两个词在TF-IDF空间里是毫不相关的，但它们在语义上非常接近。BERT和RoBERTa等预训练语言模型可以生成深层的语义向量，捕捉"汽车"和"车辆"的语义相似性。在推荐系统中，这些语义向量既可以作为物品特征输入排序模型，也可以直接用于向量召回。</p>
+
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="余弦相似度公式区域，可横向滚动">
+                <math display="block" aria-label="余弦相似度等于两向量内积除以各自模长的乘积"><mrow><mi>sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>u</mi><mo>·</mo><mi>v</mi></mrow><mrow><msub><mrow><mo>∥</mo><mi>u</mi><mo>∥</mo></mrow><mn>2</mn></msub><msub><mrow><mo>∥</mo><mi>v</mi><mo>∥</mo></mrow><mn>2</mn></msub></mrow></mfrac></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">语义嵌入的价值在于：上述用余弦相似度度量的“语义相近”不依赖关键字完全相同，因而能捕捉“汽车/车辆”这类同义关系，也能支撑跨语言、跨域的召回。</p>
 
         <p><strong>命名实体识别（Named Entity Recognition, NER）</strong>从文本中提取出结构化的实体——品牌名（"Nike"）、人名（"Taylor Swift"）、地名（"巴黎"）、产品名（"iPhone 15"）等。这些实体是推荐系统的重要信号：如果一个用户经常点击含有"iPhone"实体的内容，他很可能对苹果产品感兴趣。NER让推荐系统从"不知道内容在说什么"变成"知道内容中的关键概念"。</p>
 
@@ -162,6 +181,13 @@
 
         <p>工业界最主流的做法是<strong>晚期融合</strong>（Late Fusion）——每个模态独立提取Embedding，然后在最后一层把它们拼接（Concatenate）起来作为特征。假设文本Embedding是768维，图像Embedding是512维，拼接后就是1280维的特征向量，输入到后面的排序模型或向量检索中。</p>
 
+        <div class="math-equation">
+            <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="晚期融合拼接公式区域，可横向滚动">
+                <math display="block" aria-label="晚期融合将各模态的嵌入向量拼接成一个更长向量"><mrow><msub><mi>e</mi><mi>fused</mi></msub><mo>=</mo><mrow><mo>[</mo><msub><mi>e</mi><mi>text</mi></msub><mo>⊕</mo><msub><mi>e</mi><mi>image</mi></msub><mo>⊕</mo><msub><mi>e</mi><mi>audio</mi></msub><mo>]</mo></mrow><mo>∈</mo><msup><mi>R</mi><mrow><munder><mo>∑</mo><mi>m</mi></munder><msub><mi>d</mi><mi>m</mi></msub></mrow></msup></mrow></math>
+            </div>
+        </div>
+        <p class="source-note">⊕ 表示向量拼接，d_m 为第 m 个模态的维度；因此融合向量的总维度等于各模态维度之和，任一模态缺失时可置零向量而不影响其余维度。</p>
+
         <p>晚期融合的优点非常突出：</p>
         <ul>
             <li><strong>模块化</strong>：每个模态的编码器可以独立训练、独立更新、独立部署</li>
@@ -170,6 +196,47 @@
         </ul>
 
         <p>正因为这些优点，晚期融合是绝大多数推荐系统的默认选择。如果你刚起步做多模态推荐，从晚期融合开始绝对不会错。</p>
+
+        <figure class="article-figure">
+            <svg viewBox="0 0 900 320" role="img" aria-labelledby="fig22-title fig22-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig22-title">多模态晚期融合</title>
+                <desc id="fig22-desc">文本、图像、音频各自经独立编码器得到嵌入向量，再拼接成一个融合向量输入排序模型或向量检索。</desc>
+                <defs><marker id="fig22-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#64748b" stroke-width="1.8"/></marker></defs>
+                <g font-family="system-ui, 'Noto Sans SC', sans-serif" text-anchor="middle">
+                    <text x="450" y="28" font-size="15" font-weight="700" fill="#4c1d95">多模态晚期融合：各模态独立编码后拼接</text>
+                    <g stroke-width="1.8">
+                        <rect x="25" y="50" width="170" height="56" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+                        <rect x="25" y="130" width="170" height="56" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+                        <rect x="25" y="210" width="170" height="56" rx="10" fill="#fef9c3" stroke="#d97706"/>
+                        <rect x="245" y="50" width="210" height="56" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+                        <rect x="245" y="130" width="210" height="56" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+                        <rect x="245" y="210" width="210" height="56" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+                        <rect x="520" y="50" width="340" height="216" rx="14" fill="#f1f5f9" stroke="#64748b"/>
+                    </g>
+                    <g font-size="13" font-weight="700" fill="#203035">
+                        <text x="110" y="82">文本</text><text x="110" y="162">图像</text><text x="110" y="242">音频</text>
+                    </g>
+                    <g font-size="12" fill="#475569">
+                        <text x="350" y="74">BERT / RoBERTa</text><text x="350" y="92">→ 768 维</text>
+                        <text x="350" y="154">CLIP ViT</text><text x="350" y="172">→ 512 维</text>
+                        <text x="350" y="234">Wav2Vec / CLAP</text><text x="350" y="252">→ 768 维</text>
+                    </g>
+                    <g font-size="13" fill="#334155">
+                        <text x="690" y="88" font-weight="700">晚期融合：拼接向量</text>
+                        <text x="690" y="118">e = [ e_text ⊕ e_image ⊕ e_audio ]</text>
+                        <text x="690" y="148">维度 = 各模态维度之和</text>
+                        <text x="690" y="186">→ 输入排序模型 / 向量检索</text>
+                        <text x="690" y="216">缺模态用零向量补齐</text>
+                    </g>
+                    <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#fig22-arrow)">
+                        <path d="M195 78 H241"/><path d="M195 158 H241"/><path d="M195 238 H241"/>
+                        <path d="M455 78 H516"/><path d="M455 158 H516"/><path d="M455 238 H516"/>
+                    </g>
+                    <text x="450" y="300" font-size="12.5" font-weight="700" fill="#334155">模块化 · 可容错 · 易扩展：新增模态只需加一个编码器并拼接</text>
+                </g>
+            </svg>
+            <figcaption>图 22-1. 多模态晚期融合：文本、图像、音频各自经独立编码器得到嵌入向量，再拼接成一个融合向量输入排序模型或向量检索；任一模态缺失时可用零向量补齐。</figcaption>
+        </figure>
 
         <p>比晚期融合更高级的是<strong>早期融合</strong>（Early Fusion）和<strong>交叉注意力融合</strong>（Cross-Attention Fusion）。早期融合在输入层就把不同模态的数据放在一起处理（比如把一个词和一个图像区域同时输入Transformer），模型可以学到底层跨模态交互。交叉注意力融合通过注意力机制让不同模态相互"看"对方——比如在看图片时，根据文字描述来决定关注图片的哪个区域。这些方法表达力更强，但实现更复杂、计算成本更高，在工业推荐中相对少见。</p>
 
@@ -215,7 +282,7 @@ print(f"Embedding shape: {emb.shape}")  # (1, 1024)
 # or used as input features to a ranking model.</code></pre>
 
         <div class="highlight">
-            <p><strong>价值证明：</strong>一家电商平台在商品推荐中加入了CLIP图像Embedding，结果令人印象深刻——冷启动商品的召回率提升了25%。原因很简单：图片包含了大量文本描述中遗漏的信息（颜色、风格、材质），CLIP Embedding捕捉到了这些视觉信号。这个改进只花了一个工程师两周时间（集成了一个预训练CLIP模型），效果却超过了很多人花几个月调参的排序模型优化。内容理解往往是推荐系统中"投入产出比"最高的优化方向之一。</p>
+            <p><strong>价值证明：</strong>一家电商平台在商品推荐中加入了CLIP图像Embedding，结果令人印象深刻——冷启动商品的召回率提升了25%（教学示意，非实测）。原因很简单：图片包含了大量文本描述中遗漏的信息（颜色、风格、材质），CLIP Embedding捕捉到了这些视觉信号。这个改进只花了一个工程师两周时间（集成了一个预训练CLIP模型），效果却超过了很多人花几个月调参的排序模型优化。内容理解往往是推荐系统中"投入产出比"最高的优化方向之一。</p>
         </div>
 
         <p>多数模态融合的实际部署中，有几点需要特别注意：</p>
@@ -230,6 +297,8 @@ print(f"Embedding shape: {emb.shape}")  # (1, 1024)
             <p><strong>工程实践：</strong>多模态特征上线后，一定要做ABA（Ablation Study，消融实验）。具体来说：对照组是"不加图片特征"，实验组A是"加CLIP特征"，实验组B是"加ResNet特征"。通过逐一去掉每个模态来验证其真实贡献。你会惊讶地发现，有时候你以为很重要的模态实际上贡献很小，而你觉得不太重要的模态却贡献巨大。</p>
         </div>
 
+        <p class="source-note">来源说明：CLIP 出自 Radford 等，2021（<a href="https://arxiv.org/abs/2103.00020">arXiv:2103.00020</a>）；BERT 出自 Devlin 等，2018（<a href="https://arxiv.org/abs/1810.04805">arXiv:1810.04805</a>）；LDA 主题模型出自 Blei 等，2003（JMLR）。正文中“CLIP 图像 Embedding 使冷启动召回率提升 25%”“一个工程师两周集成”等为教学轶事，未附可公开复现的实验数据，属教学示意，不作为实测指标引用。</p>
+
         <h2>5. 小结</h2>
 
         <p>多模态内容理解是推荐系统从"猜你喜欢"走向"懂你喜欢"的关键一步。它让推荐系统不再仅仅依赖ID和行为数据，而是真正理解推荐给用户的"内容本身"是什么。文本理解提供了语义基础，图像和视频理解打开了视觉维度，多模态融合则让这些信号协同工作。</p>
@@ -243,7 +312,7 @@ print(f"Embedding shape: {emb.shape}")  # (1, 1024)
             <a href="index.html">📖 返回目录</a>
             <a href="23.html">下一章 →</a>
         </div>
-    </div>
+    </article></main>
 </div>
 </div>
 </body>
