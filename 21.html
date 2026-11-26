@@ -75,14 +75,14 @@
             <li><strong>状态转移（Transition）</strong>：用户在看到推荐内容后，状态发生变化——他的历史序列被更新了，兴趣可能被强化或改变，注意力可能消耗了。</li>
         </ul>
 
-        <p>在这个框架下，传统的监督学习做的是“单步优化”——给定当前状态S，预测每个动作a的即时奖励R，选择最高的那个。而RL解决的是“长期回报最大化”问题——当前选择的动作，不仅决定即时奖励，还会影响未来的状态和未来的奖励空间。</p>
+        <p>在这个框架下，传统的监督学习做的是"单步优化"——给定当前状态S，预测每个动作a的即时奖励R，选择最高的那个。而RL解决的是"长期回报最大化"问题——当前选择的动作，不仅决定即时奖励，还会影响未来的状态和未来的奖励空间。</p>
 
         <div class="math-equation">
             <div class="math-scroll" tabindex="0" role="region" data-math-scroll="true" aria-label="强化学习目标函数区域，可横向滚动">
                 <math display="block" aria-label="强化学习目标是最大化按折扣因子累加的期望回报"><mrow><mi>J</mi><mo>(</mo><mi>π</mi><mo>)</mo><mo>=</mo><msub><mi>E</mi><mi>π</mi></msub><mrow><mo>[</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>0</mn></mrow><mi>∞</mi></munderover><msup><mi>γ</mi><mi>t</mi></msup><msub><mi>r</mi><mi>t</mi></msub><mo>]</mo></mrow></mrow></math>
             </div>
         </div>
-        <p class="source-note">策略 π 的目标是最大化折扣累计回报：γ∈[0,1] 越小越重视短期收益，越大越看重长期价值；监督学习只优化单步的 r_t，因此缺少“未来”这个维度。</p>
+        <p class="source-note">策略 π 的目标是最大化折扣累计回报：γ∈[0,1] 越小越重视短期收益，越大越看重长期价值；监督学习只优化单步的 r_t，因此缺少"未来"这个维度。</p>
 
         <p>为什么这对推荐如此重要？因为推荐系统中最棘手的几个问题，本质上都是<strong>短期收益 vs 长期收益</strong>的冲突：</p>
 
@@ -344,7 +344,7 @@ def train_dqn(env, state_dim, action_dim, episodes=1000):
             <p><strong>务实建议：</strong>对于绝大多数推荐团队，我建议采用"渐进式RL"策略：(1) 先从Contextual Bandit开始，解决探索-利用问题；(2) 如果效果不错且团队有RL能力，引入短期-长期奖励的加权；(3) 只在大规模团队和有明确长期优化目标的场景下，才考虑完整MDP的深度RL。这个路径可以把风险降到最低，同时让团队逐步建立RL能力。</p>
         </div>
 
-        <p class="source-note">来源说明：DRN 出自 Zheng 等，2018（<a href="https://arxiv.org/abs/1802.03014">arXiv:1802.03014</a>）；离线策略评估中的 Doubly Robust 方法见 Dudík 等，2011（<a href="https://arxiv.org/abs/1103.4601">arXiv:1103.4601</a>）。正文中“点击率提升 2–5%、留存提升 10% 以上”“Contextual Bandit 能拿到约 70% 的收益而成本不到 MDP 的 10%”以及“离线评估 +15%、上线全面下跌”的故事均为教学示意与经验描述，未附可公开复现的实验数据，不作为实测指标引用。</p>
+        <p class="source-note">来源说明：DRN 出自 Zheng 等，2018（<a href="https://arxiv.org/abs/1802.03014">arXiv:1802.03014</a>）；离线策略评估中的 Doubly Robust 方法见 Dudík 等，2011（<a href="https://arxiv.org/abs/1103.4601">arXiv:1103.4601</a>）。正文中"点击率提升 2–5%、留存提升 10% 以上""Contextual Bandit 能拿到约 70% 的收益而成本不到 MDP 的 10%"以及"离线评估 +15%、上线全面下跌"的故事均为教学示意与经验描述，未附可公开复现的实验数据，不作为实测指标引用。</p>
 
         <h2>5. 小结</h2>
 

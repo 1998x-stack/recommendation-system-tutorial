@@ -94,7 +94,7 @@
                 <math display="block" aria-label="余弦相似度等于两向量内积除以各自模长的乘积"><mrow><mi>sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>u</mi><mo>·</mo><mi>v</mi></mrow><mrow><msub><mrow><mo>∥</mo><mi>u</mi><mo>∥</mo></mrow><mn>2</mn></msub><msub><mrow><mo>∥</mo><mi>v</mi><mo>∥</mo></mrow><mn>2</mn></msub></mrow></mfrac></mrow></math>
             </div>
         </div>
-        <p class="source-note">语义嵌入的价值在于：上述用余弦相似度度量的“语义相近”不依赖关键字完全相同，因而能捕捉“汽车/车辆”这类同义关系，也能支撑跨语言、跨域的召回。</p>
+        <p class="source-note">语义嵌入的价值在于：上述用余弦相似度度量的"语义相近"不依赖关键字完全相同，因而能捕捉"汽车/车辆"这类同义关系，也能支撑跨语言、跨域的召回。</p>
 
         <p><strong>命名实体识别（Named Entity Recognition, NER）</strong>从文本中提取出结构化的实体——品牌名（"Nike"）、人名（"Taylor Swift"）、地名（"巴黎"）、产品名（"iPhone 15"）等。这些实体是推荐系统的重要信号：如果一个用户经常点击含有"iPhone"实体的内容，他很可能对苹果产品感兴趣。NER让推荐系统从"不知道内容在说什么"变成"知道内容中的关键概念"。</p>
 
@@ -297,7 +297,7 @@ print(f"Embedding shape: {emb.shape}")  # (1, 1024)
             <p><strong>工程实践：</strong>多模态特征上线后，一定要做ABA（Ablation Study，消融实验）。具体来说：对照组是"不加图片特征"，实验组A是"加CLIP特征"，实验组B是"加ResNet特征"。通过逐一去掉每个模态来验证其真实贡献。你会惊讶地发现，有时候你以为很重要的模态实际上贡献很小，而你觉得不太重要的模态却贡献巨大。</p>
         </div>
 
-        <p class="source-note">来源说明：CLIP 出自 Radford 等，2021（<a href="https://arxiv.org/abs/2103.00020">arXiv:2103.00020</a>）；BERT 出自 Devlin 等，2018（<a href="https://arxiv.org/abs/1810.04805">arXiv:1810.04805</a>）；LDA 主题模型出自 Blei 等，2003（JMLR）。正文中“CLIP 图像 Embedding 使冷启动召回率提升 25%”“一个工程师两周集成”等为教学轶事，未附可公开复现的实验数据，属教学示意，不作为实测指标引用。</p>
+        <p class="source-note">来源说明：CLIP 出自 Radford 等，2021（<a href="https://arxiv.org/abs/2103.00020">arXiv:2103.00020</a>）；BERT 出自 Devlin 等，2018（<a href="https://arxiv.org/abs/1810.04805">arXiv:1810.04805</a>）；LDA 主题模型出自 Blei 等，2003（JMLR）。正文中"CLIP 图像 Embedding 使冷启动召回率提升 25%""一个工程师两周集成"等为教学轶事，未附可公开复现的实验数据，属教学示意，不作为实测指标引用。</p>
 
         <h2>5. 小结</h2>
 
