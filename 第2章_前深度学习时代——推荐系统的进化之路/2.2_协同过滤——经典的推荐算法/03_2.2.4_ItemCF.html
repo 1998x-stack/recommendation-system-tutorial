@@ -1,186 +1,105 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>2.2.4 ItemCF</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    .math-scroll { overflow-x: auto; padding: 6px 2px; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>03_2.2.4 ItemCF</h1>
-<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 03_2.2.4 ItemCF
-</code></pre>
-<h3>2.2.4 ItemCF</h3>
-<h4>1. 概述</h4>
+    <main id="content"><article>
+    <h1>2.2.4 ItemCF</h1>
+<h2>一、概述</h2>
 <p>ItemCF（基于物品的协同过滤）是一种利用物品之间的相似度进行推荐的协同过滤算法。不同于UserCF（基于用户的协同过滤），ItemCF通过分析用户对物品的评分数据，计算物品之间的相似度，从而为用户推荐相似的物品。ItemCF被广泛应用于实际的推荐系统中，如Amazon和Netflix。</p>
-<h4>2. ItemCF的工作原理</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 250" role="img" aria-labelledby="fig224-title fig224-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig224-title">ItemCF 的工作流程：从共现矩阵到物品相似度与推荐</title>
+    <desc id="fig224-desc">先由用户-物品评分矩阵按列（物品）计算相似度，得到物品相似度矩阵；再对目标用户正反馈过的物品找 Top-k 相似物品，汇总相似度分值后排序生成推荐列表。</desc>
+    <defs>
+      <marker id="fig224-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="24" y="64" width="200" height="118" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+      <text x="124" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">用户-物品共现矩阵</text>
+      <text x="124" y="128" font-size="13" text-anchor="middle" fill="#33565a">行为 m 行</text>
+      <text x="124" y="152" font-size="13" text-anchor="middle" fill="#33565a">物品 n 列</text>
+      <rect x="254" y="64" width="200" height="118" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="354" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">物品相似度矩阵</text>
+      <text x="354" y="128" font-size="13" text-anchor="middle" fill="#14516e">按列向量算相似度</text>
+      <text x="354" y="152" font-size="13" text-anchor="middle" fill="#14516e">得到 n×n 矩阵</text>
+      <rect x="484" y="64" width="200" height="118" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="584" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">找相似物品</text>
+      <text x="584" y="128" font-size="13" text-anchor="middle" fill="#4c2a88">正反馈物品的</text>
+      <text x="584" y="152" font-size="13" text-anchor="middle" fill="#4c2a88">Top-k 相似物品</text>
+      <rect x="714" y="64" width="182" height="118" rx="14" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+      <text x="805" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">生成推荐列表</text>
+      <text x="805" y="128" font-size="13" text-anchor="middle" fill="#78350f">相似度分累加</text>
+      <text x="805" y="152" font-size="13" text-anchor="middle" fill="#78350f">降序排序输出</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig224-arrow)">
+        <path d="M226 123 H250"/><path d="M456 123 H480"/><path d="M686 123 H710"/>
+      </g>
+      <text x="460" y="218" font-size="13" text-anchor="middle" fill="#64748b">与 UserCF 对比：ItemCF 沿“列方向”找相似物品，物品数通常小于用户数</text>
+    </g>
+  </svg>
+  <figcaption>图 2-2-4. ItemCF 的四步流程：由用户-物品矩阵按列计算物品相似度，得到 n×n 相似度矩阵；再对目标用户正反馈过的物品取 Top-k 相似物品，把同一候选物品的相似度分值累加后降序排序。图中维度为示意。</figcaption>
+</figure>
+<h2>2. ItemCF的工作原理</h2>
 <p>ItemCF的核心思想是：如果一个用户喜欢某个物品A，并且A与物品B相似，那么这个用户很可能也会喜欢物品B。具体步骤如下：</p>
-<h5>2.1 构建共现矩阵</h5>
+<h3>2.1 构建共现矩阵</h3>
 <p>首先，基于历史数据，构建一个以用户为行坐标，物品为列坐标的共现矩阵。假设用户总数为m，物品总数为n，则共现矩阵是一个m×n的矩阵，其中矩阵的每个元素表示某个用户对某个物品的评分。</p>
-<h5>2.2 计算物品相似度</h5>
+<h3>2.2 计算物品相似度</h3>
 <p>然后，计算共现矩阵中两两物品列向量之间的相似度。相似度的计算方法与用户相似度的计算方法相同，常用的有余弦相似度、皮尔逊相关系数等。通过这些计算，构建出一个n×n的物品相似度矩阵。</p>
-<h5>2.3 获得用户历史行为数据</h5>
+<h3>2.3 获得用户历史行为数据</h3>
 <p>获取用户历史行为数据中的正反馈物品列表。正反馈通常是指用户对某些物品的高评分或者购买记录。</p>
-<h5>2.4 找出相似物品</h5>
+<h3>2.4 找出相似物品</h3>
 <p>利用物品相似度矩阵，针对目标用户历史行为中的正反馈物品，找出相似的Top k个物品，组成相似物品集合。</p>
-<h5>2.5 生成推荐列表</h5>
+<h3>2.5 生成推荐列表</h3>
 <p>对相似物品集合中的物品，根据相似度分值进行排序，生成最终的推荐列表。在这一过程中，如果一个物品与多个用户行为历史中的正反馈物品相似，那么该物品最终的相似度应该是多个相似度的累加。</p>
-<p>公式如下：
-$$ \text{Sim}<em>{\text{item}}(p, q) = \sum</em>{h \in H} w_{p, h} \cdot R_{u, h} $$</p>
-<p>其中，$ H $是目标用户的正反馈物品集合，$ w_{p, h} $是物品 $ p $与物品 $ h $的相似度，$ R_{u, h} $是用户 $ u $对物品 $ h $的已有评分  。</p>
-<h4>3. ItemCF的优缺点分析</h4>
-<h5>优点</h5>
+<p>公式如下（同一候选物品的得分是多个相似度的累加）：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="ItemCF 物品推荐得分公式区域，可横向滚动">
+<math display="block" aria-label="item recommendation score of item p for user u equals the sum over the user positive feedback items h of the item similarity between p and h times the user rating of h"><mrow><msub><mi>Sim</mi><mi>item</mi></msub><mo>(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo>)</mo><mo>=</mo><munder><mo>∑</mo><mrow><mi>h</mi><mo>∈</mo><mi>H</mi></mrow></munder><msub><mi>w</mi><mrow><mi>p</mi><mo>,</mo><mi>h</mi></mrow></msub><mo>·</mo><msub><mi>R</mi><mrow><mi>u</mi><mo>,</mo><mi>h</mi></mrow></msub></mrow></math>
+</div>
+<p>其中，H 是目标用户的正反馈物品集合，w<sub>p,h</sub> 是物品 p 与物品 h 的相似度，<i>R</i><sub>u,h</sub> 是用户 u 对物品 h 的已有评分。</p>
+<h2>3. ItemCF的优缺点分析</h2>
+<h3>优点</h3>
 <ol>
 <li><strong>数据稀疏性较小</strong>：与UserCF相比，物品数通常小于用户数，因此物品相似度矩阵的存储开销较小。</li>
 <li><strong>推荐准确度高</strong>：ItemCF通过物品相似度进行推荐，能够捕捉用户的长期兴趣，适用于用户兴趣变化较慢的场景。</li>
 </ol>
-<h5>缺点</h5>
+<h3>缺点</h3>
 <ol>
 <li><strong>冷启动问题</strong>：对于新物品，由于缺乏用户的评分数据，难以计算其相似度，从而无法推荐。</li>
 <li><strong>实时性较差</strong>：由于需要计算物品之间的相似度，处理大规模数据时，计算复杂度较高，实时性较差。</li>
 </ol>
-<h4>4. ItemCF的应用场景</h4>
+<h2>4. ItemCF的应用场景</h2>
 <p>ItemCF适用于用户兴趣相对稳定，物品类别较多的场景。例如：</p>
 <ol>
 <li><strong>电商网站</strong>：如Amazon，用户在一个时间段内倾向于寻找某一类商品，利用物品相似度进行推荐。</li>
 <li><strong>视频推荐</strong>：如Netflix，用户观看电影、电视剧的兴趣点较为稳定，利用ItemCF推荐风格、类型相似的视频  。</li>
 </ol>
-<h3>结论</h3>
+<h2>结论</h2>
 <p>ItemCF作为一种经典的推荐算法，通过计算物品之间的相似度进行推荐，解决了UserCF在数据稀疏性和扩展性上的问题。然而，ItemCF同样面临冷启动和计算复杂度高的问题。在实际应用中，可以结合多种推荐算法，如混合推荐系统，进一步提高推荐的准确性和用户体验。</p>
-<hr>
-
-    <h3>Python 文件</h3>
-    <pre><code># 03_2.2.4 ItemCF
-
-"""
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 03_2.2.4 ItemCF
-"""
-
-import numpy as np
-from typing import Dict, List, Tuple
-
-class ItemCollaborativeFiltering:
-    def __init__(self, user_item_matrix: np.ndarray):
-        """
-        初始化基于物品的协同过滤类
-
-        Args:
-            user_item_matrix (np.ndarray): 用户-物品评分矩阵
-        """
-        self.user_item_matrix = user_item_matrix
-        self.item_similarity_matrix = self.compute_item_similarities()
-
-    def compute_item_similarities(self) -> np.ndarray:
-        """
-        计算所有物品之间的相似度矩阵
-
-        Returns:
-            np.ndarray: 物品相似度矩阵
-        """
-        num_items = self.user_item_matrix.shape[1]
-        item_similarity_matrix = np.zeros((num_items, num_items))
-
-        for item1 in range(num_items):
-            for item2 in range(item1 + 1, num_items):
-                similarity = self.cosine_similarity(item1, item2)
-                item_similarity_matrix[item1, item2] = similarity
-                item_similarity_matrix[item2, item1] = similarity
-
-        return item_similarity_matrix
-
-    def cosine_similarity(self, item1: int, item2: int) -> float:
-        """
-        计算两个物品之间的余弦相似度
-
-        Args:
-            item1 (int): 物品1的索引
-            item2 (int): 物品2的索引
-
-        Returns:
-            float: 余弦相似度
-        """
-        vec1 = self.user_item_matrix[:, item1]
-        vec2 = self.user_item_matrix[:, item2]
-        dot_product = np.dot(vec1, vec2)
-        norm1 = np.linalg.norm(vec1)
-        norm2 = np.linalg.norm(vec2)
-        if norm1 == 0 or norm2 == 0:
-            return 0.0
-        return dot_product / (norm1 * norm2)
-
-    def predict_rating(self, user: int, item: int, top_n: int = 10) -> float:
-        """
-        预测用户对物品的评分
-
-        Args:
-            user (int): 用户索引
-            item (int): 物品索引
-            top_n (int): 使用相似物品的数量
-
-        Returns:
-            float: 预测评分
-        """
-        similar_items = sorted([(other, self.item_similarity_matrix[item, other])
-                                for other in range(self.user_item_matrix.shape[1]) if other != item],
-                               key=lambda x: x[1], reverse=True)[:top_n]
-        numerator = sum(sim * self.user_item_matrix[user, other] for other, sim in similar_items if self.user_item_matrix[user, other] > 0)
-        denominator = sum(abs(sim) for other, sim in similar_items if self.user_item_matrix[user, other] > 0)
-        if denominator == 0:
-            return 0.0
-        return numerator / denominator
-
-    def generate_recommendations(self, user: int, top_k: int = 5) -> List[Tuple[int, float]]:
-        """
-        为用户生成推荐列表
-
-        Args:
-            user (int): 用户索引
-            top_k (int): 推荐的物品数量
-
-        Returns:
-            List[Tuple[int, float]]: 推荐的物品列表和预测评分
-        """
-        user_ratings = self.user_item_matrix[user]
-        predicted_ratings = []
-        for item in range(user_ratings.shape[0]):
-            if user_ratings[item] == 0:  # 仅对未评分的物品进行预测
-                predicted_rating = self.predict_rating(user, item)
-                predicted_ratings.append((item, predicted_rating))
-        # 对预测评分进行排序并返回Top K的物品
-        recommended_items = sorted(predicted_ratings, key=lambda x: x[1], reverse=True)[:top_k]
-        return recommended_items
-
-def main():
-    # 示例用户-物品评分矩阵
-    user_item_matrix = np.array([
-        [5, 3, 0, 1],
-        [4, 0, 0, 1],
-        [1, 1, 0, 5],
-        [1, 0, 0, 4],
-        [0, 1, 5, 4],
-    ])
-
-    # 初始化基于物品的协同过滤模型
-    item_cf = ItemCollaborativeFiltering(user_item_matrix)
-
-    # 为用户0生成推荐列表
-    recommendations = item_cf.generate_recommendations(user=0, top_k=3)
-    print(f"Recommendations for User 0: {recommendations}")
-
-if __name__ == "__main__":
-    main()
-</code></pre>
+<p>本节配套的可运行示例见同目录的 <code>03_2.2.4_ItemCF.py</code>，其中实现了物品相似度矩阵、基于相似物品的评分预测与 Top-k 推荐列表。</p>
+<p class="source-note">来源说明：ItemCF 的流程与得分公式沿用《深度学习推荐系统》第 2 章；Item-to-Item 协同过滤的工业实践可参见 Linden 等，<a href="https://doi.org/10.1109/MIC.2003.1167344" rel="noopener noreferrer">Amazon.com Recommendations</a>, IEEE Internet Computing 2003。图中维度与流程为方法示意，不含具体数据集指标。</p>
+    </article></main>
   </div>
 </body>
 </html>
