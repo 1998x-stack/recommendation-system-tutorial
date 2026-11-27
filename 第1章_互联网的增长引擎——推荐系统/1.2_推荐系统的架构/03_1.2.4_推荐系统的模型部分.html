@@ -1,29 +1,66 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>1.2.4 推荐系统的模型部分</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>03_1.2.4 推荐系统的模型部分</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 03_1.2.4 推荐系统的模型部分
-</code></pre>
-<h3>03_1.2.4 推荐系统的模型部分：极致详细分析</h3>
-<h4>一、推荐系统的模型部分概述</h4>
+    <main id="content"><article>
+    <h1>1.2.4 推荐系统的模型部分</h1>
+<h2>一、模型部分概述</h2>
 <p>推荐系统的模型部分是推荐系统的核心，负责根据用户的行为数据、物品属性数据和场景信息生成个性化的推荐结果。模型部分通常包括召回层、排序层和补充策略与算法层，每一层都在推荐系统中发挥着重要作用。</p>
-<h4>二、召回层</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 300" role="img" aria-labelledby="fig124-title fig124-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig124-title">推荐模型的三层结构：召回、排序与补充策略</title>
+    <desc id="fig124-desc">召回层把海量候选缩到千级，排序层精细打分得到十级列表，补充策略层再对多样性、新鲜度、覆盖率与实时反馈做调整；模型训练、在线推断与系统评估贯穿全程。</desc>
+    <defs>
+      <marker id="fig124-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="30" y="46" width="240" height="146" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+      <text x="150" y="82" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">召回层</text>
+      <text x="150" y="112" font-size="14" text-anchor="middle" fill="#33565a">海量候选 → 千级</text>
+      <text x="150" y="140" font-size="13" text-anchor="middle" fill="#33565a">内容 / 协同过滤</text>
+      <text x="150" y="162" font-size="13" text-anchor="middle" fill="#33565a">矩阵分解 / 深度学习</text>
+      <rect x="340" y="46" width="240" height="146" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="460" y="82" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">排序层</text>
+      <text x="460" y="112" font-size="14" text-anchor="middle" fill="#33565a">精排打分 → 十级</text>
+      <text x="460" y="140" font-size="13" text-anchor="middle" fill="#33565a">LR / GBDT / DNN</text>
+      <text x="460" y="162" font-size="13" text-anchor="middle" fill="#33565a">RankNet / LambdaMART</text>
+      <rect x="650" y="46" width="240" height="146" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="770" y="82" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">补充策略与算法层</text>
+      <text x="770" y="112" font-size="13" text-anchor="middle" fill="#4c2a88">多样性 / 新鲜度 / 覆盖率</text>
+      <text x="770" y="140" font-size="13" text-anchor="middle" fill="#4c2a88">用户实时反馈</text>
+      <text x="770" y="166" font-size="13" text-anchor="middle" fill="#4c2a88">保证体验与生态</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig124-arrow)">
+        <path d="M272 119 H336"/><path d="M582 119 H646"/>
+      </g>
+      <rect x="30" y="216" width="860" height="52" rx="12" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+      <text x="460" y="247" font-size="14" text-anchor="middle" fill="#78350f">技术实现贯穿全程：模型训练（离线训练 / 在线更新）· 在线推断（实时 / 批量）· 系统评估（离线指标 / 在线 A/B）</text>
+    </g>
+  </svg>
+  <figcaption>图 1-2-4. 推荐模型部分的三层结构与配套工作。召回层负责“从全量到千级”的快速筛选，排序层负责“从千级到十级”的精确打分，补充策略与算法层再对多样性、新鲜度、覆盖率与实时反馈做调整。各方框内列举的是常见技术方案，属教学示意，具体选型随场景变化。</figcaption>
+</figure>
+<h2>二、召回层</h2>
 <p>召回层的主要任务是从海量的候选物品中快速筛选出一部分可能感兴趣的物品，以减小排序层的计算压力。召回层的技术主要有以下几种：</p>
 <ol>
 <li>
@@ -55,7 +92,7 @@ Content: 03_1.2.4 推荐系统的模型部分
 </ul>
 </li>
 </ol>
-<h4>三、排序层</h4>
+<h2>三、排序层</h2>
 <p>排序层的主要任务是对召回层筛选出的候选物品进行精确排序，生成最终的推荐列表。排序层的技术主要有以下几种：</p>
 <ol>
 <li>
@@ -87,7 +124,7 @@ Content: 03_1.2.4 推荐系统的模型部分
 </ul>
 </li>
 </ol>
-<h4>四、补充策略与算法层</h4>
+<h2>四、补充策略与算法层</h2>
 <p>补充策略与算法层的主要任务是对排序结果进行进一步优化，以保证推荐结果的多样性、新鲜度和覆盖率等。这一层的技术主要有以下几种：</p>
 <ol>
 <li>
@@ -119,7 +156,7 @@ Content: 03_1.2.4 推荐系统的模型部分
 </ul>
 </li>
 </ol>
-<h4>五、推荐系统模型部分的技术实现</h4>
+<h2>五、推荐系统模型部分的技术实现</h2>
 <p>推荐系统的模型部分在实际应用中需要进行模型训练、在线推断和系统评估等工作，以保证模型的高效、稳定运行。</p>
 <ol>
 <li>
@@ -144,18 +181,11 @@ Content: 03_1.2.4 推荐系统的模型部分
 </ul>
 </li>
 </ol>
-<h3>结论</h3>
+<h2>结论</h2>
 <p>推荐系统的模型部分是推荐系统的核心，负责生成高效、精准的推荐结果。通过召回层、排序层和补充策略与算法层的协同工作，推荐系统能够为用户提供个性化的推荐服务，提升用户体验和平台收益。未来，推荐系统将在数据融合、模型优化和智能化方面不断发展，带来更多创新和应用价值。</p>
 
-    <h3>Python 文件</h3>
-    <pre><code># 03_1.2.4 推荐系统的模型部分
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 03_1.2.4 推荐系统的模型部分
-"""
-
-</code></pre>
+<p class="source-note">来源说明：三层结构的划分沿用《深度学习推荐系统》第 1 章对模型部分的描述；召回、排序与重排的分工可参见 Covington, Adams, Sargin, <a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>, RecSys 2016。文中的候选量级与算法名称用于说明分层职责，不代表某一平台的实测指标。</p>
+    </article></main>
   </div>
 </body>
 </html>
