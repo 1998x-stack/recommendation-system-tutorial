@@ -1,29 +1,72 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>1.2.3 推荐系统的数据部分</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>02_1.2.3 推荐系统的数据部分</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 02_1.2.3 推荐系统的数据部分
-</code></pre>
-<h3>02_1.2.3 推荐系统的数据部分：极致详细分析</h3>
-<h4>一、推荐系统的数据部分概述</h4>
+    <main id="content"><article>
+    <h1>1.2.3 推荐系统的数据部分</h1>
+<h2>一、数据部分概述</h2>
 <p>推荐系统的数据部分是整个系统的基础，负责收集、处理和管理用户、物品以及场景信息。这些信息为推荐模型提供了必要的输入数据，从而生成个性化的推荐结果。数据部分的核心任务是保证数据的准确性、完整性和实时性。</p>
-<h4>二、推荐系统的数据收集</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 300" role="img" aria-labelledby="fig123-title fig123-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig123-title">推荐系统的数据链路：采集—处理—输出</title>
+    <desc id="fig123-desc">用户行为、物品属性与场景数据经清洗、特征提取与存储后，生成训练样本、在线特征与统计数据，分别供给离线训练与在线推断。</desc>
+    <defs>
+      <marker id="fig123-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="24" y="50" width="200" height="150" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+      <text x="124" y="86" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">数据采集</text>
+      <text x="124" y="118" font-size="14" text-anchor="middle" fill="#33565a">用户行为 · 人口属性</text>
+      <text x="124" y="142" font-size="14" text-anchor="middle" fill="#33565a">物品属性 · 内容数据</text>
+      <text x="124" y="166" font-size="14" text-anchor="middle" fill="#33565a">场景：时间/地点/设备</text>
+      <rect x="264" y="50" width="200" height="150" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="364" y="86" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">数据处理</text>
+      <text x="364" y="118" font-size="14" text-anchor="middle" fill="#33565a">清洗：去重 / 补全</text>
+      <text x="364" y="142" font-size="14" text-anchor="middle" fill="#33565a">特征提取</text>
+      <text x="364" y="166" font-size="14" text-anchor="middle" fill="#33565a">离线 / 实时 / 数据库存储</text>
+      <rect x="504" y="50" width="200" height="150" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="604" y="86" font-size="18" font-weight="700" text-anchor="middle" fill="#203035">数据输出</text>
+      <text x="604" y="118" font-size="14" text-anchor="middle" fill="#4c2a88">训练样本</text>
+      <text x="604" y="142" font-size="14" text-anchor="middle" fill="#4c2a88">在线特征</text>
+      <text x="604" y="166" font-size="14" text-anchor="middle" fill="#4c2a88">统计数据</text>
+      <rect x="742" y="52" width="156" height="62" rx="12" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+      <text x="820" y="82" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">离线训练</text>
+      <text x="820" y="102" font-size="12" text-anchor="middle" fill="#78350f">样本 + 特征</text>
+      <rect x="742" y="140" width="156" height="62" rx="12" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+      <text x="820" y="170" font-size="16" font-weight="700" text-anchor="middle" fill="#203035">在线推断</text>
+      <text x="820" y="190" font-size="12" text-anchor="middle" fill="#9d174d">实时特征</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig123-arrow)">
+        <path d="M226 125 H260"/><path d="M466 125 H500"/>
+        <path d="M706 110 C 726 110 726 83 738 83"/><path d="M706 140 C 726 140 726 171 738 171"/>
+      </g>
+      <text x="364" y="242" font-size="14" text-anchor="middle" fill="#147f80">贯穿全程的约束：准确性 · 完整性 · 实时性</text>
+    </g>
+  </svg>
+  <figcaption>图 1-2-3. 推荐系统数据链路的三个阶段：采集、处理与输出。原始行为、属性与场景数据先被清洗并抽取成特征，再生成训练样本、在线特征和统计数据，分别供给离线训练、在线推断与监控分析。图中仅为典型分工示意，具体技术选型随业务规模变化。</figcaption>
+</figure>
+<h2>二、推荐系统的数据收集</h2>
 <p>数据收集是推荐系统的第一步，涉及用户行为数据、物品属性数据和上下文信息的收集。</p>
 <ol>
 <li>
@@ -52,7 +95,7 @@ Content: 02_1.2.3 推荐系统的数据部分
 </ul>
 </li>
 </ol>
-<h4>三、推荐系统的数据处理</h4>
+<h2>三、推荐系统的数据处理</h2>
 <p>数据处理是将原始数据转换为模型可用的特征的关键步骤，通常包括数据清洗、特征提取和数据存储三个阶段。</p>
 <ol>
 <li>
@@ -80,7 +123,7 @@ Content: 02_1.2.3 推荐系统的数据部分
 </ul>
 </li>
 </ol>
-<h4>四、推荐系统的数据输出</h4>
+<h2>四、推荐系统的数据输出</h2>
 <p>数据输出是将处理后的数据提供给推荐模型和其他系统的过程，主要包括样本数据生成、特征生成和统计数据生成。</p>
 <ol>
 <li>
@@ -93,7 +136,7 @@ Content: 02_1.2.3 推荐系统的数据部分
 <p><strong>统计数据生成</strong>：用于系统监控和商业智能分析。生成的统计数据包括用户行为统计、物品受欢迎程度统计、推荐效果评估等。</p>
 </li>
 </ol>
-<h4>五、推荐系统的数据处理技术</h4>
+<h2>五、推荐系统的数据处理技术</h2>
 <p>推荐系统的数据处理涉及多种技术和工具，以保证数据处理的高效性和实时性。</p>
 <ol>
 <li>
@@ -118,7 +161,7 @@ Content: 02_1.2.3 推荐系统的数据部分
 </ul>
 </li>
 </ol>
-<h4>六、推荐系统的数据挑战</h4>
+<h2>六、推荐系统的数据挑战</h2>
 <ol>
 <li>
 <p><strong>数据质量问题</strong>：数据的准确性和完整性直接影响推荐效果，需要持续监控和优化数据质量。</p>
@@ -130,18 +173,11 @@ Content: 02_1.2.3 推荐系统的数据部分
 <p><strong>数据实时性问题</strong>：推荐系统需要实时处理和分析数据，以生成及时准确的推荐结果，需要高效的实时处理框架和技术。</p>
 </li>
 </ol>
-<h3>结论</h3>
+<h2>结论</h2>
 <p>推荐系统的数据部分是整个系统的基础，涉及数据的收集、处理和输出等多个环节。通过高效的数据处理技术和架构，推荐系统能够为推荐模型提供准确、完整和实时的数据支持，从而生成高质量的推荐结果。未来，推荐系统将在数据融合、实时处理和智能分析方面不断发展，带来更多创新和应用价值。</p>
 
-    <h3>Python 文件</h3>
-    <pre><code># 02_1.2.3 推荐系统的数据部分
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 02_1.2.3 推荐系统的数据部分
-"""
-
-</code></pre>
+<p class="source-note">来源说明：本节内容对应《深度学习推荐系统》第 1 章“推荐系统的架构”中数据部分的论述，并结合公开工程实践补充了常见技术选型。文中框架与数据库名称（Hadoop、Spark、Kafka、Flink、Redis、HBase 等）用于说明数据链路的典型分工，不代表任一平台的实测配置。</p>
+    </article></main>
   </div>
 </body>
 </html>
