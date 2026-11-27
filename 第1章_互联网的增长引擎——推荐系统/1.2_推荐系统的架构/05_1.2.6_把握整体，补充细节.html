@@ -1,29 +1,70 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>1.2.6 把握整体，补充细节</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>05_1.2.6 把握整体，补充细节</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 05_1.2.6 把握整体，补充细节
-</code></pre>
-<h3>05_1.2.6 把握整体，补充细节：极致详细分析</h3>
-<h4>一、推荐系统的整体架构</h4>
+    <main id="content"><article>
+    <h1>1.2.6 把握整体，补充细节</h1>
+<h2>一、推荐系统的整体架构</h2>
 <p>推荐系统的整体架构可以分为数据流架构和模型架构两个主要部分。这两个部分分别处理数据的收集、处理、存储和推荐模型的训练、推断以及结果生成。要把握推荐系统的整体，需要理解这两个部分的相互协作。</p>
-<h4>二、数据流架构</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 320" role="img" aria-labelledby="fig126-title fig126-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig126-title">推荐系统整体架构：数据流架构与模型架构的协作</title>
+    <desc id="fig126-desc">左侧数据流架构依次完成数据收集、处理与输出；右侧模型架构依次完成召回、排序与补充策略；数据输出产生的样本与特征流向模型，供离线训练与在线推断使用。</desc>
+    <defs>
+      <marker id="fig126-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="20" y="30" width="400" height="260" rx="16" fill="#f7faf9" stroke="#147f80" stroke-width="2"/>
+      <text x="220" y="62" font-size="17" font-weight="700" text-anchor="middle" fill="#147f80">数据流架构</text>
+      <rect x="50" y="80" width="340" height="50" rx="10" fill="#e2f0ed" stroke="#147f80"/>
+      <text x="220" y="111" font-size="14" text-anchor="middle" fill="#203035">数据收集：用户行为 / 物品属性 / 上下文</text>
+      <rect x="50" y="148" width="340" height="50" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+      <text x="220" y="179" font-size="14" text-anchor="middle" fill="#203035">数据处理：清洗 · 特征提取 · 存储</text>
+      <rect x="50" y="216" width="340" height="50" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+      <text x="220" y="247" font-size="14" text-anchor="middle" fill="#203035">数据输出：样本 / 特征 / 统计</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig126-arrow)">
+        <path d="M220 130 V146"/><path d="M220 198 V214"/>
+      </g>
+      <rect x="500" y="30" width="400" height="260" rx="16" fill="#f9f7ff" stroke="#7c3aed" stroke-width="2"/>
+      <text x="700" y="62" font-size="17" font-weight="700" text-anchor="middle" fill="#7c3aed">模型架构</text>
+      <rect x="530" y="80" width="340" height="50" rx="10" fill="#e2f0ed" stroke="#147f80"/>
+      <text x="700" y="111" font-size="14" text-anchor="middle" fill="#203035">召回层：海量候选 → 千级</text>
+      <rect x="530" y="148" width="340" height="50" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+      <text x="700" y="179" font-size="14" text-anchor="middle" fill="#203035">排序层：精排打分 → 十级</text>
+      <rect x="530" y="216" width="340" height="50" rx="10" fill="#fef9c3" stroke="#d97706"/>
+      <text x="700" y="247" font-size="14" text-anchor="middle" fill="#203035">补充策略：多样性 / 新鲜度 / 覆盖率</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig126-arrow)">
+        <path d="M700 130 V146"/><path d="M700 198 V214"/>
+      </g>
+      <path d="M392 241 C 455 241 470 105 528 105" stroke="#d97706" stroke-width="2.2" fill="none" marker-end="url(#fig126-arrow)"/>
+      <text x="460" y="300" font-size="13" text-anchor="middle" fill="#b45309">数据产物（样本 / 特征）流向模型</text>
+    </g>
+  </svg>
+  <figcaption>图 1-2-6. 推荐系统整体架构的两大部分：左侧数据流架构决定系统可用的信号（收集、处理、输出），右侧模型架构决定信号如何被变成排序（召回、排序、补充策略）。两者通过样本与特征衔接，缺一不可。图为架构示意，不涉及具体平台实现。</figcaption>
+</figure>
+<h2>二、数据流架构</h2>
 <ol>
 <li>
 <p><strong>数据收集</strong>：</p>
@@ -50,7 +91,7 @@ Content: 05_1.2.6 把握整体，补充细节
 </ul>
 </li>
 </ol>
-<h4>三、模型架构</h4>
+<h2>三、模型架构</h2>
 <ol>
 <li>
 <p><strong>召回层</strong>：</p>
@@ -80,7 +121,7 @@ Content: 05_1.2.6 把握整体，补充细节
 </ul>
 </li>
 </ol>
-<h4>四、把握整体与补充细节的关系</h4>
+<h2>四、把握整体与补充细节的关系</h2>
 <p>在构建推荐系统时，需要既能把握整体架构，又能关注具体细节。整体架构为系统提供了宏观框架，明确了数据流动和模型工作的基本流程；而细节决定了推荐系统的实际性能和用户体验。两者相辅相成，共同构成了高效的推荐系统。</p>
 <ol>
 <li>
@@ -100,7 +141,7 @@ Content: 05_1.2.6 把握整体，补充细节
 </ul>
 </li>
 </ol>
-<h4>五、案例分析：某电商平台的推荐系统</h4>
+<h2>五、案例分析：某电商平台的推荐系统</h2>
 <ol>
 <li>
 <p><strong>整体架构设计</strong>：</p>
@@ -119,9 +160,9 @@ Content: 05_1.2.6 把握整体，补充细节
 </ul>
 </li>
 </ol>
-<h3>结论</h3>
-<h2>推荐系统的成功离不开对整体架构的把握和细节的补充。通过合理设计数据流架构和模型架构，结合细致的数据处理和模型优化，推荐系统能够为用户提供高质量的个性化推荐，提升用户体验和平台收益。未来，推荐系统将在数据融合、模型优化和实时处理方面不断发展，带来更多创新和应用价值。</h2>
-<h3>数据流架构详细表格</h3>
+<h2>结论</h2>
+<p>推荐系统的成功离不开对整体架构的把握和细节的补充。通过合理设计数据流架构和模型架构，结合细致的数据处理和模型优化，推荐系统能够为用户提供高质量的个性化推荐，提升用户体验和平台收益。未来，推荐系统将在数据融合、模型优化和实时处理方面不断发展，带来更多创新和应用价值。</p>
+<h2>数据流架构详细表格</h2>
 <table>
 <thead>
 <tr>
@@ -219,7 +260,7 @@ Content: 05_1.2.6 把握整体，补充细节
 </tr>
 </tbody>
 </table>
-<h3>模型架构详细表格</h3>
+<h2>模型架构详细表格</h2>
 <table>
 <thead>
 <tr>
@@ -339,15 +380,8 @@ Content: 05_1.2.6 把握整体，补充细节
 </tbody>
 </table>
 
-    <h3>Python 文件</h3>
-    <pre><code># 05_1.2.6 把握整体，补充细节
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 05_1.2.6 把握整体，补充细节
-"""
-
-</code></pre>
+<p class="source-note">来源说明：整体架构划分为数据流与模型两部分，沿用《深度学习推荐系统》第 1 章的讨论；三层推荐链路可参见 Covington 等，<a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>, RecSys 2016。表格中的工具与算法名称仅用于举例说明分工，不代表任一平台的实测选型。</p>
+    </article></main>
   </div>
 </body>
 </html>
