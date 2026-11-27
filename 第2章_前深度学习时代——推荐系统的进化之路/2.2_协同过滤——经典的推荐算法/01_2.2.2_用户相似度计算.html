@@ -1,92 +1,132 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>2.2.2 用户相似度计算</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    .math-scroll { overflow-x: auto; padding: 6px 2px; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>01_2.2.2 用户相似度计算</h1>
-<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 01_2.2.2 用户相似度计算
-</code></pre>
-<h3>2.2.2 用户相似度计算</h3>
-<h4>1. 概述</h4>
+    <main id="content"><article>
+    <h1>2.2.2 用户相似度计算</h1>
+<h2>一、概述</h2>
 <p>在协同过滤推荐系统中，用户相似度的计算是关键步骤。用户相似度用于识别兴趣相似的用户，从而基于这些相似用户的行为数据进行推荐。常用的相似度计算方法包括余弦相似度和皮尔逊相关系数 。</p>
-<h4>2. 余弦相似度（Cosine Similarity）</h4>
-<p>余弦相似度用于衡量两个向量之间的夹角。其计算公式为：
-$$ \text{Sim}_{\text{cos}}(i,j) = \frac{\mathbf{R}_i \cdot \mathbf{R}_j}{|\mathbf{R}_i| |\mathbf{R}_j|} $$
-其中，$\mathbf{R}_i$ 和 $\mathbf{R}_j$ 分别表示用户 $i$ 和用户 $j$ 的评分向量，点积 $\mathbf{R}_i \cdot \mathbf{R}_j$ 衡量了两个向量的相似度，$|\mathbf{R}_i|$ 和 $|\mathbf{R}_j|$ 分别表示向量的模。</p>
-<h5>优点</h5>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 280" role="img" aria-labelledby="fig222-title fig222-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig222-title">三种用户相似度计算方法的对比</title>
+    <desc id="fig222-desc">余弦相似度直接对原始评分向量求夹角；皮尔逊相关系数减去用户平均分后求相关；修正余弦相似度减去物品平均分后求夹角。它们依次处理用户尺度差异与物品评分偏置，计算复杂度递增。</desc>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="30" y="40" width="260" height="190" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+      <text x="160" y="78" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">余弦相似度</text>
+      <text x="160" y="112" font-size="13" text-anchor="middle" fill="#33565a">对原始评分向量求夹角</text>
+      <text x="160" y="138" font-size="13" text-anchor="middle" fill="#33565a">不减均值</text>
+      <text x="160" y="164" font-size="13" text-anchor="middle" fill="#b45309">忽略评分尺度差异</text>
+      <text x="160" y="200" font-size="14" font-weight="700" text-anchor="middle" fill="#147f80">计算复杂度：低</text>
+      <rect x="330" y="40" width="260" height="190" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="460" y="78" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">皮尔逊相关系数</text>
+      <text x="460" y="112" font-size="13" text-anchor="middle" fill="#14516e">减去用户平均分后求相关</text>
+      <text x="460" y="138" font-size="13" text-anchor="middle" fill="#14516e">仅用共同评分物品</text>
+      <text x="460" y="164" font-size="13" text-anchor="middle" fill="#14516e">处理用户评分尺度差异</text>
+      <text x="460" y="200" font-size="14" font-weight="700" text-anchor="middle" fill="#0284c7">计算复杂度：中</text>
+      <rect x="630" y="40" width="260" height="190" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="760" y="78" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">修正余弦相似度</text>
+      <text x="760" y="112" font-size="13" text-anchor="middle" fill="#4c2a88">减去物品平均分后求夹角</text>
+      <text x="760" y="138" font-size="13" text-anchor="middle" fill="#4c2a88">需要物品平均分</text>
+      <text x="760" y="164" font-size="13" text-anchor="middle" fill="#4c2a88">处理物品评分偏置</text>
+      <text x="760" y="200" font-size="14" font-weight="700" text-anchor="middle" fill="#7c3aed">计算复杂度：高</text>
+      <text x="460" y="258" font-size="13" text-anchor="middle" fill="#64748b">选择依据：评分尺度是否一致、评分数据是否稀疏、可接受的计算开销</text>
+    </g>
+  </svg>
+  <figcaption>图 2-2-2. 三种用户相似度计算方法的差别。余弦相似度直接比较原始评分向量，皮尔逊相关系数先减去用户平均分，修正余弦相似度改为减去物品平均分；后两种分别减轻了用户尺度差异与物品评分偏置，但计算开销更高。复杂度高低为定性判断。</figcaption>
+</figure>
+<h2>2. 余弦相似度（Cosine Similarity）</h2>
+<p>余弦相似度用于衡量两个向量之间的夹角。其计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="余弦相似度公式区域，可横向滚动">
+<math display="block" aria-label="cosine similarity of users i and j equals the dot product of their rating vectors divided by the product of the two vector norms"><mrow><msub><mi>Sim</mi><mi>cos</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi>R</mi><mi>i</mi></msub><mo>·</mo><msub><mi>R</mi><mi>j</mi></msub></mrow><mrow><mo>|</mo><msub><mi>R</mi><mi>i</mi></msub><mo>|</mo><mo>|</mo><msub><mi>R</mi><mi>j</mi></msub><mo>|</mo></mrow></mfrac></mrow></math>
+</div>
+<p>其中，<b>R</b><sub>i</sub> 和 <b>R</b><sub>j</sub> 分别表示用户 i 和用户 j 的评分向量，点积 <b>R</b><sub>i</sub>·<b>R</b><sub>j</sub> 衡量两个向量的相似度，|<b>R</b><sub>i</sub>| 和 |<b>R</b><sub>j</sub>| 分别表示向量的模。</p>
+<h3>优点</h3>
 <ol>
 <li><strong>直观性</strong>：余弦相似度简单易懂，计算方便。</li>
 <li><strong>应用广泛</strong>：在各种推荐系统中被广泛使用。</li>
 </ol>
-<h5>缺点</h5>
+<h3>缺点</h3>
 <ol>
 <li><strong>忽略评分差异</strong>：余弦相似度未考虑评分的绝对差异，可能导致不同评分尺度的用户被认为是相似的。</li>
 </ol>
-<h4>3. 皮尔逊相关系数（Pearson Correlation Coefficient）</h4>
-<p>皮尔逊相关系数通过调整评分均值来衡量两个向量之间的线性相关性。其计算公式为：
-$$ \text{Sim}<em>{\text{pearson}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">i)(R</em> - \bar{R}<em>j)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>i)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}<em i,p="">j)^2}} $$
-其中，$R</em>$ 表示用户 $i$ 对物品 $p$ 的评分，$\bar{R}_i$ 表示用户 $i$ 的平均评分，$P$ 表示共同评分的物品集合 。</p>
-<h5>优点</h5>
+<h2>3. 皮尔逊相关系数（Pearson Correlation Coefficient）</h2>
+<p>皮尔逊相关系数通过调整评分均值来衡量两个向量之间的线性相关性。其计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="皮尔逊相关系数公式区域，可横向滚动">
+<math display="block" aria-label="Pearson correlation of users i and j equals the sum over jointly rated items of centered rating products divided by the product of their standard deviations"><mrow><msub><mi>Sim</mi><mi>pearson</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>i</mi></msub><mo>)</mo><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>j</mi></msub><mo>)</mo></mrow><mrow><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>j</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mrow></mfrac></mrow></math>
+</div>
+<p>其中，<i>R</i><sub>i,p</sub> 表示用户 i 对物品 p 的评分，<span style="text-decoration:overline">R</span><sub>i</sub> 表示用户 i 的平均评分，P 表示两个用户共同评分的物品集合。</p>
+<h3>优点</h3>
 <ol>
 <li><strong>考虑评分差异</strong>：皮尔逊相关系数通过减去均值，减小了评分偏置的影响。</li>
 <li><strong>更准确</strong>：在用户评分分布不均匀时，皮尔逊相关系数能更准确地反映用户之间的相似度。</li>
 </ol>
-<h5>缺点</h5>
+<h3>缺点</h3>
 <ol>
 <li><strong>计算复杂</strong>：皮尔逊相关系数计算比余弦相似度复杂，需要更多计算资源。</li>
 <li><strong>依赖数据量</strong>：在评分数据稀疏的情况下，皮尔逊相关系数可能不稳定。</li>
 </ol>
-<h4>4. 修正余弦相似度（Adjusted Cosine Similarity）</h4>
-<p>修正余弦相似度通过考虑物品的平均评分来调整用户评分，从而更准确地衡量相似度。其计算公式为：
-$$ \text{Sim}<em>{\text{adjusted cos}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">p)(R</em> - \bar{R}<em>p)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>p)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_p)^2}} $$
-其中，$\bar{R}_p$ 表示物品 $p$ 的平均评分 。</p>
-<h5>优点</h5>
+<h2>4. 修正余弦相似度（Adjusted Cosine Similarity）</h2>
+<p>修正余弦相似度通过考虑物品的平均评分来调整用户评分，从而更准确地衡量相似度。其计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="修正余弦相似度公式区域，可横向滚动">
+<math display="block" aria-label="adjusted cosine similarity of users i and j equals the sum over jointly rated items of ratings centered by item means divided by the product of their standard deviations"><mrow><msub><mi>Sim</mi><mi>acos</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mrow><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mrow></mfrac></mrow></math>
+</div>
+<p>其中，<span style="text-decoration:overline">R</span><sub>p</sub> 表示物品 p 的平均评分。</p>
+<h3>优点</h3>
 <ol>
 <li><strong>减小物品评分偏置</strong>：修正余弦相似度通过调整物品平均评分，减少了物品评分偏置的影响。</li>
 <li><strong>更准确</strong>：在用户对不同物品评分差异较大时，修正余弦相似度能更准确地反映用户之间的相似度。</li>
 </ol>
-<h5>缺点</h5>
+<h3>缺点</h3>
 <ol>
 <li><strong>计算复杂</strong>：需要计算物品的平均评分，增加了计算复杂度。</li>
 <li><strong>依赖数据量</strong>：在物品评分数据稀疏时，修正余弦相似度可能不稳定。</li>
 </ol>
-<h4>5. 用户相似度的应用</h4>
+<h2>5. 用户相似度的应用</h2>
 <p>在推荐系统中，用户相似度计算用于识别与目标用户兴趣相似的其他用户，从而基于这些相似用户的行为数据进行推荐。具体应用步骤如下：</p>
 <ol>
 <li><strong>计算相似度矩阵</strong>：根据用户评分数据，计算所有用户之间的相似度矩阵。</li>
 <li><strong>选择相似用户</strong>：为目标用户选择Top n个最相似的用户。</li>
 <li><strong>生成推荐列表</strong>：根据相似用户的评分数据，生成目标用户的推荐列表  。</li>
 </ol>
-<h4>6. 优缺点分析</h4>
-<h5>优点</h5>
+<h2>6. 优缺点分析</h2>
+<h3>优点</h3>
 <ol>
 <li><strong>简洁性</strong>：用户相似度计算方法简单易懂，便于实现。</li>
 <li><strong>高效性</strong>：在数据量不大的情况下，计算相似度和生成推荐列表的效率较高。</li>
 </ol>
-<h5>缺点</h5>
+<h3>缺点</h3>
 <ol>
 <li><strong>数据稀疏性问题</strong>：在实际应用中，用户评分数据往往非常稀疏，导致相似度计算不准确。</li>
 <li><strong>扩展性差</strong>：随着用户数量和物品数量的增加，计算相似度矩阵的存储和计算开销迅速增加。</li>
 <li><strong>冷启动问题</strong>：对于新用户或新物品，由于缺乏足够的评分数据，难以准确计算相似度并生成推荐 。</li>
 </ol>
-<h3>结论</h3>
+<h2>结论</h2>
 <p>用户相似度计算在协同过滤推荐系统中起着关键作用。余弦相似度、皮尔逊相关系数和修正余弦相似度是常用的相似度计算方法，各有优缺点。尽管用户相似度计算面临数据稀疏性、扩展性和冷启动问题，但其直观性和高效性使其在推荐系统中得到了广泛应用。通过不断改进算法和优化计算方法，可以在一定程度上克服这些问题，提高推荐系统的性能和用户体验。</p>
 <hr>
-<h3>用户相似度计算方法详细对比表</h3>
+<h2>用户相似度计算方法详细对比表</h2>
 <table>
 <thead>
 <tr>
@@ -99,9 +139,9 @@ $$ \text{Sim}<em>{\text{adjusted cos}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} 
 <tbody>
 <tr>
 <td><strong>计算公式</strong></td>
-<td>$\text{Sim}_{\text{cos}}(i,j) = \frac{\mathbf{R}_i \cdot \mathbf{R}_j}{|\mathbf{R}_i| |\mathbf{R}_j|}$</td>
-<td>$\text{Sim}<em>{\text{pearson}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">i)(R</em> - \bar{R}<em>j)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>i)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_j)^2}}$</td>
-<td>$\text{Sim}<em>{\text{adjusted cos}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">p)(R</em> - \bar{R}<em>p)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>p)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_p)^2}}$</td>
+<td>余弦：<b>R</b><sub>i</sub>·<b>R</b><sub>j</sub> / (|<b>R</b><sub>i</sub>||<b>R</b><sub>j</sub>|)</td>
+<td>皮尔逊：减去用户均值后的相关</td>
+<td>修正余弦：减去物品均值后的夹角</td>
 </tr>
 <tr>
 <td><strong>计算内容</strong></td>
@@ -147,229 +187,40 @@ $$ \text{Sim}<em>{\text{adjusted cos}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} 
 </tr>
 <tr>
 <td><strong>公式解释</strong></td>
-<td>$$1$$ 计算两个用户的评分向量点积，除以两个向量的模</td>
-<td>$$2$$ 计算两个用户对共同物品评分与其平均值的差，求和后再归一化</td>
-<td>$$3$$ 计算两个用户对共同物品评分与物品平均评分的差，求和后再归一化</td>
+<td>① 计算两个用户的评分向量点积，除以两个向量的模</td>
+<td>② 计算两个用户对共同物品评分与其平均值的差，求和后再归一化</td>
+<td>③ 计算两个用户对共同物品评分与物品平均评分的差，求和后再归一化</td>
 </tr>
 </tbody>
 </table>
-<h3>详细解释</h3>
-<h4>余弦相似度</h4>
+<h2>详细解释</h2>
+<h2>余弦相似度</h2>
 <ul>
-<li><strong>计算公式</strong>:
-$$
-\text{Sim}_{\text{cos}}(i,j) = \frac{\mathbf{R}_i \cdot \mathbf{R}_j}{|\mathbf{R}_i| |\mathbf{R}_j|}
-$$</li>
+<li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 计算两个用户评分向量的夹角余弦值。点积衡量了两个向量的相似度，向量模表示了向量的长度。</li>
 <li><strong>优点</strong>: 简单直观，计算方便。广泛应用于各种推荐系统。</li>
 <li><strong>缺点</strong>: 忽略了评分的绝对差异，可能导致不同评分尺度的用户被认为是相似的。</li>
 </ul>
-<h4>皮尔逊相关系数</h4>
+<h2>皮尔逊相关系数</h2>
 <ul>
-<li><strong>计算公式</strong>:
-$$
-\text{Sim}<em>{\text{pearson}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">i)(R</em> - \bar{R}<em>j)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>i)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_j)^2}}
-$$</li>
+<li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 通过减去均值，计算两个用户评分向量之间的线性相关性。通过考虑评分的均值，减小了评分偏置的影响。</li>
 <li><strong>优点</strong>: 更准确地反映用户之间的相似度，特别是在用户评分分布不均匀的情况下。</li>
 <li><strong>缺点</strong>: 计算复杂度高，依赖于评分数据量。在数据稀疏的情况下可能不稳定。</li>
 </ul>
-<h4>修正余弦相似度</h4>
+<h2>修正余弦相似度</h2>
 <ul>
-<li><strong>计算公式</strong>:
-$$
-\text{Sim}<em>{\text{adjusted cos}}(i,j) = \frac{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em j,p="">p)(R</em> - \bar{R}<em>p)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>p)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_p)^2}}
-$$</li>
+<li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 通过减去物品的平均评分，调整用户评分后计算相似度。这减少了物品评分偏置的影响，使相似度计算更加准确。</li>
 <li><strong>优点</strong>: 减小了物品评分偏置的影响，更准确地反映用户之间的相似度，特别是在用户对不同物品评分差异较大的情况下。</li>
 <li><strong>缺点</strong>: 计算复杂度高，需要计算物品的平均评分。在数据稀疏的情况下可能不稳定。</li>
 </ul>
-<h3>总结</h3>
+<h2>总结</h2>
 <p>通过比较三种常用的用户相似度计算方法，我们可以看到它们各有优缺点，适用于不同的场景和数据情况。余弦相似度简单直观，适用于评分标准一致、评分数据较多的情况；皮尔逊相关系数考虑评分差异，适用于评分分布不均匀的情况；修正余弦相似度通过调整物品平均评分，适用于评分差异较大的情况。在实际应用中，可以根据具体的数据特点和需求选择合适的相似度计算方法，或者结合多种方法进行综合评估，以提高推荐系统的性能和用户体验。</p>
 
-    <h3>Python 文件</h3>
-    <pre><code># 01_2.2.2 用户相似度计算
-
-"""
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 01_2.2.2 用户相似度计算
-"""
-
-import numpy as np
-from typing import Dict, List, Tuple
-
-class CollaborativeFiltering:
-    def __init__(self, user_item_matrix: np.ndarray):
-        """
-        初始化协同过滤类
-
-        Args:
-            user_item_matrix (np.ndarray): 用户-物品评分矩阵
-        """
-        self.user_item_matrix = user_item_matrix
-
-    def cosine_similarity(self, user1: int, user2: int) -> float:
-        """
-        计算两个用户之间的余弦相似度
-
-        Args:
-            user1 (int): 用户1的索引
-            user2 (int): 用户2的索引
-
-        Returns:
-            float: 余弦相似度
-        """
-        vec1 = self.user_item_matrix[user1]
-        vec2 = self.user_item_matrix[user2]
-        dot_product = np.dot(vec1, vec2)
-        norm1 = np.linalg.norm(vec1)
-        norm2 = np.linalg.norm(vec2)
-        if norm1 == 0 or norm2 == 0:
-            return 0.0
-        return dot_product / (norm1 * norm2)
-
-    def pearson_correlation(self, user1: int, user2: int) -> float:
-        """
-        计算两个用户之间的皮尔逊相关系数
-
-        Args:
-            user1 (int): 用户1的索引
-            user2 (int): 用户2的索引
-
-        Returns:
-            float: 皮尔逊相关系数
-        """
-        vec1 = self.user_item_matrix[user1]
-        vec2 = self.user_item_matrix[user2]
-        mean1 = np.mean(vec1[vec1 > 0])
-        mean2 = np.mean(vec2[vec2 > 0])
-        centered_vec1 = vec1 - mean1
-        centered_vec2 = vec2 - mean2
-        mask = (vec1 > 0) & (vec2 > 0)
-        if not np.any(mask):
-            return 0.0
-        centered_vec1 = centered_vec1[mask]
-        centered_vec2 = centered_vec2[mask]
-        dot_product = np.dot(centered_vec1, centered_vec2)
-        norm1 = np.linalg.norm(centered_vec1)
-        norm2 = np.linalg.norm(centered_vec2)
-        if norm1 == 0 or norm2 == 0:
-            return 0.0
-        return dot_product / (norm1 * norm2)
-
-    def adjusted_cosine_similarity(self, user1: int, user2: int) -> float:
-        """
-        计算两个用户之间的修正余弦相似度
-
-        Args:
-            user1 (int): 用户1的索引
-            user2 (int): 用户2的索引
-
-        Returns:
-            float: 修正余弦相似度
-        """
-        vec1 = self.user_item_matrix[user1]
-        vec2 = self.user_item_matrix[user2]
-        item_means = np.mean(self.user_item_matrix, axis=0)
-        adjusted_vec1 = vec1 - item_means
-        adjusted_vec2 = vec2 - item_means
-        mask = (vec1 > 0) & (vec2 > 0)
-        if not np.any(mask):
-            return 0.0
-        adjusted_vec1 = adjusted_vec1[mask]
-        adjusted_vec2 = adjusted_vec2[mask]
-        dot_product = np.dot(adjusted_vec1, adjusted_vec2)
-        norm1 = np.linalg.norm(adjusted_vec1)
-        norm2 = np.linalg.norm(adjusted_vec2)
-        if norm1 == 0 or norm2 == 0:
-            return 0.0
-        return dot_product / (norm1 * norm2)
-
-    def compute_similarities(self, method: str = 'cosine') -> Dict[Tuple[int, int], float]:
-        """
-        计算所有用户之间的相似度
-
-        Args:
-            method (str): 相似度计算方法（'cosine', 'pearson', 'adjusted_cosine'）
-
-        Returns:
-            Dict[Tuple[int, int], float]: 用户对之间的相似度字典
-        """
-        num_users = self.user_item_matrix.shape[0]
-        similarities = {}
-        for user1 in range(num_users):
-            for user2 in range(user1 + 1, num_users):
-                if method == 'cosine':
-                    similarity = self.cosine_similarity(user1, user2)
-                elif method == 'pearson':
-                    similarity = self.pearson_correlation(user1, user2)
-                elif method == 'adjusted_cosine':
-                    similarity = self.adjusted_cosine_similarity(user1, user2)
-                else:
-                    raise ValueError("Invalid method: choose from 'cosine', 'pearson', 'adjusted_cosine'")
-                similarities[(user1, user2)] = similarity
-                similarities[(user2, user1)] = similarity
-        return similarities
-
-    def predict_rating(self, user: int, item: int, similarities: Dict[Tuple[int, int], float], top_n: int = 10) -> float:
-        """
-        预测用户对物品的评分
-
-        Args:
-            user (int): 用户索引
-            item (int): 物品索引
-            similarities (Dict[Tuple[int, int], float]): 用户对之间的相似度字典
-            top_n (int): 使用相似用户的数量
-
-        Returns:
-            float: 预测评分
-        """
-        similar_users = sorted(similarities.keys(), key=lambda x: similarities[x], reverse=True)
-        top_similar_users = [u for u in similar_users if u[0] == user or u[1] == user][:top_n]
-        numerator = sum(similarities[(u, user)] * self.user_item_matrix[u, item] for u in top_similar_users)
-        denominator = sum(abs(similarities[(u, user)]) for u in top_similar_users)
-        if denominator == 0:
-            return 0.0
-        return numerator / denominator
-
-def main():
-    # 示例用户-物品评分矩阵
-    user_item_matrix = np.array([
-        [5, 3, 0, 1],
-        [4, 0, 0, 1],
-        [1, 1, 0, 5],
-        [1, 0, 0, 4],
-        [0, 1, 5, 4],
-    ])
-
-    # 初始化协同过滤模型
-    cf = CollaborativeFiltering(user_item_matrix)
-
-    # 计算所有用户之间的余弦相似度
-    cosine_similarities = cf.compute_similarities(method='cosine')
-    print("Cosine Similarities:")
-    for pair, similarity in cosine_similarities.items():
-        print(f"User {pair[0]} - User {pair[1]}: {similarity}")
-
-    # 计算所有用户之间的皮尔逊相关系数
-    pearson_similarities = cf.compute_similarities(method='pearson')
-    print("\nPearson Correlation Coefficients:")
-    for pair, similarity in pearson_similarities.items():
-        print(f"User {pair[0]} - User {pair[1]}: {similarity}")
-
-    # 计算所有用户之间的修正余弦相似度
-    adjusted_cosine_similarities = cf.compute_similarities(method='adjusted_cosine')
-    print("\nAdjusted Cosine Similarities:")
-    for pair, similarity in adjusted_cosine_similarities.items():
-        print(f"User {pair[0]} - User {pair[1]}: {similarity}")
-
-    # 预测用户0对物品2的评分
-    predicted_rating = cf.predict_rating(user=0, item=2, similarities=cosine_similarities, top_n=2)
-    print(f"\nPredicted Rating for User 0 on Item 2: {predicted_rating}")
-
-if __name__ == "__main__":
-    main()
-</code></pre>
+<p>本节配套的可运行示例见同目录的 <code>01_2.2.2_用户相似度计算.py</code>，其中用 NumPy 实现了三种相似度与基于 Top-n 相似用户的评分预测。</p>
+<p class="source-note">来源说明：三种相似度公式沿用《深度学习推荐系统》第 2 章；协同过滤相似度度量的原始讨论可参见 Sarwar 等，<a href="https://doi.org/10.1145/371920.372071" rel="noopener noreferrer">Item-Based Collaborative Filtering Recommendation Algorithms</a>, WWW 2001，以及 Resnick 等，<a href="https://doi.org/10.1145/192844.192905" rel="noopener noreferrer">GroupLens: An Open Architecture for Collaborative Filtering</a>, CSCW 1994。标签中的复杂度高低为定性判断。</p>
+    </article></main>
   </div>
 </body>
 </html>
