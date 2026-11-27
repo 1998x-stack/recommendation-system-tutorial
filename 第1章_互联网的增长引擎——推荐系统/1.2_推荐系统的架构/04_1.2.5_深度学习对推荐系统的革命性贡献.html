@@ -12,6 +12,8 @@
     img, svg { max-width: 100%; height: auto; }
     .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
     pre { max-width: 100%; overflow-x: auto; }
+    .table-scroll { max-width: 100%; overflow-x: auto; margin-bottom: 1rem; }
+    .table-scroll table { margin-bottom: 0; }
     figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
     figure.article-figure svg { display: block; width: 100%; height: auto; }
     figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
@@ -177,6 +179,7 @@
 <p>深度学习对推荐系统的贡献是革命性的，通过自动特征学习、多模态数据处理、捕捉兴趣动态和大规模并行计算，深度学习大幅提升了推荐系统的性能和效果。未来，随着深度学习技术的不断发展，推荐系统将在个性化、智能化和实时化方面取得更多突破，为用户和企业带来更多价值。</p>
 <hr>
 <h2>优势对比一览</h2>
+<div class="table-scroll">
 <table>
 <thead>
 <tr>
@@ -213,7 +216,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2>主要模型对比一览</h2>
+<div class="table-scroll">
 <table>
 <thead>
 <tr>
@@ -262,6 +267,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 
 <p class="source-note">来源说明：阶段划分与代表模型参见《深度学习推荐系统》第 1、3 章的综述；主要模型可参见原始论文：Wide&amp;Deep（<a href="https://arxiv.org/abs/1606.07792" rel="noopener noreferrer">arXiv:1606.07792</a>）、DIN（<a href="https://arxiv.org/abs/1706.06978" rel="noopener noreferrer">arXiv:1706.06978</a>）与 Transformer（<a href="https://arxiv.org/abs/1706.03762" rel="noopener noreferrer">arXiv:1706.03762</a>）。图中的阶段顺序为归纳性教学示意，不表示严格的发表年份排序。</p>
     </article></main>
