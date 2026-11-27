@@ -1,38 +1,82 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>2.2.1 什么是协同过滤</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    .math-scroll { overflow-x: auto; padding: 6px 2px; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>00_2.2.1 什么是协同过滤</h1>
-<pre><code>Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 00_2.2.1 什么是协同过滤
-</code></pre>
-<h3>2.2.1 什么是协同过滤</h3>
-<h4>1. 协同过滤的概述</h4>
+    <main id="content"><article>
+    <h1>2.2.1 什么是协同过滤</h1>
+<h2>一、协同过滤概述</h2>
 <p>协同过滤（Collaborative Filtering，简称CF）是一种基于用户历史行为数据和其他用户评价数据进行推荐的方法。其基本思想是通过分析用户行为数据，找到相似用户或相似物品，然后根据这些相似用户或物品的评价数据进行推荐。协同过滤可以分为基于用户的协同过滤（UserCF）和基于物品的协同过滤（ItemCF）两大类。</p>
-<h4>2. 协同过滤的基本思想和工作流程</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 300" role="img" aria-labelledby="fig221-title fig221-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig221-title">协同过滤的推荐流程：从共现矩阵到相似用户与预测</title>
+    <desc id="fig221-desc">左侧是把点赞+1、踩-1、无记录0记录下来的用户-物品共现矩阵；右侧先按行向量相似度选出 Top-n 相似用户，再用相似用户评分加权预测目标用户对未评分物品的偏好并决定是否推荐。</desc>
+    <defs>
+      <marker id="fig221-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif" font-size="14">
+      <text x="152" y="36" font-weight="700" text-anchor="middle" fill="#203035">用户-物品共现矩阵（示意）</text>
+      <text x="88" y="62" font-size="12" text-anchor="middle" fill="#475569">游戏机</text>
+      <text x="144" y="62" font-size="12" text-anchor="middle" fill="#475569">小说</text>
+      <text x="200" y="62" font-size="12" text-anchor="middle" fill="#475569">杂志</text>
+      <text x="256" y="62" font-size="12" text-anchor="middle" fill="#475569">电视</text>
+      <rect x="60" y="72" width="224" height="160" fill="#ffffff" stroke="#94a3b8"/>
+      <path d="M116 72 V232 M172 72 V232 M228 72 V232 M60 112 H284 M60 152 H284 M60 192 H284" stroke="#cbd5e1"/>
+      <text x="52" y="102" text-anchor="end" fill="#475569">用户X</text>
+      <text x="52" y="142" text-anchor="end" fill="#475569">用户A</text>
+      <text x="52" y="182" text-anchor="end" fill="#475569">用户B</text>
+      <text x="52" y="222" text-anchor="end" fill="#475569">用户C</text>
+      <g text-anchor="middle">
+        <text x="88" y="102" fill="#147f80">+1</text><text x="144" y="102" fill="#147f80">+1</text><text x="200" y="102" fill="#94a3b8">0</text><text x="256" y="102" fill="#94a3b8">0</text>
+        <text x="88" y="142" fill="#147f80">+1</text><text x="144" y="142" fill="#147f80">+1</text><text x="200" y="142" fill="#b91c1c">−1</text><text x="256" y="142" fill="#94a3b8">0</text>
+        <text x="88" y="182" fill="#94a3b8">0</text><text x="144" y="182" fill="#147f80">+1</text><text x="200" y="182" fill="#147f80">+1</text><text x="256" y="182" fill="#b91c1c">−1</text>
+        <text x="88" y="222" fill="#147f80">+1</text><text x="144" y="222" fill="#94a3b8">0</text><text x="200" y="222" fill="#94a3b8">0</text><text x="256" y="222" fill="#b91c1c">−1</text>
+      </g>
+      <text x="172" y="254" font-size="12" text-anchor="middle" fill="#64748b">+1 点赞 · −1 踩 · 0 无记录</text>
+      <path d="M300 152 H344" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig221-arrow)"/>
+      <rect x="352" y="48" width="540" height="52" rx="10" fill="#e2f0ed" stroke="#147f80"/>
+      <text x="622" y="79" text-anchor="middle" fill="#203035">① 按行向量计算用户相似度（余弦 / 皮尔逊）</text>
+      <rect x="352" y="116" width="540" height="52" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+      <text x="622" y="147" text-anchor="middle" fill="#203035">② 选出与用户X 最相似的 Top-n 用户</text>
+      <rect x="352" y="184" width="540" height="52" rx="10" fill="#fef9c3" stroke="#d97706"/>
+      <text x="622" y="215" text-anchor="middle" fill="#203035">③ 用相似用户评分加权预测，再决定是否推荐电视</text>
+      <path d="M622 100 V114 M622 168 V182" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig221-arrow)"/>
+    </g>
+  </svg>
+  <figcaption>图 2-2-1. 协同过滤的一次完整决策：把点赞/踩行为变成共现矩阵，按行向量选出相似用户，再用相似用户的评分加权预测目标用户对未评分物品的偏好。矩阵中的 +1/−1/0 为说明性示例，不代表真实数据集。</figcaption>
+</figure>
+<h2>2. 协同过滤的基本思想和工作流程</h2>
 <p>协同过滤的核心思想是“物以类聚，人以群分”。它假设用户的行为模式存在一定的相似性，即相似的用户喜欢相似的物品，或者一个用户可能会喜欢与其之前喜欢的物品相似的其他物品。通过对大量用户的行为数据进行分析，可以找到这些相似性，并据此进行推荐。</p>
-<h5>2.1 基本步骤</h5>
+<h3>2.1 基本步骤</h3>
 <ol>
 <li><strong>数据收集</strong>：收集用户对商品的历史评价数据，构建用户-商品矩阵（共现矩阵）。</li>
 <li><strong>计算相似度</strong>：计算用户或商品之间的相似度。</li>
 <li><strong>预测评分</strong>：根据相似度预测用户对未评分商品的可能评分。</li>
 <li><strong>生成推荐列表</strong>：根据预测评分生成推荐列表。</li>
 </ol>
-<h5>2.2 具体流程</h5>
+<h3>2.2 具体流程</h3>
 <p>以图2-2为例，描述一个电商网站的协同过滤推荐过程，其步骤如下：</p>
 <ol>
 <li><strong>商品库</strong>：电商网站的商品库中共有4件商品：游戏机、小说、杂志和电视机。</li>
@@ -42,43 +86,51 @@ Content: 00_2.2.1 什么是协同过滤
 <li><strong>相似用户选择</strong>：在共现矩阵中，根据行向量的相似度，选择与用户X最相似的Top n用户（例如n取2）。</li>
 <li><strong>预测与推荐</strong>：综合相似用户对电视机的评价，预测用户X对电视机的评价。如果相似用户的评价是负面的，则预测用户X对电视机的评价也是负面的。因此，不会向用户X推荐电视机。</li>
 </ol>
-<h4>3. 用户相似度计算方法</h4>
+<h2>3. 用户相似度计算方法</h2>
 <p>在协同过滤的过程中，用户相似度的计算是算法中最关键的一步。计算用户之间的相似度可以有多种方法，常用的方法包括：</p>
-<h5>3.1 余弦相似度（Cosine Similarity）</h5>
-<p>余弦相似度衡量的是两个用户向量之间的夹角。假设用户i和用户j的评分向量分别为 $\mathbf{R}_i$ 和 $\mathbf{R}<em>j$，则余弦相似度的计算公式为：
-$$ \text{Sim}</em>{\text{cos}}(i,j) = \frac{\mathbf{R}_i \cdot \mathbf{R}_j}{|\mathbf{R}_i| |\mathbf{R}_j|} $$
-其中，$\mathbf{R}_i \cdot \mathbf{R}_j$ 表示向量的点积，$|\mathbf{R}_i|$ 和 $|\mathbf{R}_j|$ 分别表示向量的模。</p>
-<h5>3.2 皮尔逊相关系数（Pearson Correlation Coefficient）</h5>
-<p>皮尔逊相关系数通过考虑评分的平均值，减小了评分偏置的影响。假设用户i对物品p的评分为 $R_{i,p}$，用户i对所有物品的平均评分为 $\bar{R}<em>i$，则皮尔逊相关系数的计算公式为：
-$$ \text{Sim}</em>{\text{pearson}}(i,j) = \frac{\sum_{p \in P} (R_{i,p} - \bar{R}<em j,p="">i)(R</em> - \bar{R}<em>j)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>i)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_j)^2}} $$
-其中，P表示所有物品的集合。</p>
-<h5>3.3 修正的余弦相似度</h5>
-<p>基于皮尔逊相关系数的思路，还可以通过引入物品平均分的方式，减少物品评分偏置对结果的影响。假设物品p的平均评分为 $\bar{R}<em>p$，则修正的余弦相似度计算公式为：
-$$ \text{Sim}</em>{\text{adjusted cos}}(i,j) = \frac{\sum_{p \in P} (R_{i,p} - \bar{R}<em j,p="">p)(R</em> - \bar{R}<em>p)}{\sqrt{\sum</em>{p \in P} (R_{i,p} - \bar{R}<em>p)^2} \sqrt{\sum</em>{p \in P} (R_{j,p} - \bar{R}_p)^2}} $$</p>
-<h4>4. 结果的预测与排序</h4>
-<p>在获得Top n相似用户之后，可以通过加权平均法来预测目标用户对未评分物品的评分。具体公式如下：
-$$ R_{u,p} = \frac{\sum_{s \in S} \text{Sim}(u,s) \cdot R_{s,p}}{\sum_{s \in S} |\text{Sim}(u,s)|} $$
-其中，$S$ 表示相似用户集合，$\text{Sim}(u,s)$ 表示用户u和用户s之间的相似度，$R_{s,p}$ 表示用户s对物品p的评分。</p>
+<h3>3.1 余弦相似度（Cosine Similarity）</h3>
+<p>余弦相似度衡量的是两个用户向量之间的夹角。设用户 i 与用户 j 的评分向量分别为 <b>R</b><sub>i</sub> 与 <b>R</b><sub>j</sub>，则余弦相似度的计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="余弦相似度公式区域，可横向滚动">
+<math display="block" aria-label="cosine similarity of users i and j equals the dot product of their rating vectors divided by the product of the two vector norms"><mrow><msub><mi>Sim</mi><mi>cos</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi>R</mi><mi>i</mi></msub><mo>·</mo><msub><mi>R</mi><mi>j</mi></msub></mrow><mrow><mo>|</mo><msub><mi>R</mi><mi>i</mi></msub><mo>|</mo><mo>|</mo><msub><mi>R</mi><mi>j</mi></msub><mo>|</mo></mrow></mfrac></mrow></math>
+</div>
+<p>其中，<b>R</b><sub>i</sub>·<b>R</b><sub>j</sub> 表示向量的点积，|<b>R</b><sub>i</sub>| 与 |<b>R</b><sub>j</sub>| 分别表示向量的模。</p>
+<h3>3.2 皮尔逊相关系数（Pearson Correlation Coefficient）</h3>
+<p>皮尔逊相关系数通过考虑评分的平均值，减小了评分偏置的影响。设 <i>R</i><sub>i,p</sub> 为用户 i 对物品 p 的评分，<span style="text-decoration:overline">R</span><sub>i</sub> 为用户 i 在所有物品上的平均评分，则皮尔逊相关系数的计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="皮尔逊相关系数公式区域，可横向滚动">
+<math display="block" aria-label="Pearson correlation of users i and j equals the sum over items of centered rating products divided by the product of their standard deviations"><mrow><msub><mi>Sim</mi><mi>pearson</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>i</mi></msub><mo>)</mo><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>j</mi></msub><mo>)</mo></mrow><mrow><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>j</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mrow></mfrac></mrow></math>
+</div>
+<p>其中，P 表示所有物品的集合。</p>
+<h3>3.3 修正的余弦相似度</h3>
+<p>基于皮尔逊相关系数的思路，还可以通过引入物品平均分的方式，减少物品评分偏置对结果的影响。设 <span style="text-decoration:overline">R</span><sub>p</sub> 为物品 p 的平均评分，则修正的余弦相似度计算公式为：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="修正的余弦相似度公式区域，可横向滚动">
+<math display="block" aria-label="adjusted cosine similarity of users i and j equals the sum over items of products of ratings centered by item means divided by the product of their standard deviations"><mrow><msub><mi>Sim</mi><mi>acos</mi></msub><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mrow><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>i</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt><msqrt><mrow><munder><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>P</mi></mrow></munder><msup><mrow><mo>(</mo><msub><mi>R</mi><mrow><mi>j</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>R</mi><mo>‾</mo></mover><mi>p</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mrow></mfrac></mrow></math>
+</div>
+<h2>4. 结果的预测与排序</h2>
+<p>在获得 Top n 相似用户之后，可以通过加权平均法来预测目标用户对未评分物品的评分。具体公式如下：</p>
+<div class="math-scroll" tabindex="0" role="region" aria-label="加权平均预测评分公式区域，可横向滚动">
+<math display="block" aria-label="predicted rating of user u on item p equals the similarity weighted average of neighbor ratings divided by the sum of absolute similarities"><mrow><msub><mi>R</mi><mrow><mi>u</mi><mo>,</mo><mi>p</mi></mrow></msub><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>s</mi><mo>∈</mo><mi>S</mi></mrow></munder><mi>Sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo>)</mo><mo>·</mo><msub><mi>R</mi><mrow><mi>s</mi><mo>,</mo><mi>p</mi></mrow></msub></mrow><mrow><munder><mo>∑</mo><mrow><mi>s</mi><mo>∈</mo><mi>S</mi></mrow></munder><mo>|</mo><mi>Sim</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo>)</mo><mo>|</mo></mrow></mfrac></mrow></math>
+</div>
+<p>其中，S 表示相似用户集合，Sim(u,s) 表示用户 u 与用户 s 之间的相似度，<i>R</i><sub>s,p</sub> 表示用户 s 对物品 p 的评分。</p>
 <p>根据预测评分对所有未评分物品进行排序，选取评分最高的前k个物品生成推荐列表。</p>
-<h4>5. 协同过滤的优缺点分析</h4>
-<h5>5.1 优点</h5>
+<h2>5. 协同过滤的优缺点分析</h2>
+<h3>5.1 优点</h3>
 <ol>
 <li><strong>直观性和可解释性</strong>：协同过滤通过分析用户的历史行为数据进行推荐，符合人们的直觉。</li>
 <li><strong>无需商品内容信息</strong>：协同过滤只需要用户和商品的交互数据，不依赖商品的内容信息，因此适用于内容多样化、复杂度高的场景。</li>
 </ol>
-<h5>5.2 缺点</h5>
+<h3>5.2 缺点</h3>
 <ol>
 <li><strong>数据稀疏性</strong>：用户的历史数据向量往往非常稀疏，对于只有几次购买或点击行为的用户，找到相似用户的准确度非常低。</li>
 <li><strong>计算复杂度高</strong>：在互联网应用场景下，用户数往往远大于商品数，协同过滤需要维护用户相似度矩阵，存储开销非常大，并且随着用户数的增加，计算复杂度以平方级别增长。</li>
 </ol>
-<h4>6. 协同过滤的应用场景</h4>
+<h2>6. 协同过滤的应用场景</h2>
 <p>协同过滤在多种场景下广泛应用，主要包括以下几个方面：</p>
 <ol>
 <li><strong>电商网站</strong>：例如Amazon，利用用户的购买历史记录进行商品推荐。</li>
 <li><strong>视频推荐</strong>：例如Netflix，利用用户的观影历史记录进行影片推荐。</li>
 <li><strong>社交网络</strong>：例如Facebook，通过分析用户的互动记录进行好友推荐。</li>
 </ol>
-<h4>7. 协同过滤的改进方向</h4>
+<h2>7. 协同过滤的改进方向</h2>
 <p>协同过滤模型在实际应用中面临许多挑战，如数据稀疏性、冷启动问题（对于新用户和新商品的数据不足）、计算复杂度高等。为了克服这些问题，许多改进方法被提出，包括：</p>
 <ol>
 <li><strong>混合推荐模型</strong>：结合协同过滤和基于内容的推荐模型，利用多种数据源提高推荐的准确性和覆盖率。</li>
@@ -86,17 +138,8 @@ $$ R_{u,p} = \frac{\sum_{s \in S} \text{Sim}(u,s) \cdot R_{s,p}}{\sum_{s \in S} 
 <li><strong>深度学习方法</strong>：利用深度学习模型，如神经协同过滤（Neural Collaborative Filtering，NCF），提高模型的非线性表达能力和推荐效果。</li>
 </ol>
 <p>通过上述改进方法，可以在一定程度上解决协同过滤的缺点，提高推荐系统的性能和用户体验。</p>
-<hr>
-
-    <h3>Python 文件</h3>
-    <pre><code># 00_2.2.1 什么是协同过滤
-
-"""
-Lecture: 第2章 前深度学习时代——推荐系统的进化之路/2.2 协同过滤——经典的推荐算法
-Content: 00_2.2.1 什么是协同过滤
-"""
-
-</code></pre>
+<p class="source-note">来源说明：协同过滤的流程与相似度公式沿用《深度学习推荐系统》第 2 章；原始方法可参见 Sarwar 等，<a href="https://doi.org/10.1145/371920.372071" rel="noopener noreferrer">Item-Based Collaborative Filtering Recommendation Algorithms</a>, WWW 2001，以及 Linden 等，<a href="https://doi.org/10.1109/MIC.2003.1167344" rel="noopener noreferrer">Amazon.com Recommendations</a>, IEEE Internet Computing 2003。图中共现矩阵数值为教学示例。</p>
+    </article></main>
   </div>
 </body>
 </html>
