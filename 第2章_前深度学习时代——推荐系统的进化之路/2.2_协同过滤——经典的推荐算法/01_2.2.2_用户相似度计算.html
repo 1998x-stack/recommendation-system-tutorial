@@ -13,6 +13,8 @@
     .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
     pre { max-width: 100%; overflow-x: auto; }
     .math-scroll { overflow-x: auto; padding: 6px 2px; }
+    .table-scroll { max-width: 100%; overflow-x: auto; margin-bottom: 1rem; }
+    .table-scroll table { margin-bottom: 0; }
     figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
     figure.article-figure svg { display: block; width: 100%; height: auto; }
     figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
@@ -127,6 +129,7 @@
 <p>用户相似度计算在协同过滤推荐系统中起着关键作用。余弦相似度、皮尔逊相关系数和修正余弦相似度是常用的相似度计算方法，各有优缺点。尽管用户相似度计算面临数据稀疏性、扩展性和冷启动问题，但其直观性和高效性使其在推荐系统中得到了广泛应用。通过不断改进算法和优化计算方法，可以在一定程度上克服这些问题，提高推荐系统的性能和用户体验。</p>
 <hr>
 <h2>用户相似度计算方法详细对比表</h2>
+<div class="table-scroll">
 <table>
 <thead>
 <tr>
@@ -193,22 +196,23 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2>详细解释</h2>
-<h2>余弦相似度</h2>
+<h3>余弦相似度</h3>
 <ul>
 <li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 计算两个用户评分向量的夹角余弦值。点积衡量了两个向量的相似度，向量模表示了向量的长度。</li>
 <li><strong>优点</strong>: 简单直观，计算方便。广泛应用于各种推荐系统。</li>
 <li><strong>缺点</strong>: 忽略了评分的绝对差异，可能导致不同评分尺度的用户被认为是相似的。</li>
 </ul>
-<h2>皮尔逊相关系数</h2>
+<h3>皮尔逊相关系数</h3>
 <ul>
 <li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 通过减去均值，计算两个用户评分向量之间的线性相关性。通过考虑评分的均值，减小了评分偏置的影响。</li>
 <li><strong>优点</strong>: 更准确地反映用户之间的相似度，特别是在用户评分分布不均匀的情况下。</li>
 <li><strong>缺点</strong>: 计算复杂度高，依赖于评分数据量。在数据稀疏的情况下可能不稳定。</li>
 </ul>
-<h2>修正余弦相似度</h2>
+<h3>修正余弦相似度</h3>
 <ul>
 <li><strong>公式</strong>：见上文对应小节的公式。</li>
 <li><strong>解释</strong>: 通过减去物品的平均评分，调整用户评分后计算相似度。这减少了物品评分偏置的影响，使相似度计算更加准确。</li>
