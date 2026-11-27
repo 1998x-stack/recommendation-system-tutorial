@@ -1,29 +1,71 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
   <title>1.2.5 深度学习对推荐系统的革命性贡献</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
   <link rel="stylesheet" href="../../markdown.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="../../markdown.js"></script>
+  <style>
+    /* 离线自足：外部样式缺失时仍可读、可打印、不横向溢出 */
+    html, body { max-width: 100%; }
+    img, svg { max-width: 100%; height: auto; }
+    .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
+    pre { max-width: 100%; overflow-x: auto; }
+    figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
+    figure.article-figure svg { display: block; width: 100%; height: auto; }
+    figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
+    p.source-note { margin-top: 1.5em; padding: 12px 16px; background: #fff1d9; border-left: 4px solid #d9a441; font-size: .95em; line-height: 1.7; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: #fff; padding: 8px 12px; border: 2px solid #147f80; }
+    @media print { figure.article-figure { break-inside: avoid; } }
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
   <div class="container">
-    <h1>04_1.2.5 深度学习对推荐系统的革命性贡献</h1>
-<pre><code>Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
-</code></pre>
-<h3>04_1.2.5 深度学习对推荐系统的革命性贡献：极致详细分析</h3>
-<h4>一、深度学习简介</h4>
+    <main id="content"><article>
+    <h1>1.2.5 深度学习对推荐系统的革命性贡献</h1>
+<h2>一、深度学习简介</h2>
 <p>深度学习（Deep Learning）是机器学习的一个分支，采用多层神经网络进行数据的表征学习和特征提取。深度学习因其强大的特征学习能力和优异的性能，在计算机视觉、自然语言处理等领域取得了显著成就，并逐渐应用于推荐系统中，带来了革命性的变革。</p>
-<h4>二、深度学习在推荐系统中的优势</h4>
+<figure class="article-figure">
+  <svg viewBox="0 0 920 300" role="img" aria-labelledby="fig125-title fig125-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="fig125-title">推荐模型从手工特征到端到端表示学习的关键阶段</title>
+    <desc id="fig125-desc">四个阶段依次展开：前深度学习时代依赖手工特征（LR/FM/FFM/GBDT+LR），深度学习排序层实现端到端特征交叉，序列模型建模兴趣演化，图与多模态模型融合关系与内容。</desc>
+    <defs>
+      <marker id="fig125-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L9 5 L0 10" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    </defs>
+    <g font-family="system-ui, 'Noto Sans SC', sans-serif">
+      <rect x="18" y="70" width="206" height="150" rx="14" fill="#eef4f1" stroke="#94a3b8" stroke-width="2"/>
+      <text x="121" y="104" font-size="17" font-weight="700" text-anchor="middle" fill="#334155">前深度学习时代</text>
+      <text x="121" y="136" font-size="13" text-anchor="middle" fill="#475569">手工特征工程</text>
+      <text x="121" y="162" font-size="13" text-anchor="middle" fill="#475569">LR / FM / FFM</text>
+      <text x="121" y="186" font-size="13" text-anchor="middle" fill="#475569">GBDT + LR</text>
+      <rect x="240" y="70" width="206" height="150" rx="14" fill="#e2f0ed" stroke="#147f80" stroke-width="2"/>
+      <text x="343" y="104" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">深度学习排序</text>
+      <text x="343" y="136" font-size="13" text-anchor="middle" fill="#33565a">端到端特征交叉</text>
+      <text x="343" y="162" font-size="13" text-anchor="middle" fill="#33565a">Wide&amp;Deep / DeepFM</text>
+      <text x="343" y="186" font-size="13" text-anchor="middle" fill="#33565a">YouTube DNN</text>
+      <rect x="462" y="70" width="206" height="150" rx="14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="565" y="104" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">序列兴趣建模</text>
+      <text x="565" y="136" font-size="13" text-anchor="middle" fill="#14516e">建模兴趣演化</text>
+      <text x="565" y="162" font-size="13" text-anchor="middle" fill="#14516e">RNN / DIN / DIEN</text>
+      <text x="565" y="186" font-size="13" text-anchor="middle" fill="#14516e">Transformer</text>
+      <rect x="684" y="70" width="218" height="150" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="793" y="104" font-size="17" font-weight="700" text-anchor="middle" fill="#203035">图与多模态</text>
+      <text x="793" y="136" font-size="13" text-anchor="middle" fill="#4c2a88">关系与内容融合</text>
+      <text x="793" y="162" font-size="13" text-anchor="middle" fill="#4c2a88">GNN / 多模态</text>
+      <text x="793" y="186" font-size="13" text-anchor="middle" fill="#4c2a88">预训练模型</text>
+      <g stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#fig125-arrow)">
+        <path d="M224 145 H238"/><path d="M446 145 H460"/><path d="M668 145 H682"/>
+      </g>
+      <rect x="18" y="244" width="884" height="40" rx="10" fill="#fef9c3" stroke="#d97706" stroke-width="2"/>
+      <text x="460" y="269" font-size="14" text-anchor="middle" fill="#78350f">核心变化：特征由人工设计 → 模型自动学习；用户交互由静态统计 → 序列与关系建模</text>
+    </g>
+  </svg>
+  <figcaption>图 1-2-5. 深度学习引入后推荐模型的四个演进阶段。左到右依次为：手工特征、端到端特征交叉、序列兴趣建模、图与多模态融合。阶段划分为便于理解的归纳，具体模型出现时间有重叠，属教学示意。</figcaption>
+</figure>
+<h2>二、深度学习在推荐系统中的优势</h2>
 <p>深度学习在推荐系统中的应用具有以下几个显著优势：</p>
 <ol>
 <li>
@@ -55,7 +97,7 @@ Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
 </ul>
 </li>
 </ol>
-<h4>三、深度学习在推荐系统中的主要模型</h4>
+<h2>三、深度学习在推荐系统中的主要模型</h2>
 <ol>
 <li>
 <p><strong>深度神经网络（DNN）</strong>：</p>
@@ -93,7 +135,7 @@ Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
 </ul>
 </li>
 </ol>
-<h4>四、深度学习推荐系统的实现</h4>
+<h2>四、深度学习推荐系统的实现</h2>
 <ol>
 <li>
 <p><strong>数据预处理</strong>：</p>
@@ -124,17 +166,17 @@ Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
 </ul>
 </li>
 </ol>
-<h4>五、深度学习在推荐系统中的挑战</h4>
+<h2>五、深度学习在推荐系统中的挑战</h2>
 <ol>
 <li><strong>数据稀疏性</strong>：用户行为数据稀疏，导致模型训练数据不足，需要采用数据增强和迁移学习等方法。</li>
 <li><strong>计算复杂性</strong>：深度学习模型复杂，计算量大，需要高效的计算资源和优化算法支持。</li>
 <li><strong>冷启动问题</strong>：新用户和新物品缺乏历史数据，难以进行准确推荐，需要结合基于规则的推荐方法。</li>
 <li><strong>实时性要求</strong>：推荐系统需要实时处理和推荐，深度学习模型的计算性能和延迟成为挑战。</li>
 </ol>
-<h3>结论</h3>
+<h2>结论</h2>
 <p>深度学习对推荐系统的贡献是革命性的，通过自动特征学习、多模态数据处理、捕捉兴趣动态和大规模并行计算，深度学习大幅提升了推荐系统的性能和效果。未来，随着深度学习技术的不断发展，推荐系统将在个性化、智能化和实时化方面取得更多突破，为用户和企业带来更多价值。</p>
 <hr>
-<h3>深度学习在推荐系统中的优势</h3>
+<h2>优势对比一览</h2>
 <table>
 <thead>
 <tr>
@@ -171,7 +213,7 @@ Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
 </tr>
 </tbody>
 </table>
-<h3>深度学习在推荐系统中的主要模型</h3>
+<h2>主要模型对比一览</h2>
 <table>
 <thead>
 <tr>
@@ -221,15 +263,8 @@ Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
 </tbody>
 </table>
 
-    <h3>Python 文件</h3>
-    <pre><code># 04_1.2.5 深度学习对推荐系统的革命性贡献
-
-"""
-Lecture: 第1章 互联网的增长引擎——推荐系统/1.2 推荐系统的架构
-Content: 04_1.2.5 深度学习对推荐系统的革命性贡献
-"""
-
-</code></pre>
+<p class="source-note">来源说明：阶段划分与代表模型参见《深度学习推荐系统》第 1、3 章的综述；主要模型可参见原始论文：Wide&amp;Deep（<a href="https://arxiv.org/abs/1606.07792" rel="noopener noreferrer">arXiv:1606.07792</a>）、DIN（<a href="https://arxiv.org/abs/1706.06978" rel="noopener noreferrer">arXiv:1706.06978</a>）与 Transformer（<a href="https://arxiv.org/abs/1706.03762" rel="noopener noreferrer">arXiv:1706.03762</a>）。图中的阶段顺序为归纳性教学示意，不表示严格的发表年份排序。</p>
+    </article></main>
   </div>
 </body>
 </html>
