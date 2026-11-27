@@ -12,6 +12,8 @@
     img, svg { max-width: 100%; height: auto; }
     .container { box-sizing: border-box; width: min(100% - 24px, 920px); max-width: 920px; }
     pre { max-width: 100%; overflow-x: auto; }
+    .table-scroll { max-width: 100%; overflow-x: auto; margin-bottom: 1rem; }
+    .table-scroll table { margin-bottom: 0; }
     figure.article-figure { margin: 1.8em 0; padding: 16px; background: #f7faf9; border: 1px solid #d9e1de; border-radius: 12px; }
     figure.article-figure svg { display: block; width: 100%; height: auto; }
     figure.article-figure figcaption { margin-top: 12px; font-size: .95em; line-height: 1.7; color: #40565b; }
@@ -163,6 +165,7 @@
 <h2>结论</h2>
 <p>推荐系统的成功离不开对整体架构的把握和细节的补充。通过合理设计数据流架构和模型架构，结合细致的数据处理和模型优化，推荐系统能够为用户提供高质量的个性化推荐，提升用户体验和平台收益。未来，推荐系统将在数据融合、模型优化和实时处理方面不断发展，带来更多创新和应用价值。</p>
 <h2>数据流架构详细表格</h2>
+<div class="table-scroll">
 <table>
 <thead>
 <tr>
@@ -260,7 +263,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2>模型架构详细表格</h2>
+<div class="table-scroll">
 <table>
 <thead>
 <tr>
@@ -379,6 +384,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 
 <p class="source-note">来源说明：整体架构划分为数据流与模型两部分，沿用《深度学习推荐系统》第 1 章的讨论；三层推荐链路可参见 Covington 等，<a href="https://doi.org/10.1145/2959100.2959190" rel="noopener noreferrer">Deep Neural Networks for YouTube Recommendations</a>, RecSys 2016。表格中的工具与算法名称仅用于举例说明分工，不代表任一平台的实测选型。</p>
     </article></main>
